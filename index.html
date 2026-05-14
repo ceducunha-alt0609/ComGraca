@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Com Graça">
-<link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="manifest" href="/ComGraca/manifest.json">
+<link rel="apple-touch-icon" href="/ComGraca/icon-192.png">
 <title>Com Graça · Sabão Artesanal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap">
@@ -42,6 +42,56 @@ html,body{height:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+<!-- Firebase -->
+<script type="module">
+// ─────────────────────────────────────────────
+// COLE SUA CONFIG DO FIREBASE ABAIXO:
+// COLE_SUA_CONFIG_FIREBASE_AQUI
+const firebaseConfig = {
+  apiKey: "AIzaSyD8-ikF_QYRmU-QAsRZAqjARP7nI-iFN0w",
+  authDomain: "comgraca-c207d.firebaseapp.com",
+  projectId: "comgraca-c207d",
+  storageBucket: "comgraca-c207d.firebasestorage.app",
+  messagingSenderId: "821297526559",
+  appId: "1:821297526559:web:cfd836c98a29b63a36e22a",
+  measurementId: "G-2XJ86PL3FX"
+};
+// ─────────────────────────────────────────────
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot, enableIndexedDbPersistence }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+
+// Offline persistence
+enableIndexedDbPersistence(db).catch(() => {});
+
+const provider = new GoogleAuthProvider();
+
+// Expõe para o React
+window._fb = {
+  auth, db, provider,
+  signIn:  () => signInWithPopup(auth, provider),
+  signOut: () => signOut(auth),
+  onAuth:  (cb) => onAuthStateChanged(auth, cb),
+  // Salva todos os dados do usuário num único documento
+  save: (uid, data) =>
+    setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
+  // Escuta mudanças em tempo real
+  listen: (uid, cb) =>
+    onSnapshot(doc(db, "lojas", uid, "dados", "principal"), snap => {
+      if (snap.exists()) cb(snap.data());
+    }),
+};
+
+console.log("🔥 Firebase pronto");
+</script>
 
 <script>
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
@@ -3436,65 +3486,306 @@ function ConfigTab(_ref18) {
 }
 
 /* ══════════════════════════════════════
+   LOGIN SCREEN
+══════════════════════════════════════ */
+function LoginScreen(_ref21) {
+  var onLogin = _ref21.onLogin,
+    loading = _ref21.loading,
+    error = _ref21.error;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "var(--bg)",
+      padding: 24,
+      gap: 0
+    }
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "80",
+    height: "80",
+    viewBox: "0 0 80 80",
+    xmlns: "http://www.w3.org/2000/svg",
+    style: {
+      marginBottom: 20
+    }
+  }, /*#__PURE__*/React.createElement("rect", {
+    width: "80",
+    height: "80",
+    rx: "20",
+    fill: "#7B3FA0"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "14",
+    y: "42",
+    width: "52",
+    height: "22",
+    rx: "8",
+    fill: "#fff",
+    opacity: ".95"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "28",
+    cy: "38",
+    r: "10",
+    fill: "#fff",
+    opacity: ".9"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "40",
+    cy: "34",
+    r: "12",
+    fill: "#fff",
+    opacity: ".95"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "38",
+    r: "10",
+    fill: "#fff",
+    opacity: ".9"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "22",
+    cy: "44",
+    r: "7",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "58",
+    cy: "44",
+    r: "7",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "34",
+    cy: "50",
+    r: "3",
+    fill: "#D4B0E8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "40",
+    cy: "47",
+    r: "3",
+    fill: "#D4B0E8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "46",
+    cy: "50",
+    r: "3",
+    fill: "#D4B0E8"
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 22,
+      fontWeight: 700,
+      color: "var(--brn)",
+      marginBottom: 6
+    }
+  }, "Com Gra\xE7a"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)",
+      marginBottom: 32,
+      textAlign: "center",
+      lineHeight: 1.6
+    }
+  }, "Sab\xE3o artesanal, feito com amor \uD83E\uDDFC", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11
+    }
+  }, "Entre para sincronizar seus dados em todos os dispositivos")), error && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--badge-r-bg)",
+      color: "var(--badge-r-txt)",
+      borderRadius: 10,
+      padding: "10px 16px",
+      fontSize: 13,
+      marginBottom: 16,
+      maxWidth: 320,
+      textAlign: "center",
+      fontWeight: 600
+    }
+  }, "\u26A0\uFE0F ", error), /*#__PURE__*/React.createElement("button", {
+    onClick: onLogin,
+    disabled: loading,
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 12,
+      background: "#fff",
+      border: "1.5px solid var(--bdr)",
+      borderRadius: 12,
+      padding: "13px 24px",
+      cursor: loading ? "not-allowed" : "pointer",
+      fontFamily: "'Merriweather',serif",
+      fontWeight: 700,
+      fontSize: 15,
+      color: "#3c4043",
+      boxShadow: "0 2px 8px rgba(0,0,0,.10)",
+      transition: "all .18s",
+      opacity: loading ? .6 : 1,
+      minWidth: 260
+    }
+  }, loading ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 20
+    }
+  }, "\u23F3"), " Entrando\u2026") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("svg", {
+    width: "22",
+    height: "22",
+    viewBox: "0 0 48 48"
+  }, /*#__PURE__*/React.createElement("path", {
+    fill: "#EA4335",
+    d: "M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#4285F4",
+    d: "M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#FBBC05",
+    d: "M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"
+  }), /*#__PURE__*/React.createElement("path", {
+    fill: "#34A853",
+    d: "M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.35-8.16 2.35-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
+  })), "Entrar com Google")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 28,
+      fontSize: 11,
+      color: "var(--mut)",
+      textAlign: "center",
+      lineHeight: 1.8,
+      maxWidth: 300
+    }
+  }, "Seus dados ficam salvos na sua conta Google e sincronizam automaticamente entre o celular e o PC. \uD83D\uDC9C"));
+}
+
+/* ══════════════════════════════════════
+   SYNC STATUS BADGE
+══════════════════════════════════════ */
+function SyncBadge(_ref22) {
+  var status = _ref22.status;
+  var map = {
+    syncing: {
+      ico: "🔄",
+      txt: "Salvando…",
+      c: "var(--amb)"
+    },
+    synced: {
+      ico: "☁️",
+      txt: "Sincronizado",
+      c: "var(--sage)"
+    },
+    offline: {
+      ico: "📵",
+      txt: "Offline",
+      c: "var(--mut)"
+    },
+    error: {
+      ico: "⚠️",
+      txt: "Erro sync",
+      c: "var(--badge-r-txt)"
+    }
+  };
+  var s = map[status] || map.synced;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 4,
+      fontSize: 10,
+      fontWeight: 700,
+      color: s.c,
+      background: "rgba(255,255,255,.12)",
+      borderRadius: 20,
+      padding: "2px 8px",
+      marginBottom: 5
+    }
+  }, s.ico, " ", s.txt);
+}
+
+/* ══════════════════════════════════════
    APP ROOT
 ══════════════════════════════════════ */
 function SabaoApp() {
   var _THEMES$theme;
+  var fb = window._fb; // Firebase API exposta pelo módulo ES
+  var fbReady = !!(fb !== null && fb !== void 0 && fb.auth);
+
+  // ── Auth state ──
+  var _useState25 = useState(null),
+    _useState26 = _slicedToArray(_useState25, 2),
+    user = _useState26[0],
+    setUser = _useState26[1]; // null = não logado
+  var _useState27 = useState(fbReady),
+    _useState28 = _slicedToArray(_useState27, 2),
+    authLoading = _useState28[0],
+    setAL = _useState28[1]; // aguardando onAuthStateChanged
+  var _useState29 = useState(false),
+    _useState30 = _slicedToArray(_useState29, 2),
+    loginLoading = _useState30[0],
+    setLL = _useState30[1];
+  var _useState31 = useState(""),
+    _useState32 = _slicedToArray(_useState31, 2),
+    loginError = _useState32[0],
+    setLE = _useState32[1];
+  var _useState33 = useState("synced"),
+    _useState34 = _slicedToArray(_useState33, 2),
+    syncStatus = _useState34[0],
+    setSyncSt = _useState34[1];
+
+  // ── App data ──
   var saved = useRef(loadLS());
   var s = saved.current;
-  var _useState25 = useState("dash"),
-    _useState26 = _slicedToArray(_useState25, 2),
-    tab = _useState26[0],
-    setTab = _useState26[1];
-  var _useState27 = useState((s === null || s === void 0 ? void 0 : s.theme) || "lilas"),
-    _useState28 = _slicedToArray(_useState27, 2),
-    theme = _useState28[0],
-    setTheme = _useState28[1];
-  var _useState29 = useState((s === null || s === void 0 ? void 0 : s.settings) || SETT0),
-    _useState30 = _slicedToArray(_useState29, 2),
-    settings = _useState30[0],
-    setSettings = _useState30[1];
-  var _useState31 = useState((s === null || s === void 0 ? void 0 : s.ingrs) || INGR0),
-    _useState32 = _slicedToArray(_useState31, 2),
-    ingrs = _useState32[0],
-    setIngrs = _useState32[1];
-  var _useState33 = useState((s === null || s === void 0 ? void 0 : s.recs) || REC0),
-    _useState34 = _slicedToArray(_useState33, 2),
-    recs = _useState34[0],
-    setRecs = _useState34[1];
-  var _useState35 = useState((s === null || s === void 0 ? void 0 : s.prods) || PROD0),
+  var _useState35 = useState((s === null || s === void 0 ? void 0 : s.theme) || "lilas"),
     _useState36 = _slicedToArray(_useState35, 2),
-    prods = _useState36[0],
-    setProds = _useState36[1];
-  var _useState37 = useState((s === null || s === void 0 ? void 0 : s.sales) || SALE0),
+    theme = _useState36[0],
+    setTheme = _useState36[1];
+  var _useState37 = useState((s === null || s === void 0 ? void 0 : s.settings) || SETT0),
     _useState38 = _slicedToArray(_useState37, 2),
-    sales = _useState38[0],
-    setSales = _useState38[1];
-  var _useState39 = useState((s === null || s === void 0 ? void 0 : s.kits) || KITS0),
+    settings = _useState38[0],
+    setSettings = _useState38[1];
+  var _useState39 = useState((s === null || s === void 0 ? void 0 : s.ingrs) || INGR0),
     _useState40 = _slicedToArray(_useState39, 2),
-    kits = _useState40[0],
-    setKits = _useState40[1];
-  var _useState41 = useState((s === null || s === void 0 ? void 0 : s.pack) || PACK0),
+    ingrs = _useState40[0],
+    setIngrs = _useState40[1];
+  var _useState41 = useState((s === null || s === void 0 ? void 0 : s.recs) || REC0),
     _useState42 = _slicedToArray(_useState41, 2),
-    pack = _useState42[0],
-    setPack = _useState42[1];
-  var _useState43 = useState(false),
+    recs = _useState42[0],
+    setRecs = _useState42[1];
+  var _useState43 = useState((s === null || s === void 0 ? void 0 : s.prods) || PROD0),
     _useState44 = _slicedToArray(_useState43, 2),
-    canInstall = _useState44[0],
-    setCanInstall = _useState44[1];
-  var _useState45 = useState(false),
+    prods = _useState44[0],
+    setProds = _useState44[1];
+  var _useState45 = useState((s === null || s === void 0 ? void 0 : s.sales) || SALE0),
     _useState46 = _slicedToArray(_useState45, 2),
-    savedFlash = _useState46[0],
-    setSavedFlash = _useState46[1];
-  var _useState47 = useState(false),
+    sales = _useState46[0],
+    setSales = _useState46[1];
+  var _useState47 = useState((s === null || s === void 0 ? void 0 : s.kits) || KITS0),
     _useState48 = _slicedToArray(_useState47, 2),
-    drawerOpen = _useState48[0],
-    setDrawerOpen = _useState48[1];
+    kits = _useState48[0],
+    setKits = _useState48[1];
+  var _useState49 = useState((s === null || s === void 0 ? void 0 : s.pack) || PACK0),
+    _useState50 = _slicedToArray(_useState49, 2),
+    pack = _useState50[0],
+    setPack = _useState50[1];
+  var _useState51 = useState(false),
+    _useState52 = _slicedToArray(_useState51, 2),
+    canInstall = _useState52[0],
+    setCanInstall = _useState52[1];
+  var _useState53 = useState(false),
+    _useState54 = _slicedToArray(_useState53, 2),
+    savedFlash = _useState54[0],
+    setSavedFlash = _useState54[1];
+  var _useState55 = useState(false),
+    _useState56 = _slicedToArray(_useState55, 2),
+    drawerOpen = _useState56[0],
+    setDrawerOpen = _useState56[1];
+  var _useState57 = useState("dash"),
+    _useState58 = _slicedToArray(_useState57, 2),
+    tab = _useState58[0],
+    setTab = _useState58[1];
   var installRef = useRef(null);
+  var syncTimer = useRef(null);
+  var ignoreNext = useRef(false); // evita loop ao receber update do Firestore
   var _useConfirm = useConfirm(),
     _useConfirm2 = _slicedToArray(_useConfirm, 2),
     confirm = _useConfirm2[0],
     confirmDialog = _useConfirm2[1];
+
+  // ── Derived ──
   var thresh = settings.lowStockThresh;
   var setThresh = function setThresh(v) {
     return setSettings(function (s) {
@@ -3553,16 +3844,15 @@ function SabaoApp() {
     };
   }, [ingrs, packCostPerBar]);
 
-  // Auto-recalcula priceSuggested sempre que ingredientes ou embalagem mudam
+  // Auto-recalcula priceSuggested
   useEffect(function () {
     var markup = 1 + (settings.markupPct || 150) / 100;
     setRecs(function (prev) {
       return prev.map(function (rec) {
         var c = recipeCost(rec);
         if (c.fullPerBar <= 0) return rec;
-        var newSuggested = Math.ceil(c.fullPerBar * markup * 2) / 2; // arredonda para R$0,50
         return _objectSpread(_objectSpread({}, rec), {}, {
-          priceSuggested: newSuggested
+          priceSuggested: Math.ceil(c.fullPerBar * markup * 2) / 2
         });
       });
     });
@@ -3577,26 +3867,122 @@ function SabaoApp() {
     kits: kits,
     pack: pack
   };
-  var setAllData = function setAllData(d) {
-    if (d.theme) setTheme(d.theme);
-    if (d.settings) setSettings(d.settings);
-    if (d.ingrs) setIngrs(d.ingrs);
-    if (d.recs) setRecs(d.recs);
-    if (d.prods) setProds(d.prods);
-    if (d.sales) setSales(d.sales);
-    if (d.kits) setKits(d.kits);
-    if (d.pack) setPack(d.pack);
-  };
+
+  // ── Auth listener ──
+  useEffect(function () {
+    if (!fbReady) {
+      setAL(false);
+      return;
+    }
+    var unsub = fb.onAuth(function (u) {
+      setUser(u);
+      setAL(false);
+    });
+    return unsub;
+  }, [fbReady]);
+
+  // ── Firestore: escutar mudanças em tempo real ──
+  useEffect(function () {
+    if (!fbReady || !user) return;
+    var unsub = fb.listen(user.uid, function (data) {
+      if (ignoreNext.current) {
+        ignoreNext.current = false;
+        return;
+      }
+      // Atualiza estado local com dados vindos do Firebase
+      if (data.theme) setTheme(data.theme);
+      if (data.settings) setSettings(data.settings);
+      if (data.ingrs) setIngrs(data.ingrs);
+      if (data.recs) setRecs(data.recs);
+      if (data.prods) setProds(data.prods);
+      if (data.sales) setSales(data.sales);
+      if (data.kits) setKits(data.kits);
+      if (data.pack) setPack(data.pack);
+      setSyncSt("synced");
+    });
+    return unsub;
+  }, [user, fbReady]);
+
+  // ── Salvar: localStorage sempre + Firestore com debounce ──
   useEffect(function () {
     saveLS(allData);
     setSavedFlash(true);
     var t = setTimeout(function () {
       return setSavedFlash(false);
     }, 1500);
+    if (fbReady && user) {
+      setSyncSt("syncing");
+      clearTimeout(syncTimer.current);
+      syncTimer.current = setTimeout(function () {
+        ignoreNext.current = true;
+        fb.save(user.uid, allData).then(function () {
+          return setSyncSt("synced");
+        }).catch(function () {
+          return setSyncSt("error");
+        });
+      }, 1200); // debounce 1.2s para não salvar a cada tecla
+    }
     return function () {
       return clearTimeout(t);
     };
   }, [theme, settings, ingrs, recs, prods, sales, kits, pack]);
+
+  // ── Login ──
+  var handleLogin = /*#__PURE__*/function () {
+    var _ref23 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
+      var _t;
+      return _regenerator().w(function (_context7) {
+        while (1) switch (_context7.p = _context7.n) {
+          case 0:
+            setLL(true);
+            setLE("");
+            _context7.p = 1;
+            _context7.n = 2;
+            return fb.signIn();
+          case 2:
+            _context7.n = 4;
+            break;
+          case 3:
+            _context7.p = 3;
+            _t = _context7.v;
+            if (_t.code !== "auth/popup-closed-by-user") setLE("Não foi possível entrar. Tente novamente.");
+          case 4:
+            setLL(false);
+          case 5:
+            return _context7.a(2);
+        }
+      }, _callee7, null, [[1, 3]]);
+    }));
+    return function handleLogin() {
+      return _ref23.apply(this, arguments);
+    };
+  }();
+
+  // ── Logout ──
+  var handleLogout = /*#__PURE__*/function () {
+    var _ref24 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee8() {
+      return _regenerator().w(function (_context8) {
+        while (1) switch (_context8.n) {
+          case 0:
+            _context8.n = 1;
+            return confirm("Sair da conta Google? Os dados continuam salvos.");
+          case 1:
+            if (!_context8.v) {
+              _context8.n = 2;
+              break;
+            }
+            fb.signOut();
+          case 2:
+            return _context8.a(2);
+        }
+      }, _callee8);
+    }));
+    return function handleLogout() {
+      return _ref24.apply(this, arguments);
+    };
+  }();
+
+  // ── PWA install ──
   useEffect(function () {
     var handler = function handler(e) {
       installRef.current = e;
@@ -3624,6 +4010,39 @@ function SabaoApp() {
       behavior: "smooth"
     });
   }, []);
+  var setAllData = function setAllData(d) {
+    if (d.theme) setTheme(d.theme);
+    if (d.settings) setSettings(d.settings);
+    if (d.ingrs) setIngrs(d.ingrs);
+    if (d.recs) setRecs(d.recs);
+    if (d.prods) setProds(d.prods);
+    if (d.sales) setSales(d.sales);
+    if (d.kits) setKits(d.kits);
+    if (d.pack) setPack(d.pack);
+  };
+
+  // ── Render: loading / login / app ──
+  var themeVars = ":root{".concat(((_THEMES$theme = THEMES[theme]) === null || _THEMES$theme === void 0 ? void 0 : _THEMES$theme.v) || THEMES.lilas.v, "}");
+  if (authLoading) return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, CSS), /*#__PURE__*/React.createElement("style", null, themeVars), /*#__PURE__*/React.createElement("div", {
+    style: {
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "var(--bg)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      color: "var(--mut)",
+      fontSize: 13
+    }
+  }, "\uD83D\uDD04 Carregando\u2026")));
+  if (fbReady && !user) return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, CSS), /*#__PURE__*/React.createElement("style", null, themeVars), /*#__PURE__*/React.createElement(LoginScreen, {
+    onLogin: handleLogin,
+    loading: loginLoading,
+    error: loginError
+  }));
   var TABS = [{
     id: "dash",
     label: "Início",
@@ -3649,7 +4068,6 @@ function SabaoApp() {
     label: "Config",
     ico: "⚙️"
   }];
-  var themeVars = ":root{".concat(((_THEMES$theme = THEMES[theme]) === null || _THEMES$theme === void 0 ? void 0 : _THEMES$theme.v) || THEMES.lilas.v, "}");
   var p = {
     ingrs: ingrs,
     setIngrs: setIngrs,
@@ -3874,9 +4292,35 @@ function SabaoApp() {
     }));
   })), /*#__PURE__*/React.createElement("div", {
     className: "sidebar-footer"
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(SyncBadge, {
+    status: syncStatus
+  }), /*#__PURE__*/React.createElement("div", {
     className: "saved-pill".concat(savedFlash ? " show" : "")
-  }, "\u2713 salvo"), /*#__PURE__*/React.createElement("div", null, settings.shopName), /*#__PURE__*/React.createElement("div", {
+  }, "\u2713 salvo"), user && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "rgba(255,255,255,.5)",
+      marginBottom: 4,
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+      maxWidth: "100%"
+    }
+  }, user.displayName || user.email), fbReady && user && /*#__PURE__*/React.createElement("button", {
+    onClick: handleLogout,
+    style: {
+      background: "rgba(255,255,255,.1)",
+      border: "none",
+      borderRadius: 8,
+      color: "rgba(255,255,255,.6)",
+      fontSize: 10,
+      fontWeight: 700,
+      padding: "4px 10px",
+      cursor: "pointer",
+      marginBottom: 6,
+      fontFamily: "'Merriweather',serif"
+    }
+  }, "Sair da conta"), /*#__PURE__*/React.createElement("div", null, settings.shopName), /*#__PURE__*/React.createElement("div", {
     style: {
       marginTop: 2
     }
@@ -3935,7 +4379,7 @@ setTimeout(function () {
     document.dispatchEvent(new CustomEvent("pwa-installable"));
   });
   if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js", {scope: "./"})
+    navigator.serviceWorker.register("/ComGraca/sw.js", {scope: "/ComGraca/"})
       .then(reg => console.log("SW registrado:", reg.scope))
       .catch(err => console.warn("SW falhou:", err));
   }

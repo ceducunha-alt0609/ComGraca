@@ -1,7 +1,10 @@
 const CACHE = "comgraca-v3";
 const ASSETS = [
-  "./",
-  "./index.html"
+  "/ComGraca/",
+  "/ComGraca/index.html",
+  "/ComGraca/icon-192.png",
+  "/ComGraca/icon-512.png",
+  "/ComGraca/manifest.json"
 ];
 
 self.addEventListener("install", e => {

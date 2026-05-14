@@ -2,15 +2,15 @@
   "name": "Com Graça · Sabão Artesanal",
   "short_name": "Com Graça",
   "description": "Gestão de custos, vendas e estoque de sabão artesanal",
-  "start_url": "./",
-  "scope": "./",
+  "start_url": "/ComGraca/",
+  "scope": "/ComGraca/",
   "display": "standalone",
   "background_color": "#F3EEFF",
   "theme_color": "#7B3FA0",
   "orientation": "any",
   "icons": [
-    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "./icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/ComGraca/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/ComGraca/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/ComGraca/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ]
 }
