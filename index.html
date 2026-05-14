@@ -60,37 +60,46 @@ const firebaseConfig = {
 // ─────────────────────────────────────────────
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, enableIndexedDbPersistence }
+import { getFirestore, doc, setDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const app = initializeApp(firebaseConfig);
+const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getFirestore(app);
 
-// Offline persistence
-enableIndexedDbPersistence(db).catch(() => {});
+const db = initializeFirestore(app, {
+  cache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+});
 
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "select_account" });
 
-// Expõe para o React
+// Detecta mobile
+const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+
 window._fb = {
-  auth, db, provider,
-  signIn:  () => signInWithPopup(auth, provider),
+  auth, db, provider, isMobile,
+  signIn: () => isMobile
+    ? signInWithRedirect(auth, provider)
+    : signInWithPopup(auth, provider),
   signOut: () => signOut(auth),
   onAuth:  (cb) => onAuthStateChanged(auth, cb),
-  // Salva todos os dados do usuário num único documento
+  getRedirect: () => getRedirectResult(auth),
   save: (uid, data) =>
     setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
-  // Escuta mudanças em tempo real
   listen: (uid, cb) =>
     onSnapshot(doc(db, "lojas", uid, "dados", "principal"), snap => {
       if (snap.exists()) cb(snap.data());
     }),
 };
 
-console.log("🔥 Firebase pronto");
+// No mobile, captura o resultado do redirect imediatamente
+if (isMobile) {
+  getRedirectResult(auth).catch(() => {});
+}
+
+console.log("🔥 Firebase pronto", isMobile ? "(mobile→redirect)" : "(desktop→popup)");
 </script>
 
 <script>
@@ -3868,17 +3877,23 @@ function SabaoApp() {
     pack: pack
   };
 
-  // ── Auth listener ──
+  // ── Auth listener + captura resultado do redirect ──
   useEffect(function () {
     if (!fbReady) {
       setAL(false);
       return;
     }
-    var unsub = fb.onAuth(function (u) {
-      setUser(u);
-      setAL(false);
+    var unsub;
+    // Aguarda getRedirectResult (mobile) antes de registrar onAuthStateChanged
+    fb.getRedirect().catch(function () {}).finally(function () {
+      unsub = fb.onAuth(function (u) {
+        setUser(u);
+        setAL(false);
+      });
     });
-    return unsub;
+    return function () {
+      if (unsub) unsub();
+    };
   }, [fbReady]);
 
   // ── Firestore: escutar mudanças em tempo real ──
@@ -3927,7 +3942,7 @@ function SabaoApp() {
     };
   }, [theme, settings, ingrs, recs, prods, sales, kits, pack]);
 
-  // ── Login ──
+  // ── Login via redirect (sem popup, sem COOP error) ──
   var handleLogin = /*#__PURE__*/function () {
     var _ref23 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee7() {
       var _t;
@@ -3945,10 +3960,9 @@ function SabaoApp() {
           case 3:
             _context7.p = 3;
             _t = _context7.v;
-            if (_t.code !== "auth/popup-closed-by-user") setLE("Não foi possível entrar. Tente novamente.");
-          case 4:
+            setLE("Não foi possível iniciar o login. Tente novamente.");
             setLL(false);
-          case 5:
+          case 4:
             return _context7.a(2);
         }
       }, _callee7, null, [[1, 3]]);
