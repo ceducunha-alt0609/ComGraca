@@ -1,0 +1,3945 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#7B3FA0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Com Graça">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.svg">
+<title>Com Graça · Sabão Artesanal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap">
+<style>
+#splash{position:fixed;inset:0;background:#F3EEFF;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s}
+#splash .ico{font-size:72px;animation:bob .9s ease-in-out infinite alternate}
+#splash p{margin-top:14px;color:#7B3FA0;font-size:14px;font-family:serif;letter-spacing:.5px}
+@keyframes bob{from{transform:translateY(0)}to{transform:translateY(-14px)}}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+</style>
+</head>
+<body>
+<div id="splash">
+  <svg width="96" height="96" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="animation:bob .9s ease-in-out infinite alternate">
+    <rect width="80" height="80" rx="20" fill="#7B3FA0"/>
+    <rect x="14" y="42" width="52" height="22" rx="8" fill="#fff" opacity=".95"/>
+    <circle cx="28" cy="38" r="10" fill="#fff" opacity=".9"/>
+    <circle cx="40" cy="34" r="12" fill="#fff" opacity=".95"/>
+    <circle cx="52" cy="38" r="10" fill="#fff" opacity=".9"/>
+    <circle cx="22" cy="44" r="7" fill="#fff"/>
+    <circle cx="58" cy="44" r="7" fill="#fff"/>
+    <circle cx="34" cy="50" r="3" fill="#D4B0E8"/>
+    <circle cx="40" cy="47" r="3" fill="#D4B0E8"/>
+    <circle cx="46" cy="50" r="3" fill="#D4B0E8"/>
+  </svg>
+  <p>Carregando Com Graça…</p>
+</div>
+<div id="root"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+
+<script>
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+function _regenerator() { /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/babel/babel/blob/main/packages/babel-helpers/LICENSE */ var e, t, r = "function" == typeof Symbol ? Symbol : {}, n = r.iterator || "@@iterator", o = r.toStringTag || "@@toStringTag"; function i(r, n, o, i) { var c = n && n.prototype instanceof Generator ? n : Generator, u = Object.create(c.prototype); return _regeneratorDefine2(u, "_invoke", function (r, n, o) { var i, c, u, f = 0, p = o || [], y = !1, G = { p: 0, n: 0, v: e, a: d, f: d.bind(e, 4), d: function d(t, r) { return i = t, c = 0, u = e, G.n = r, a; } }; function d(r, n) { for (c = r, u = n, t = 0; !y && f && !o && t < p.length; t++) { var o, i = p[t], d = G.p, l = i[2]; r > 3 ? (o = l === n) && (u = i[(c = i[4]) ? 5 : (c = 3, 3)], i[4] = i[5] = e) : i[0] <= d && ((o = r < 2 && d < i[1]) ? (c = 0, G.v = n, G.n = i[1]) : d < l && (o = r < 3 || i[0] > n || n > l) && (i[4] = r, i[5] = n, G.n = l, c = 0)); } if (o || r > 1) return a; throw y = !0, n; } return function (o, p, l) { if (f > 1) throw TypeError("Generator is already running"); for (y && 1 === p && d(p, l), c = p, u = l; (t = c < 2 ? e : u) || !y;) { i || (c ? c < 3 ? (c > 1 && (G.n = -1), d(c, u)) : G.n = u : G.v = u); try { if (f = 2, i) { if (c || (o = "next"), t = i[o]) { if (!(t = t.call(i, u))) throw TypeError("iterator result is not an object"); if (!t.done) return t; u = t.value, c < 2 && (c = 0); } else 1 === c && (t = i.return) && t.call(i), c < 2 && (u = TypeError("The iterator does not provide a '" + o + "' method"), c = 1); i = e; } else if ((t = (y = G.n < 0) ? u : r.call(n, G)) !== a) break; } catch (t) { i = e, c = 1, u = t; } finally { f = 1; } } return { value: t, done: y }; }; }(r, o, i), !0), u; } var a = {}; function Generator() {} function GeneratorFunction() {} function GeneratorFunctionPrototype() {} t = Object.getPrototypeOf; var c = [][n] ? t(t([][n]())) : (_regeneratorDefine2(t = {}, n, function () { return this; }), t), u = GeneratorFunctionPrototype.prototype = Generator.prototype = Object.create(c); function f(e) { return Object.setPrototypeOf ? Object.setPrototypeOf(e, GeneratorFunctionPrototype) : (e.__proto__ = GeneratorFunctionPrototype, _regeneratorDefine2(e, o, "GeneratorFunction")), e.prototype = Object.create(u), e; } return GeneratorFunction.prototype = GeneratorFunctionPrototype, _regeneratorDefine2(u, "constructor", GeneratorFunctionPrototype), _regeneratorDefine2(GeneratorFunctionPrototype, "constructor", GeneratorFunction), GeneratorFunction.displayName = "GeneratorFunction", _regeneratorDefine2(GeneratorFunctionPrototype, o, "GeneratorFunction"), _regeneratorDefine2(u), _regeneratorDefine2(u, o, "Generator"), _regeneratorDefine2(u, n, function () { return this; }), _regeneratorDefine2(u, "toString", function () { return "[object Generator]"; }), (_regenerator = function _regenerator() { return { w: i, m: f }; })(); }
+function _regeneratorDefine2(e, r, n, t) { var i = Object.defineProperty; try { i({}, "", {}); } catch (e) { i = 0; } _regeneratorDefine2 = function _regeneratorDefine(e, r, n, t) { function o(r, n) { _regeneratorDefine2(e, r, function (e) { return this._invoke(r, n, e); }); } r ? i ? i(e, r, { value: n, enumerable: !t, configurable: !t, writable: !t }) : e[r] = n : (o("next", 0), o("throw", 1), o("return", 2)); }, _regeneratorDefine2(e, r, n, t); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) n[e] = r[e]; return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0); } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t.return && (u = t.return(), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+var _React = React,
+  useState = _React.useState,
+  useMemo = _React.useMemo,
+  useEffect = _React.useEffect,
+  useRef = _React.useRef,
+  useCallback = _React.useCallback;
+
+/* ── utils ── */
+var uid = function uid() {
+  return Math.random().toString(36).slice(2, 9);
+};
+var R$ = function R$(n) {
+  return "R$\xA0".concat((+n || 0).toFixed(2).replace(".", ","));
+};
+var ptDate = function ptDate(d) {
+  return d ? new Date(d + "T12:00:00").toLocaleDateString("pt-BR") : "–";
+};
+var today = function today() {
+  return new Date().toISOString().slice(0, 10);
+};
+var curMonth = function curMonth() {
+  return new Date().toISOString().slice(0, 7);
+};
+var saleTotal = function saleTotal(s, kits) {
+  return s.kitId ? (s.kitQty || 1) * s.price : s.qty * s.price;
+};
+var monthLabel = function monthLabel(m) {
+  if (!m) return "";
+  var _m$split = m.split("-"),
+    _m$split2 = _slicedToArray(_m$split, 2),
+    y = _m$split2[0],
+    mo = _m$split2[1];
+  var names = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+  return "".concat(names[+mo - 1], "/").concat(y);
+};
+
+/* ── defaults ── */
+var SI = "s1",
+  OI = "o1",
+  AI = "a1",
+  EI = "e1",
+  R1 = "r1";
+var INGR0 = [{
+  id: SI,
+  name: "Soda Cáustica (NaOH)",
+  unit: "kg",
+  price: 18
+}, {
+  id: OI,
+  name: "Óleo Vegetal Usado",
+  unit: "L",
+  price: 0
+}, {
+  id: AI,
+  name: "Água Filtrada",
+  unit: "L",
+  price: 0.5
+}, {
+  id: EI,
+  name: "Essência de Lavanda",
+  unit: "mL",
+  price: 0.08
+}];
+var REC0 = [{
+  id: R1,
+  name: "Sabão de Óleo (Receita Real)",
+  moldG: 250,
+  yieldKg: 10,
+  priceSuggested: 10,
+  priceCurrent: 4,
+  items: [{
+    ingredientId: OI,
+    amount: 6
+  }, {
+    ingredientId: SI,
+    amount: 1
+  }, {
+    ingredientId: AI,
+    amount: 0.6
+  }],
+  notes: "6L óleo usado · 1kg soda diluída em ~0,6L água · 40 pedras de 250g."
+}];
+var PROD0 = [{
+  id: "p1",
+  date: "2026-05-01",
+  recipeId: R1,
+  batches: 2,
+  bars: 12,
+  note: ""
+}, {
+  id: "p2",
+  date: "2026-05-08",
+  recipeId: R1,
+  batches: 3,
+  bars: 18,
+  note: "Lote lavanda"
+}];
+var SALE0 = [{
+  id: "s1",
+  date: "2026-05-03",
+  customer: "Maria Silva",
+  phone: "",
+  qty: 4,
+  price: 8,
+  method: "Pix",
+  paid: true,
+  kitId: null
+}, {
+  id: "s2",
+  date: "2026-05-06",
+  customer: "João Santos",
+  phone: "",
+  qty: 2,
+  price: 8,
+  method: "Em haver",
+  paid: false,
+  kitId: null
+}, {
+  id: "s3",
+  date: "2026-05-10",
+  customer: "Ana Lima",
+  phone: "",
+  qty: 6,
+  price: 7.5,
+  method: "Dinheiro",
+  paid: true,
+  kitId: null
+}, {
+  id: "s4",
+  date: "2026-05-12",
+  customer: "Rosa Pereira",
+  phone: "",
+  qty: 3,
+  price: 8,
+  method: "Em haver",
+  paid: false,
+  kitId: null
+}];
+var KITS0 = [{
+  id: "k1",
+  name: "Kit Trio",
+  bars: 3,
+  price: 15,
+  desc: "3 pedras · presente ou uso pessoal"
+}, {
+  id: "k2",
+  name: "Kit Família",
+  bars: 5,
+  price: 22,
+  desc: "5 pedras · economia no dia a dia"
+}];
+var PACK0 = [{
+  id: "pc1",
+  name: "Etiqueta adesiva",
+  totalCost: 25,
+  qty: 100,
+  note: "100 un. · Shopee"
+}, {
+  id: "pc2",
+  name: "Filme PVC (rolo)",
+  totalCost: 18,
+  qty: 300,
+  note: "rolo 300m, ~30cm/pedra"
+}];
+var SETT0 = {
+  shopName: "Com Graça",
+  tagline: "Sabão artesanal, feito com amor",
+  artisan: "Dona Graça",
+  city: "Nova Sabará - MG",
+  defaultPrice: 6,
+  lowStockThresh: 8,
+  monthGoal: 500,
+  extraCosts: "",
+  markupPct: 150
+};
+
+/* ── localStorage ── */
+var LSKEY = "comgraca_v3";
+var loadLS = function loadLS() {
+  try {
+    var d = localStorage.getItem(LSKEY);
+    return d ? JSON.parse(d) : null;
+  } catch (_unused) {
+    return null;
+  }
+};
+var saveLS = function saveLS(d) {
+  try {
+    localStorage.setItem(LSKEY, JSON.stringify(d));
+  } catch (_unused2) {}
+};
+
+/* ── themes ── */
+var THEMES = {
+  earthy: {
+    name: "Artesanal",
+    icon: "🧺",
+    desc: "Quente e aconchegante",
+    sw: ["#FBF4E8", "#C4694B", "#5F8A65", "#2C1810"],
+    v: "--bg:#FBF4E8;--card:#FFFCF5;--brn:#2C1810;--ter:#C4694B;--ter2:#f0a080;--sage:#5F8A65;--amb:#C8900A;--bdr:#EAD9C6;--txt:#3D2520;--mut:#9B7B65;--shd:0 2px 14px rgba(44,24,16,.08);--hdr1:#2C1810;--hdr2:#4A2818;--badge-g-bg:#e3f3e5;--badge-g-txt:#2a6d33;--badge-r-bg:#fae6e1;--badge-r-txt:#b84030;--badge-a-bg:#fdf0d0;--badge-a-txt:#8a5e08;--badge-b-bg:#e2edf9;--badge-b-txt:#2a5490;--badge-s-bg:#e0f0e3;--badge-s-txt:#3a6545;--alrt-bg:#fef3e2;--alrt-bdr:#f0c070;--alrt-txt:#7a4a10;--row-hover:#fff5ed;--fbox-bg:#FBF4E8;--pack-cpu-bg:#fdf0d0;--pack-cpu-txt:#7a5008;--pcost-bg:#fae6e1;--pcost-txt:#b84030;--pcurr-bg:#fdf0d0;--pcurr-txt:#7a5008;--psug-bg:#e0f0e3;--psug-txt:#3a6545;--pgap-bg:#fef3e2;--pgap-txt:#7a4a10;--sidebar:#2C1810;--sidebar-txt:rgba(255,255,255,.75);--sidebar-act:rgba(255,255,255,.15);--sidebar-act-txt:#fff"
+  },
+  clara: {
+    name: "Clara",
+    icon: "☀️",
+    desc: "Limpa e sofisticada",
+    sw: ["#F7F6F3", "#1A1A1A", "#276744", "#aaa"],
+    v: "--bg:#F7F6F3;--card:#FFFFFF;--brn:#1A1A1A;--ter:#1A1A1A;--ter2:#555;--sage:#276744;--amb:#8A5E00;--bdr:#E2DDD7;--txt:#1A1A1A;--mut:#888078;--shd:0 1px 10px rgba(0,0,0,.07);--hdr1:#111;--hdr2:#222;--badge-g-bg:#e2f2e6;--badge-g-txt:#155228;--badge-r-bg:#fce8e5;--badge-r-txt:#8c2015;--badge-a-bg:#fdf0d0;--badge-a-txt:#6a4200;--badge-b-bg:#dde8f8;--badge-b-txt:#14306e;--badge-s-bg:#e2f2e6;--badge-s-txt:#1b4d2c;--alrt-bg:#fffaec;--alrt-bdr:#e8c840;--alrt-txt:#5a3e00;--row-hover:#F2F0EC;--fbox-bg:#F2F0EC;--pack-cpu-bg:#fdf0d0;--pack-cpu-txt:#6a4200;--pcost-bg:#fce8e5;--pcost-txt:#8c2015;--pcurr-bg:#fdf0d0;--pcurr-txt:#6a4200;--psug-bg:#e2f2e6;--psug-txt:#155228;--pgap-bg:#fffaec;--pgap-txt:#5a3e00;--sidebar:#1A1A1A;--sidebar-txt:rgba(255,255,255,.7);--sidebar-act:rgba(255,255,255,.12);--sidebar-act-txt:#fff"
+  },
+  noturno: {
+    name: "Noturno",
+    icon: "🌙",
+    desc: "Elegante e moderno",
+    sw: ["#111", "#D4A574", "#5A9A78", "#1C1C1C"],
+    v: "--bg:#111;--card:#1C1C1C;--brn:#D4A574;--ter:#D4A574;--ter2:#3a2a18;--sage:#5A9A78;--amb:#E8B84B;--bdr:#2C2C2C;--txt:#E8E0D0;--mut:#777;--shd:0 2px 18px rgba(0,0,0,.55);--hdr1:#080808;--hdr2:#151515;--badge-g-bg:#1a3822;--badge-g-txt:#6EC87E;--badge-r-bg:#38180e;--badge-r-txt:#F08878;--badge-a-bg:#3a2808;--badge-a-txt:#D4A84B;--badge-b-bg:#182438;--badge-b-txt:#7898D4;--badge-s-bg:#1a3428;--badge-s-txt:#6EC896;--alrt-bg:#281e08;--alrt-bdr:#6a5208;--alrt-txt:#DDB84B;--row-hover:#222;--fbox-bg:#161616;--pack-cpu-bg:#3a2808;--pack-cpu-txt:#D4A84B;--pcost-bg:#38180e;--pcost-txt:#F08878;--pcurr-bg:#3a2808;--pcurr-txt:#D4A84B;--psug-bg:#1a3428;--psug-txt:#6EC896;--pgap-bg:#281e08;--pgap-txt:#DDB84B;--sidebar:#080808;--sidebar-txt:rgba(255,255,255,.6);--sidebar-act:rgba(212,165,116,.15);--sidebar-act-txt:#D4A574"
+  },
+  lilas: {
+    name: "Lilás",
+    icon: "💜",
+    desc: "Para a Dona Graça ✨",
+    sw: ["#F3EEFF", "#7B3FA0", "#5A8A65", "#3D1F6D"],
+    v: "--bg:#F3EEFF;--card:#FDFBFF;--brn:#3D1F6D;--ter:#7B3FA0;--ter2:#D4B0E8;--sage:#5A8A65;--amb:#9A6B00;--bdr:#DCC8F0;--txt:#2D1B45;--mut:#9070B8;--shd:0 2px 14px rgba(61,31,109,.10);--hdr1:#3D1F6D;--hdr2:#6030A8;--badge-g-bg:#e2f3e6;--badge-g-txt:#1e6030;--badge-r-bg:#f8e2f5;--badge-r-txt:#7a1868;--badge-a-bg:#fdf0d0;--badge-a-txt:#7a5008;--badge-b-bg:#ece0f8;--badge-b-txt:#4a1e8a;--badge-s-bg:#ece0f8;--badge-s-txt:#6030A0;--alrt-bg:#fef3e2;--alrt-bdr:#f0c070;--alrt-txt:#7a4a10;--row-hover:#EDE4FF;--fbox-bg:#EDE4FF;--pack-cpu-bg:#ece0f8;--pack-cpu-txt:#5B2D8A;--pcost-bg:#f8e2f5;--pcost-txt:#7a1868;--pcurr-bg:#ece0f8;--pcurr-txt:#4a1e8a;--psug-bg:#e2f3e6;--psug-txt:#1e6030;--pgap-bg:#fef3e2;--pgap-txt:#7a4a10;--sidebar:#3D1F6D;--sidebar-txt:rgba(255,255,255,.72);--sidebar-act:rgba(255,255,255,.15);--sidebar-act-txt:#fff"
+  }
+};
+
+/* ── CONFIRM DIALOG ── */
+function ConfirmDialog(_ref) {
+  var msg = _ref.msg,
+    onConfirm = _ref.onConfirm,
+    onCancel = _ref.onCancel;
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,.5)",
+      zIndex: 9000,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      padding: 20
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--card)",
+      borderRadius: 16,
+      padding: "24px 22px",
+      maxWidth: 340,
+      width: "100%",
+      boxShadow: "0 8px 40px rgba(0,0,0,.25)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      textAlign: "center",
+      marginBottom: 12
+    }
+  }, "\uD83D\uDDD1\uFE0F"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontWeight: 700,
+      fontSize: 15,
+      color: "var(--brn)",
+      textAlign: "center",
+      marginBottom: 8
+    }
+  }, "Confirmar exclus\xE3o"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)",
+      textAlign: "center",
+      marginBottom: 20,
+      lineHeight: 1.6
+    }
+  }, msg), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn bg",
+    style: {
+      flex: 1
+    },
+    onClick: onCancel
+  }, "Cancelar"), /*#__PURE__*/React.createElement("button", {
+    className: "btn",
+    style: {
+      flex: 1,
+      background: "var(--badge-r-bg)",
+      color: "var(--badge-r-txt)",
+      border: "none"
+    },
+    onClick: onConfirm
+  }, "Excluir"))));
+}
+function useConfirm() {
+  var _useState = useState(null),
+    _useState2 = _slicedToArray(_useState, 2),
+    state = _useState2[0],
+    setState = _useState2[1];
+  var confirm = useCallback(function (msg) {
+    return new Promise(function (resolve) {
+      setState({
+        msg: msg,
+        resolve: resolve
+      });
+    });
+  }, []);
+  var dialog = state ? /*#__PURE__*/React.createElement(ConfirmDialog, {
+    msg: state.msg,
+    onConfirm: function onConfirm() {
+      state.resolve(true);
+      setState(null);
+    },
+    onCancel: function onCancel() {
+      state.resolve(false);
+      setState(null);
+    }
+  }) : null;
+  return [confirm, dialog];
+}
+
+/* ── global CSS ── */
+var CSS = "\n:root{--bg:#F3EEFF;--card:#FDFBFF;--brn:#3D1F6D;--ter:#7B3FA0;--ter2:#D4B0E8;--sage:#5A8A65;--amb:#9A6B00;--bdr:#DCC8F0;--txt:#2D1B45;--mut:#9070B8;--shd:0 2px 14px rgba(61,31,109,.10);--hdr1:#3D1F6D;--hdr2:#6030A8;--sidebar:#3D1F6D;--sidebar-txt:rgba(255,255,255,.72);--sidebar-act:rgba(255,255,255,.15);--sidebar-act-txt:#fff;--r:14px;--sidebar-w:224px}\nbody{font-family:'Merriweather',serif;background:var(--bg);color:var(--txt)}\ninput,select,textarea,button{font-family:'Merriweather',serif}\n.shell{display:flex;min-height:100vh}\n\n/* SIDEBAR */\n.sidebar{width:var(--sidebar-w);background:var(--sidebar);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:200;box-shadow:3px 0 18px rgba(0,0,0,.18);transition:transform .25s ease;overflow-y:auto}\n.sidebar-logo{padding:22px 18px 16px;border-bottom:1px solid rgba(255,255,255,.10);display:flex;align-items:center;gap:12px}\n.sidebar-logo .ico{font-size:32px;flex-shrink:0}\n.sidebar-logo-text .shop{font-size:15px;font-weight:700;color:#fff;line-height:1.2}\n.sidebar-logo-text .tag{font-size:10px;color:var(--sidebar-txt);margin-top:2px}\n.sidebar-stock{margin:12px 14px;background:rgba(255,255,255,.08);border-radius:10px;padding:10px 13px;display:flex;align-items:center;gap:10px}\n.sidebar-stock .stk-num{font-size:22px;font-weight:700;color:#fff;font-family:'Merriweather',serif}\n.sidebar-stock .stk-lbl{font-size:10px;color:var(--sidebar-txt);margin-top:1px}\n.sidebar-stock.low .stk-num{color:#FFB3A7}\n.sidebar-nav{flex:1;padding:8px 10px}\n.snav-btn{display:flex;align-items:center;gap:11px;width:100%;padding:11px 13px;border:none;border-radius:10px;cursor:pointer;font-family:'Merriweather',serif;font-weight:700;font-size:13px;color:var(--sidebar-txt);background:transparent;transition:all .16s;text-align:left;margin-bottom:3px}\n.snav-btn .ico{font-size:18px;width:26px;text-align:center;flex-shrink:0}\n.snav-btn:hover{background:rgba(255,255,255,.10);color:#fff}\n.snav-btn.on{background:var(--sidebar-act);color:var(--sidebar-act-txt)}\n.snav-btn .badge-dot{margin-left:auto;width:8px;height:8px;background:#FF6B6B;border-radius:50%}\n.sidebar-footer{padding:14px;border-top:1px solid rgba(255,255,255,.10);font-size:10px;color:var(--sidebar-txt);text-align:center;line-height:1.7}\n.saved-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.15);border-radius:20px;padding:3px 10px;font-size:10px;font-weight:700;color:#fff;margin-bottom:6px;opacity:0;transition:opacity .4s}\n.saved-pill.show{opacity:1}\n\n/* MAIN */\n.main{margin-left:var(--sidebar-w);flex:1;min-width:0;padding:22px 24px 60px;max-width:100%}\n.page-title{font-size:22px;font-weight:700;color:var(--brn);margin-bottom:18px;display:flex;align-items:center;gap:10px}\n\n/* TOPBAR mobile */\n.topbar{display:none;position:fixed;top:0;left:0;right:0;background:var(--sidebar);z-index:300;padding:0 14px;height:56px;align-items:center;gap:12px;box-shadow:0 2px 12px rgba(0,0,0,.2)}\n.topbar .shop-name{font-size:15px;font-weight:700;color:#fff;flex:1}\n.topbar .stk-badge{background:rgba(255,255,255,.15);border-radius:20px;padding:4px 10px;font-size:12px;font-weight:700;color:#fff;white-space:nowrap}\n.topbar .stk-badge.low{background:#b84030}\n.hamburger{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;gap:5px;padding:4px;flex-shrink:0}\n.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px}\n.drawer-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:250;opacity:0;transition:opacity .25s}\n.drawer-overlay.open{opacity:1}\n.sidebar.drawer-open{transform:translateX(0)!important}\n\n/* BOTTOM NAV */\n.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--bdr);z-index:200;padding:0 4px env(safe-area-inset-bottom,0px);box-shadow:0 -2px 12px rgba(0,0,0,.08)}\n.bottom-nav-inner{display:flex}\n.bnav-btn{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 2px 6px;border:none;background:transparent;cursor:pointer;font-family:'Merriweather',serif;font-size:9px;font-weight:700;color:var(--mut);gap:3px;min-height:56px;transition:color .15s;position:relative}\n.bnav-btn .b-ico{font-size:20px;line-height:1}\n.bnav-btn.on{color:var(--ter)}\n.bnav-btn.on::after{content:'';position:absolute;top:0;left:20%;right:20%;height:3px;background:var(--ter);border-radius:0 0 3px 3px}\n.bnav-btn .dot{position:absolute;top:6px;right:calc(50% - 18px);width:7px;height:7px;background:#FF6B6B;border-radius:50%}\n\n/* CARDS */\n.card{background:var(--card);border-radius:var(--r);padding:18px;box-shadow:var(--shd);border:1px solid var(--bdr);margin-bottom:14px}\n.stitle{font-family:'Merriweather',serif;font-size:15px;font-weight:700;margin-bottom:13px;color:var(--brn);display:flex;align-items:center;gap:7px}\n.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}\n.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}\n.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}\n.sc{background:var(--card);border-radius:var(--r);padding:14px 16px;box-shadow:var(--shd);border:1px solid var(--bdr)}\n.sc .slbl{font-size:10px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.6px}\n.sc .sval{font-family:'Merriweather',serif;font-size:22px;font-weight:700;margin-top:2px;line-height:1}\n.sc .ssub{font-size:10px;color:var(--mut);margin-top:4px}\n\n/* FORMS */\n.inp{width:100%;padding:10px 13px;border:1.5px solid var(--bdr);border-radius:10px;background:var(--bg);color:var(--txt);outline:none;transition:border-color .18s;font-size:14px;min-height:44px}\n.inp:focus{border-color:var(--ter)}\n.btn{padding:10px 18px;border:none;border-radius:10px;cursor:pointer;font-family:'Merriweather',serif;font-weight:700;font-size:14px;transition:all .15s;white-space:nowrap;min-height:44px}\n.bt{background:var(--ter);color:#fff}\n.bt:hover{filter:brightness(.88);box-shadow:0 4px 12px rgba(0,0,0,.15)}\n.bt:disabled{opacity:.45;cursor:not-allowed}\n.bs{background:var(--sage);color:#fff}\n.bs:hover{filter:brightness(.88)}\n.bg{background:transparent;color:var(--mut);border:1.5px solid var(--bdr)}\n.bg:hover{background:var(--bdr);color:var(--txt)}\n.bsm{padding:6px 12px;font-size:12px;border-radius:8px;min-height:36px}\n\n/* BADGES */\n.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:700}\n.bgg{background:var(--badge-g-bg);color:var(--badge-g-txt)}\n.bgr{background:var(--badge-r-bg);color:var(--badge-r-txt)}\n.bga{background:var(--badge-a-bg);color:var(--badge-a-txt)}\n.bgb{background:var(--badge-b-bg);color:var(--badge-b-txt)}\n.bgs{background:var(--badge-s-bg);color:var(--badge-s-txt)}\n\n/* TABLE */\n.tbl{width:100%;border-collapse:collapse}\n.tbl th{text-align:left;padding:8px 10px;font-size:11px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--bdr)}\n.tbl td{padding:9px 10px;font-size:13px;border-bottom:1px solid var(--bdr);vertical-align:middle}\n.tbl tr:last-child td{border-bottom:none}\n.tbl tbody tr:hover td{background:var(--row-hover);transition:background .12s}\n.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}\n\n/* MISC */\n.flbl{font-size:11px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}\n.alrt{background:var(--alrt-bg);border:1.5px solid var(--alrt-bdr);border-radius:var(--r);padding:11px 15px;display:flex;align-items:center;gap:9px;margin-bottom:12px}\n.alrt span{font-size:13px;font-weight:600;color:var(--alrt-txt)}\n.sbar{height:13px;border-radius:7px;background:var(--bdr);overflow:hidden;margin-top:7px}\n.sfill{height:100%;border-radius:7px;transition:width .6s ease}\n.tabs{display:flex;gap:4px;margin-bottom:12px;flex-wrap:wrap}\n.tbtn{padding:6px 14px;border:none;border-radius:20px;cursor:pointer;font-family:'Merriweather',serif;font-weight:700;font-size:12px;transition:all .15s;background:transparent;color:var(--mut);min-height:36px}\n.tbtn.on{background:var(--ter);color:#fff}\n.tbtn:hover:not(.on){background:var(--bdr)}\n.fbox{background:var(--fbox-bg);border-radius:12px;padding:15px;border:1.5px solid var(--bdr);margin-bottom:12px}\n.kitrow{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--fbox-bg);border-radius:11px;border:1.5px solid var(--bdr);margin-bottom:8px;flex-wrap:wrap}\n.kitbars{background:var(--badge-s-bg);color:var(--badge-s-txt);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}\n.packrow{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--fbox-bg);border-radius:11px;border:1.5px solid var(--bdr);margin-bottom:8px;flex-wrap:wrap}\n.packcpu{background:var(--pack-cpu-bg);color:var(--pack-cpu-txt);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}\n.modetabs{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}\n.mtab{flex:1;padding:9px 6px;border:1.5px solid var(--bdr);border-radius:10px;cursor:pointer;font-family:'Merriweather',serif;font-weight:700;font-size:12px;transition:all .15s;background:transparent;color:var(--mut);text-align:center;min-height:44px;min-width:80px}\n.mtab.on{background:var(--ter);color:#fff;border-color:var(--ter)}\n.pricecmp{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:5px;background:var(--fbox-bg);border-radius:12px;padding:11px;margin-top:10px;border:1.5px solid var(--bdr)}\n.pcarrow{color:var(--mut);font-size:16px;text-align:center}\n.pcbox{border-radius:9px;padding:8px 10px;text-align:center}\n.pcbox .pcl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}\n.pcbox .pcv{font-size:15px;font-weight:700}\n.pcbox.pcc{background:var(--pcost-bg)}.pcbox.pcc .pcl,.pcbox.pcc .pcv,.pcbox.pcc div{color:var(--pcost-txt)}\n.pcbox.pcu{background:var(--pcurr-bg)}.pcbox.pcu .pcl,.pcbox.pcu .pcv{color:var(--pcurr-txt)}\n.pcbox.pcs{background:var(--psug-bg)}.pcbox.pcs .pcl,.pcbox.pcs .pcv{color:var(--psug-txt)}\n.pcgap{margin-top:8px;font-size:12px;text-align:center;padding:6px 10px;border-radius:8px;background:var(--pgap-bg);color:var(--pgap-txt)}\n.theme-card{border-radius:14px;border:2px solid var(--bdr);padding:14px;cursor:pointer;transition:all .2s;background:var(--card)}\n.theme-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.12)}\n.theme-card.sel{border-color:var(--ter);box-shadow:0 0 0 3px var(--ter2)}\n.swatch-row{display:flex;gap:4px;margin:8px 0 6px}\n.swatch{width:20px;height:20px;border-radius:50%;border:2px solid rgba(0,0,0,.08)}\n.install-btn{width:100%;padding:14px;border-radius:12px;border:2px dashed var(--bdr);background:transparent;color:var(--ter);font-family:'Merriweather',serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}\n.install-btn:hover{background:var(--fbox-bg);border-style:solid}\n\n/* GOAL BAR */\n.goal-bar-wrap{background:var(--bdr);border-radius:8px;overflow:hidden;height:12px;margin-top:8px}\n.goal-bar-fill{height:100%;border-radius:8px;transition:width .7s ease;background:var(--sage)}\n.goal-bar-fill.over{background:var(--ter)}\n\n/* CHART */\n.chart-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}\n.chart-outer{display:flex;align-items:flex-end;gap:6px;padding:0 4px}\n.chart-col{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;min-width:44px;max-width:72px;position:relative}\n.chart-val-box{background:var(--fbox-bg);border:1px solid var(--bdr);border-radius:6px;padding:3px 5px;text-align:center;width:100%;margin-bottom:2px}\n.chart-val-box .v1{font-family:'Merriweather',serif;font-size:10px;font-weight:700;color:var(--sage);white-space:nowrap}\n.chart-val-box .v2{font-size:9px;color:var(--amb);font-weight:600;white-space:nowrap}\n.chart-val-box.empty .v1{color:var(--mut);font-weight:400}\n.chart-bar-stack{width:100%;display:flex;flex-direction:column;justify-content:flex-end;border-radius:6px 6px 0 0;overflow:hidden;cursor:pointer;transition:filter .15s}\n.chart-bar-stack:hover{filter:brightness(1.1)}\n.chart-bar-paid{background:var(--sage);min-height:2px}\n.chart-bar-pend{background:var(--amb);opacity:.85;min-height:2px}\n.chart-lbl{font-size:10px;font-weight:700;color:var(--mut);white-space:nowrap;text-align:center}\n.chart-legend{display:flex;gap:14px;margin-top:10px;justify-content:center;flex-wrap:wrap}\n.chart-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--mut);font-weight:600}\n.chart-legend-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}\n\n/* DEVEDORES */\n.devedor-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--fbox-bg);border-radius:11px;border:1.5px solid var(--bdr);margin-bottom:8px;flex-wrap:wrap}\n\n/* REPORT PRINT */\n@media print{\n  .sidebar,.topbar,.bottom-nav,.no-print{display:none!important}\n  .main{margin-left:0!important;padding:0!important}\n  .card{box-shadow:none!important;border:1px solid #ddd!important;break-inside:avoid}\n  body{background:#fff!important}\n}\n\n/* RESPONSIVE */\n@media(max-width:860px){\n  .sidebar{transform:translateX(calc(-1 * var(--sidebar-w)))}\n  .main{margin-left:0;padding:70px 14px 76px}\n  .topbar{display:flex}\n  .bottom-nav{display:block}\n  .drawer-overlay{display:block}\n  .g4{grid-template-columns:repeat(2,1fr)}\n}\n@media(max-width:600px){\n  .g4{grid-template-columns:repeat(2,1fr)}\n  .g3{grid-template-columns:1fr 1fr}\n  .g2{grid-template-columns:1fr}\n  .card{padding:14px}\n  .tbl th,.tbl td{padding:7px 6px;font-size:11px}\n  .pricecmp{grid-template-columns:1fr;gap:6px}\n  .pcarrow{transform:rotate(90deg);text-align:center}\n  .page-title{font-size:18px}\n}\n@media(min-width:861px){\n  .main{max-width:1100px}\n}\n";
+
+/* ══════════════════════════════════════
+   MONTH CHART
+══════════════════════════════════════ */
+function MonthChart(_ref2) {
+  var sales = _ref2.sales,
+    kits = _ref2.kits;
+  var _useState3 = useState(null),
+    _useState4 = _slicedToArray(_useState3, 2),
+    hover = _useState4[0],
+    setHover = _useState4[1];
+  var BAR_H = 110;
+  var months = useMemo(function () {
+    var set = new Set(sales.map(function (s) {
+      return s.date.slice(0, 7);
+    }));
+    var sorted = _toConsumableArray(set).sort();
+    var last = sorted[sorted.length - 1] || curMonth();
+    var _last$split$map = last.split("-").map(Number),
+      _last$split$map2 = _slicedToArray(_last$split$map, 2),
+      y = _last$split$map2[0],
+      m = _last$split$map2[1];
+    var result = [];
+    for (var i = 5; i >= 0; i--) {
+      var mo = m - i;
+      var yr = y;
+      if (mo <= 0) {
+        mo += 12;
+        yr -= 1;
+      }
+      result.push("".concat(yr, "-").concat(String(mo).padStart(2, "0")));
+    }
+    return result;
+  }, [sales]);
+  var data = useMemo(function () {
+    return months.map(function (mo) {
+      var ms = sales.filter(function (s) {
+        return s.date.startsWith(mo);
+      });
+      var paid = ms.filter(function (s) {
+        return s.paid;
+      }).reduce(function (a, s) {
+        return a + saleTotal(s, kits);
+      }, 0);
+      var pend = ms.filter(function (s) {
+        return !s.paid;
+      }).reduce(function (a, s) {
+        return a + saleTotal(s, kits);
+      }, 0);
+      var bars = ms.reduce(function (a, s) {
+        return a + s.qty;
+      }, 0);
+      return {
+        mo: mo,
+        paid: paid,
+        pend: pend,
+        total: paid + pend,
+        bars: bars
+      };
+    });
+  }, [months, sales, kits]);
+  var maxVal = Math.max.apply(Math, _toConsumableArray(data.map(function (d) {
+    return d.total;
+  })).concat([1]));
+  var fmt = function fmt(v) {
+    return v >= 1000 ? "R$".concat((v / 1000).toFixed(1), "k") : "R$".concat(v.toFixed(0));
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCCA Faturamento por M\xEAs"), /*#__PURE__*/React.createElement("div", {
+    className: "chart-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "chart-outer",
+    style: {
+      alignItems: "flex-end",
+      minHeight: BAR_H + 80
+    }
+  }, data.map(function (d, i) {
+    var paidH = Math.round(d.paid / maxVal * BAR_H);
+    var pendH = Math.round(d.pend / maxVal * BAR_H);
+    var totalH = paidH + pendH;
+    var isCur = d.mo === curMonth();
+    var isHov = hover === i;
+    var hasData = d.total > 0;
+    return /*#__PURE__*/React.createElement("div", {
+      key: d.mo,
+      className: "chart-col",
+      onMouseEnter: function onMouseEnter() {
+        return setHover(i);
+      },
+      onMouseLeave: function onMouseLeave() {
+        return setHover(null);
+      },
+      onClick: function onClick() {
+        return setHover(hover === i ? null : i);
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "chart-val-box".concat(hasData ? "" : " empty"),
+      style: {
+        borderColor: isCur ? "var(--ter)" : "var(--bdr)",
+        background: isHov ? "var(--card)" : "var(--fbox-bg)",
+        transition: "background .15s"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "v1"
+    }, hasData ? fmt(d.paid) : "–"), d.pend > 0 && /*#__PURE__*/React.createElement("div", {
+      className: "v2"
+    }, "+", fmt(d.pend))), /*#__PURE__*/React.createElement("div", {
+      className: "chart-bar-stack",
+      style: {
+        height: Math.max(totalH, hasData ? 6 : 2),
+        width: "100%",
+        outline: isHov ? "2px solid var(--ter)" : "none",
+        outlineOffset: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "chart-bar-pend",
+      style: {
+        height: pendH
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "chart-bar-paid",
+      style: {
+        height: Math.max(paidH, hasData ? 2 : 0)
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        width: "100%",
+        height: 2,
+        background: isHov ? "var(--ter)" : "var(--bdr)",
+        borderRadius: 1,
+        transition: "background .15s"
+      }
+    }), /*#__PURE__*/React.createElement("div", {
+      className: "chart-lbl",
+      style: {
+        color: isCur || isHov ? "var(--ter)" : "var(--mut)",
+        fontWeight: isCur || isHov ? 700 : 600
+      }
+    }, monthLabel(d.mo)), hasData && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: isHov ? "var(--ter)" : "var(--mut)",
+        fontWeight: 600,
+        transition: "color .15s"
+      }
+    }, d.bars, "\uD83E\uDDFC"), isHov && hasData && /*#__PURE__*/React.createElement("div", {
+      style: {
+        position: "fixed",
+        zIndex: 20,
+        background: "var(--card)",
+        border: "1.5px solid var(--ter)",
+        borderRadius: 10,
+        padding: "10px 13px",
+        boxShadow: "0 6px 24px rgba(0,0,0,.22)",
+        fontSize: 12,
+        lineHeight: 1.8,
+        whiteSpace: "nowrap",
+        pointerEvents: "none",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%,-50%)"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Merriweather',serif",
+        fontWeight: 700,
+        color: "var(--brn)",
+        marginBottom: 4,
+        fontSize: 13
+      }
+    }, monthLabel(d.mo)), /*#__PURE__*/React.createElement("div", null, "\u2705 Recebido: ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: "var(--sage)"
+      }
+    }, R$(d.paid))), d.pend > 0 && /*#__PURE__*/React.createElement("div", null, "\u23F3 Pendente: ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: "var(--amb)"
+      }
+    }, R$(d.pend))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        borderTop: "1px solid var(--bdr)",
+        marginTop: 4,
+        paddingTop: 4
+      }
+    }, "\uD83D\uDCB0 Total: ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: "var(--ter)"
+      }
+    }, R$(d.total))), /*#__PURE__*/React.createElement("div", null, "\uD83E\uDDFC Pedras: ", /*#__PURE__*/React.createElement("strong", null, d.bars))));
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "chart-legend"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "chart-legend-item"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "chart-legend-dot",
+    style: {
+      background: "var(--sage)"
+    }
+  }), "Recebido"), /*#__PURE__*/React.createElement("div", {
+    className: "chart-legend-item"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "chart-legend-dot",
+    style: {
+      background: "var(--amb)",
+      opacity: .85
+    }
+  }), "Pendente")));
+}
+
+/* ══════════════════════════════════════
+   DASHBOARD
+══════════════════════════════════════ */
+function DashTab(_ref3) {
+  var stock = _ref3.stock,
+    thresh = _ref3.thresh,
+    paidRev = _ref3.paidRev,
+    pendRev = _ref3.pendRev,
+    sales = _ref3.sales,
+    lowStock = _ref3.lowStock,
+    recs = _ref3.recs,
+    recipeCost = _ref3.recipeCost,
+    kits = _ref3.kits,
+    settings = _ref3.settings,
+    prods = _ref3.prods;
+  var recent = _toConsumableArray(sales).sort(function (a, b) {
+    return b.date.localeCompare(a.date);
+  }).slice(0, 6);
+  var cm = curMonth();
+  var mSales = sales.filter(function (s) {
+    return s.date.startsWith(cm);
+  });
+  var mRev = mSales.filter(function (s) {
+    return s.paid;
+  }).reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0);
+  var mPend = mSales.filter(function (s) {
+    return !s.paid;
+  }).reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0);
+  var mBars = mSales.reduce(function (a, s) {
+    return a + s.qty;
+  }, 0);
+  var goal = settings.monthGoal || 0;
+  var goalPct = goal > 0 ? Math.min(100, mRev / goal * 100) : 0;
+  var devedores = sales.filter(function (s) {
+    return !s.paid;
+  });
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "page-title"
+  }, "\uD83D\uDCCA In\xEDcio"), lowStock && /*#__PURE__*/React.createElement("div", {
+    className: "alrt"
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 18
+    }
+  }, "\u26A0\uFE0F"), /*#__PURE__*/React.createElement("span", null, "Estoque baixo! Restam ", /*#__PURE__*/React.createElement("strong", null, stock), " pedra", stock !== 1 ? "s" : "", " (m\xEDnimo: ", thresh, ").")), /*#__PURE__*/React.createElement("div", {
+    className: "g4"
+  }, [{
+    l: "📦 Estoque",
+    v: stock,
+    s: "pedras disponíveis",
+    c: lowStock ? "var(--ter)" : "var(--sage)"
+  }, {
+    l: "✅ Recebido",
+    v: R$(paidRev),
+    s: "total confirmado",
+    c: "var(--sage)"
+  }, {
+    l: "⏳ A receber",
+    v: R$(pendRev),
+    s: "em haver/pendente",
+    c: "var(--amb)"
+  }, {
+    l: "🛒 Vendas",
+    v: sales.length,
+    s: "pedidos no total",
+    c: "var(--ter)"
+  }].map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "sc",
+      key: i
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "slbl"
+    }, s.l), /*#__PURE__*/React.createElement("div", {
+      className: "sval",
+      style: {
+        color: s.c
+      }
+    }, s.v), /*#__PURE__*/React.createElement("div", {
+      className: "ssub"
+    }, s.s));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "relative"
+    }
+  }, /*#__PURE__*/React.createElement(MonthChart, {
+    sales: sales,
+    kits: kits
+  })), goal > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDFAF Meta do M\xEAs \u2014 ", monthLabel(cm)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 24,
+      fontWeight: 700,
+      color: goalPct >= 100 ? "var(--sage)" : "var(--ter)"
+    }
+  }, R$(mRev)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)",
+      marginLeft: 8
+    }
+  }, "de ", R$(goal))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: goalPct >= 100 ? "var(--sage)" : "var(--mut)"
+    }
+  }, goalPct.toFixed(0), "%", goalPct >= 100 ? " 🎉" : "")), /*#__PURE__*/React.createElement("div", {
+    className: "goal-bar-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "goal-bar-fill".concat(goalPct >= 100 ? " over" : ""),
+    style: {
+      width: "".concat(goalPct, "%")
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 20,
+      marginTop: 10,
+      fontSize: 12,
+      color: "var(--mut)",
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "\uD83E\uDDFC ", mBars, " pedras vendidas"), /*#__PURE__*/React.createElement("span", null, "\u23F3 ", R$(mPend), " a receber"), goal > mRev && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "var(--ter)",
+      fontWeight: 600
+    }
+  }, "Faltam ", R$(goal - mRev), " para a meta"))), devedores.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\u23F3 Em Haver \u2014 Cobrar"), devedores.sort(function (a, b) {
+    return a.customer.localeCompare(b.customer);
+  }).map(function (s) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "devedor-row",
+      key: s.id
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 14
+      }
+    }, s.customer), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--mut)",
+        marginTop: 2
+      }
+    }, ptDate(s.date), " \xB7 ", s.qty, " pedra", s.qty !== 1 ? "s" : "")), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontFamily: "'Merriweather',serif",
+        fontWeight: 700,
+        color: "var(--ter)",
+        fontSize: 15
+      }
+    }, R$(saleTotal(s, {}))), s.phone && /*#__PURE__*/React.createElement("a", {
+      href: "https://wa.me/55".concat(s.phone.replace(/\D/g, "")),
+      target: "_blank",
+      rel: "noreferrer",
+      style: {
+        background: "#25D366",
+        color: "#fff",
+        borderRadius: 8,
+        padding: "6px 11px",
+        fontSize: 12,
+        fontWeight: 700,
+        textDecoration: "none",
+        whiteSpace: "nowrap"
+      }
+    }, "\uD83D\uDCAC WhatsApp"));
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "right",
+      fontSize: 13,
+      fontWeight: 700,
+      color: "var(--ter)",
+      marginTop: 8,
+      paddingTop: 8,
+      borderTop: "1px solid var(--bdr)"
+    }
+  }, "Total em haver: ", R$(devedores.reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0)))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCCB \xDAltimas Vendas"), recent.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 20
+    }
+  }, "Nenhuma venda ainda.") : /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Data"), /*#__PURE__*/React.createElement("th", null, "Cliente"), /*#__PURE__*/React.createElement("th", null, "Qtd"), /*#__PURE__*/React.createElement("th", null, "Total"), /*#__PURE__*/React.createElement("th", null, "Forma"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, recent.map(function (s) {
+    return /*#__PURE__*/React.createElement("tr", {
+      key: s.id
+    }, /*#__PURE__*/React.createElement("td", null, ptDate(s.date)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700
+      }
+    }, s.customer), /*#__PURE__*/React.createElement("td", null, s.qty, "\xD7"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700,
+        color: "var(--ter)"
+      }
+    }, R$(saleTotal(s, kits))), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge ".concat(s.method === "Pix" ? "bgb" : s.method === "Dinheiro" ? "bgg" : "bga")
+    }, s.method)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge ".concat(s.paid ? "bgg" : "bgr")
+    }, s.paid ? "✓ Pago" : "⏳ Pendente")));
+  }))))), recs.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83E\uDDEE Custo das Receitas"), recs.map(function (rec) {
+    var c = recipeCost(rec),
+      gap = (rec.priceSuggested || 0) - (rec.priceCurrent || 0);
+    return /*#__PURE__*/React.createElement("div", {
+      key: rec.id,
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "11px 0",
+        borderBottom: "1px solid var(--bdr)"
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 14
+      }
+    }, rec.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "var(--mut)",
+        marginTop: 2
+      }
+    }, c.bars, " pedras/lote \xB7 mat. ", R$(c.perBar), c.packPerBar > 0 ? " + emb. ".concat(R$(c.packPerBar), " = ").concat(R$(c.fullPerBar), "/pedra") : "/pedra"), rec.priceCurrent > 0 && rec.priceSuggested > 0 && gap > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--alrt-txt)",
+        marginTop: 3,
+        fontWeight: 600
+      }
+    }, "\u2B06\uFE0F ", R$(gap), "/pedra abaixo do estimado")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right"
+      }
+    }, rec.priceCurrent > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12
+      }
+    }, "\uD83C\uDFF7\uFE0F ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: "var(--pcurr-txt)"
+      }
+    }, R$(rec.priceCurrent))), rec.priceSuggested > 0 && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12
+      }
+    }, "\uD83D\uDCA1 ", /*#__PURE__*/React.createElement("strong", {
+      style: {
+        color: "var(--sage)"
+      }
+    }, R$(rec.priceSuggested))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 11,
+        color: "var(--mut)"
+      }
+    }, "lote: ", R$(c.total))));
+  })));
+}
+
+/* ══════════════════════════════════════
+   RECEITAS
+══════════════════════════════════════ */
+function RecTab(_ref4) {
+  var ingrs = _ref4.ingrs,
+    setIngrs = _ref4.setIngrs,
+    recs = _ref4.recs,
+    setRecs = _ref4.setRecs,
+    recipeCost = _ref4.recipeCost,
+    kits = _ref4.kits,
+    setKits = _ref4.setKits,
+    pack = _ref4.pack,
+    setPack = _ref4.setPack,
+    confirm = _ref4.confirm;
+  var _useState5 = useState({
+      name: "",
+      unit: "kg",
+      price: ""
+    }),
+    _useState6 = _slicedToArray(_useState5, 2),
+    iForm = _useState6[0],
+    setIF = _useState6[1];
+  var _useState7 = useState(null),
+    _useState8 = _slicedToArray(_useState7, 2),
+    editId = _useState8[0],
+    setEId = _useState8[1];
+  var _useState9 = useState(false),
+    _useState0 = _slicedToArray(_useState9, 2),
+    showRF = _useState0[0],
+    setShowRF = _useState0[1];
+  var _useState1 = useState({
+      name: "",
+      moldG: "250",
+      yieldKg: "",
+      notes: "",
+      priceSuggested: "",
+      priceCurrent: "",
+      items: []
+    }),
+    _useState10 = _slicedToArray(_useState1, 2),
+    rForm = _useState10[0],
+    setRF = _useState10[1];
+  var _useState11 = useState({
+      ingredientId: "",
+      amount: ""
+    }),
+    _useState12 = _slicedToArray(_useState11, 2),
+    rItem = _useState12[0],
+    setRI = _useState12[1];
+  var saveIngr = function saveIngr() {
+    if (!iForm.name || iForm.price === "") return;
+    if (editId) {
+      setIngrs(ingrs.map(function (i) {
+        return i.id === editId ? _objectSpread(_objectSpread(_objectSpread({}, i), iForm), {}, {
+          price: +iForm.price
+        }) : i;
+      }));
+      setEId(null);
+    } else setIngrs([].concat(_toConsumableArray(ingrs), [_objectSpread(_objectSpread({}, iForm), {}, {
+      id: uid(),
+      price: +iForm.price
+    })]));
+    setIF({
+      name: "",
+      unit: "kg",
+      price: ""
+    });
+  };
+  var addRI = function addRI() {
+    if (!rItem.ingredientId || !rItem.amount) return;
+    setRF(function (f) {
+      return _objectSpread(_objectSpread({}, f), {}, {
+        items: [].concat(_toConsumableArray(f.items), [{
+          ingredientId: rItem.ingredientId,
+          amount: +rItem.amount
+        }])
+      });
+    });
+    setRI({
+      ingredientId: "",
+      amount: ""
+    });
+  };
+  var saveRec = function saveRec() {
+    if (!rForm.name || !rForm.yieldKg || rForm.items.length === 0) return;
+    setRecs([].concat(_toConsumableArray(recs), [_objectSpread(_objectSpread({}, rForm), {}, {
+      id: uid(),
+      yieldKg: +rForm.yieldKg,
+      moldG: +rForm.moldG,
+      priceSuggested: +rForm.priceSuggested || 0,
+      priceCurrent: +rForm.priceCurrent || 0
+    })]));
+    setRF({
+      name: "",
+      moldG: "250",
+      yieldKg: "",
+      notes: "",
+      priceSuggested: "",
+      priceCurrent: "",
+      items: []
+    });
+    setShowRF(false);
+  };
+  var delIngr = /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee(id) {
+      return _regenerator().w(function (_context) {
+        while (1) switch (_context.n) {
+          case 0:
+            _context.n = 1;
+            return confirm("Excluir este ingrediente?");
+          case 1:
+            if (!_context.v) {
+              _context.n = 2;
+              break;
+            }
+            setIngrs(ingrs.filter(function (x) {
+              return x.id !== id;
+            }));
+          case 2:
+            return _context.a(2);
+        }
+      }, _callee);
+    }));
+    return function delIngr(_x) {
+      return _ref5.apply(this, arguments);
+    };
+  }();
+  var delRec = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee2(id) {
+      return _regenerator().w(function (_context2) {
+        while (1) switch (_context2.n) {
+          case 0:
+            _context2.n = 1;
+            return confirm("Excluir esta receita?");
+          case 1:
+            if (!_context2.v) {
+              _context2.n = 2;
+              break;
+            }
+            setRecs(recs.filter(function (r) {
+              return r.id !== id;
+            }));
+          case 2:
+            return _context2.a(2);
+        }
+      }, _callee2);
+    }));
+    return function delRec(_x2) {
+      return _ref6.apply(this, arguments);
+    };
+  }();
+  var delKit = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee3(id) {
+      return _regenerator().w(function (_context3) {
+        while (1) switch (_context3.n) {
+          case 0:
+            _context3.n = 1;
+            return confirm("Excluir este kit?");
+          case 1:
+            if (!_context3.v) {
+              _context3.n = 2;
+              break;
+            }
+            setKits(kits.filter(function (x) {
+              return x.id !== id;
+            }));
+          case 2:
+            return _context3.a(2);
+        }
+      }, _callee3);
+    }));
+    return function delKit(_x3) {
+      return _ref7.apply(this, arguments);
+    };
+  }();
+  var delPack = /*#__PURE__*/function () {
+    var _ref8 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee4(id) {
+      return _regenerator().w(function (_context4) {
+        while (1) switch (_context4.n) {
+          case 0:
+            _context4.n = 1;
+            return confirm("Excluir este item?");
+          case 1:
+            if (!_context4.v) {
+              _context4.n = 2;
+              break;
+            }
+            setPack(pack.filter(function (x) {
+              return x.id !== id;
+            }));
+          case 2:
+            return _context4.a(2);
+        }
+      }, _callee4);
+    }));
+    return function delPack(_x4) {
+      return _ref8.apply(this, arguments);
+    };
+  }();
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "page-title"
+  }, "\uD83E\uDDFC Receitas"), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83E\uDDEA Ingredientes e Pre\xE7os"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "2fr 1fr 1fr auto",
+      gap: 8,
+      marginBottom: 14,
+      alignItems: "end"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Nome"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    placeholder: "Ex: Soda C\xE1ustica",
+    value: iForm.name,
+    onChange: function onChange(e) {
+      return setIF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          name: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Unidade"), /*#__PURE__*/React.createElement("select", {
+    className: "inp",
+    value: iForm.unit,
+    onChange: function onChange(e) {
+      return setIF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          unit: e.target.value
+        });
+      });
+    }
+  }, ["kg", "g", "L", "mL", "un"].map(function (u) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: u
+    }, u);
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "R$/Unidade"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.01",
+    placeholder: "0,00",
+    value: iForm.price,
+    onChange: function onChange(e) {
+      return setIF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          price: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "btn bsm ".concat(editId ? "bs" : "bt"),
+    onClick: saveIngr,
+    style: {
+      height: 44
+    }
+  }, editId ? "✓ Ok" : "+ Add")), ingrs.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 14
+    }
+  }, "Nenhum ingrediente cadastrado.") : /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Ingrediente"), /*#__PURE__*/React.createElement("th", null, "Un."), /*#__PURE__*/React.createElement("th", null, "R$/Un."), /*#__PURE__*/React.createElement("th", null, "A\xE7\xF5es"))), /*#__PURE__*/React.createElement("tbody", null, ingrs.map(function (i) {
+    return /*#__PURE__*/React.createElement("tr", {
+      key: i.id
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700
+      }
+    }, i.name), /*#__PURE__*/React.createElement("td", null, i.unit), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700,
+        color: "var(--ter)"
+      }
+    }, R$(i.price)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        display: "flex",
+        gap: 6
+      }
+    }, /*#__PURE__*/React.createElement("button", {
+      className: "btn bg bsm",
+      onClick: function onClick() {
+        setEId(i.id);
+        setIF({
+          name: i.name,
+          unit: i.unit,
+          price: String(i.price)
+        });
+      }
+    }, "\u270F\uFE0F"), /*#__PURE__*/React.createElement("button", {
+      className: "btn bsm",
+      style: {
+        background: "var(--badge-r-bg)",
+        color: "var(--badge-r-txt)",
+        border: "none"
+      },
+      onClick: function onClick() {
+        return delIngr(i.id);
+      }
+    }, "\uD83D\uDDD1\uFE0F")));
+  }))))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle",
+    style: {
+      marginBottom: 0
+    }
+  }, "\uD83E\uDDFC Receitas"), /*#__PURE__*/React.createElement("button", {
+    className: "btn bt bsm",
+    onClick: function onClick() {
+      return setShowRF(!showRF);
+    }
+  }, showRF ? "✕ Cancelar" : "+ Nova Receita")), showRF && /*#__PURE__*/React.createElement("div", {
+    className: "fbox"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontWeight: 700,
+      fontSize: 14,
+      marginBottom: 12,
+      color: "var(--ter)"
+    }
+  }, "Nova Receita"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "2fr 1fr 1fr",
+      gap: 8,
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Nome"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    value: rForm.name,
+    onChange: function onChange(e) {
+      return setRF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          name: e.target.value
+        });
+      });
+    },
+    placeholder: "Ex: Sab\xE3o de Coco"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Rendimento (kg)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.1",
+    value: rForm.yieldKg,
+    onChange: function onChange(e) {
+      return setRF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          yieldKg: e.target.value
+        });
+      });
+    },
+    placeholder: "1.5"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Forma (g)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    value: rForm.moldG,
+    onChange: function onChange(e) {
+      return setRF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          moldG: e.target.value
+        });
+      });
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "g2",
+    style: {
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "\uD83D\uDCA1 Pre\xE7o estimado (R$/pedra)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.50",
+    value: rForm.priceSuggested,
+    onChange: function onChange(e) {
+      return setRF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          priceSuggested: e.target.value
+        });
+      });
+    },
+    placeholder: "Ex: 10,00"
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "\uD83C\uDFF7\uFE0F Pre\xE7o que cobramos (R$/pedra)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.50",
+    value: rForm.priceCurrent,
+    onChange: function onChange(e) {
+      return setRF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          priceCurrent: e.target.value
+        });
+      });
+    },
+    placeholder: "Ex: 4,00"
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "flbl",
+    style: {
+      marginBottom: 5
+    }
+  }, "Adicionar Ingrediente"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "2fr 1fr auto",
+      gap: 8,
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("select", {
+    className: "inp",
+    value: rItem.ingredientId,
+    onChange: function onChange(e) {
+      return setRI(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          ingredientId: e.target.value
+        });
+      });
+    }
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Selecione..."), ingrs.map(function (i) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: i.id,
+      value: i.id
+    }, i.name, " (", i.unit, ")");
+  })), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.001",
+    placeholder: "Qtd.",
+    value: rItem.amount,
+    onChange: function onChange(e) {
+      return setRI(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          amount: e.target.value
+        });
+      });
+    }
+  }), /*#__PURE__*/React.createElement("button", {
+    className: "btn bs bsm",
+    onClick: addRI
+  }, "+ Add")), rForm.items.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--card)",
+      borderRadius: 8,
+      padding: "8px 12px",
+      marginBottom: 10
+    }
+  }, rForm.items.map(function (it, idx) {
+    var ing = ingrs.find(function (i) {
+      return i.id === it.ingredientId;
+    });
+    return /*#__PURE__*/React.createElement("div", {
+      key: idx,
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8,
+        padding: "5px 0",
+        fontSize: 13,
+        borderBottom: idx < rForm.items.length - 1 ? "1px solid var(--bdr)" : "none"
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        flex: 1
+      }
+    }, (ing === null || ing === void 0 ? void 0 : ing.name) || "?"), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "var(--mut)"
+      }
+    }, it.amount, " ", ing === null || ing === void 0 ? void 0 : ing.unit), /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "var(--ter)",
+        fontWeight: 700
+      }
+    }, R$(it.amount * ((ing === null || ing === void 0 ? void 0 : ing.price) || 0))), /*#__PURE__*/React.createElement("button", {
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        color: "var(--mut)",
+        fontSize: 13
+      },
+      onClick: function onClick() {
+        return setRF(function (f) {
+          return _objectSpread(_objectSpread({}, f), {}, {
+            items: f.items.filter(function (_, i) {
+              return i !== idx;
+            })
+          });
+        });
+      }
+    }, "\u2715"));
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Observa\xE7\xF5es"), /*#__PURE__*/React.createElement("textarea", {
+    className: "inp",
+    rows: 2,
+    value: rForm.notes,
+    onChange: function onChange(e) {
+      return setRF(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          notes: e.target.value
+        });
+      });
+    },
+    placeholder: "Dicas, temperatura...",
+    style: {
+      resize: "vertical"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "flex-end",
+      gap: 8,
+      marginTop: 10
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn bg",
+    onClick: function onClick() {
+      return setShowRF(false);
+    }
+  }, "Cancelar"), /*#__PURE__*/React.createElement("button", {
+    className: "btn bt",
+    onClick: saveRec
+  }, "\uD83D\uDCBE Salvar Receita"))), recs.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 18
+    }
+  }, "Nenhuma receita cadastrada.") : recs.map(function (rec, ri) {
+    var c = recipeCost(rec);
+    return /*#__PURE__*/React.createElement("div", {
+      key: rec.id,
+      style: {
+        borderBottom: ri < recs.length - 1 ? "1px solid var(--bdr)" : "none",
+        padding: "15px 0"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        marginBottom: 10
+      }
+    }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Merriweather',serif",
+        fontWeight: 700,
+        fontSize: 16
+      }
+    }, rec.name), rec.notes && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "var(--mut)",
+        marginTop: 2
+      }
+    }, rec.notes)), /*#__PURE__*/React.createElement("button", {
+      className: "btn bsm",
+      style: {
+        background: "var(--badge-r-bg)",
+        color: "var(--badge-r-txt)",
+        border: "none"
+      },
+      onClick: function onClick() {
+        return delRec(rec.id);
+      }
+    }, "\uD83D\uDDD1\uFE0F Excluir")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "grid",
+        gridTemplateColumns: "repeat(4,1fr)",
+        gap: 8,
+        marginBottom: 10
+      }
+    }, [{
+      l: "Forma",
+      v: "".concat(rec.moldG, "g"),
+      c: "var(--txt)"
+    }, {
+      l: "Pedras/Lote",
+      v: c.bars,
+      c: "var(--sage)"
+    }, {
+      l: "Custo Mat.",
+      v: R$(c.perBar),
+      c: "var(--ter)"
+    }, {
+      l: "c/ Embalagem",
+      v: R$(c.fullPerBar),
+      c: c.packPerBar > 0 ? "var(--pcurr-txt)" : "var(--mut)"
+    }].map(function (_ref9) {
+      var l = _ref9.l,
+        v = _ref9.v,
+        col = _ref9.c;
+      return /*#__PURE__*/React.createElement("div", {
+        key: l,
+        style: {
+          background: "var(--bg)",
+          borderRadius: 8,
+          padding: "9px 10px"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 9,
+          color: "var(--mut)",
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: .5
+        }
+      }, l), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontFamily: "'Merriweather',serif",
+          fontSize: 15,
+          fontWeight: 700,
+          color: col,
+          marginTop: 2
+        }
+      }, v));
+    })), /*#__PURE__*/React.createElement("div", {
+      className: "tbl-scroll"
+    }, /*#__PURE__*/React.createElement("table", {
+      className: "tbl",
+      style: {
+        fontSize: 12
+      }
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Ingrediente"), /*#__PURE__*/React.createElement("th", null, "Qtd."), /*#__PURE__*/React.createElement("th", null, "Custo"))), /*#__PURE__*/React.createElement("tbody", null, rec.items.map(function (it, i) {
+      var ing = ingrs.find(function (x) {
+        return x.id === it.ingredientId;
+      });
+      return /*#__PURE__*/React.createElement("tr", {
+        key: i
+      }, /*#__PURE__*/React.createElement("td", null, (ing === null || ing === void 0 ? void 0 : ing.name) || "?"), /*#__PURE__*/React.createElement("td", null, it.amount, " ", ing === null || ing === void 0 ? void 0 : ing.unit), /*#__PURE__*/React.createElement("td", {
+        style: {
+          fontWeight: 600
+        }
+      }, R$(it.amount * ((ing === null || ing === void 0 ? void 0 : ing.price) || 0))));
+    }), /*#__PURE__*/React.createElement("tr", {
+      style: {
+        background: "var(--row-hover)"
+      }
+    }, /*#__PURE__*/React.createElement("td", {
+      colSpan: 2,
+      style: {
+        fontWeight: 700
+      }
+    }, "\uD83D\uDCB0 Total do Lote"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 800,
+        color: "var(--ter)",
+        fontSize: 14
+      }
+    }, R$(c.total)))))), function () {
+      var suggested = rec.priceSuggested || 0,
+        current = rec.priceCurrent || 0,
+        gap = suggested - current,
+        gapPerLote = gap * c.bars;
+      return /*#__PURE__*/React.createElement("div", {
+        style: {
+          marginTop: 12
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 10,
+          color: "var(--mut)",
+          fontWeight: 700,
+          textTransform: "uppercase",
+          letterSpacing: .5,
+          marginBottom: 6
+        }
+      }, "Comparativo de pre\xE7os por pedra"), /*#__PURE__*/React.createElement("div", {
+        className: "pricecmp"
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "pcbox pcc"
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "pcl"
+      }, "Custo real"), /*#__PURE__*/React.createElement("div", {
+        className: "pcv"
+      }, R$(c.fullPerBar)), c.packPerBar > 0 && /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 9,
+          marginTop: 2
+        }
+      }, "mat.", R$(c.perBar), "+emb.", R$(c.packPerBar))), /*#__PURE__*/React.createElement("div", {
+        className: "pcarrow"
+      }, "\u2192"), /*#__PURE__*/React.createElement("div", {
+        className: "pcbox pcu"
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "pcl"
+      }, "Cobramos hoje ", /*#__PURE__*/React.createElement("button", {
+        style: {
+          marginLeft: 4,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontSize: 9,
+          color: "var(--mut)"
+        },
+        onClick: function onClick() {
+          var v = prompt("Preço que cobramos (R$):", current);
+          if (v !== null && !isNaN(+v)) setRecs(recs.map(function (r) {
+            return r.id === rec.id ? _objectSpread(_objectSpread({}, r), {}, {
+              priceCurrent: +v
+            }) : r;
+          }));
+        }
+      }, "\u270F\uFE0F")), /*#__PURE__*/React.createElement("div", {
+        className: "pcv"
+      }, current ? R$(current) : /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 12,
+          fontStyle: "italic"
+        }
+      }, "\u2014"))), /*#__PURE__*/React.createElement("div", {
+        className: "pcarrow"
+      }, "\u2192"), /*#__PURE__*/React.createElement("div", {
+        className: "pcbox pcs"
+      }, /*#__PURE__*/React.createElement("div", {
+        className: "pcl"
+      }, "Pre\xE7o estimado ", /*#__PURE__*/React.createElement("button", {
+        style: {
+          marginLeft: 4,
+          background: "none",
+          border: "none",
+          cursor: "pointer",
+          fontSize: 9,
+          color: "var(--mut)"
+        },
+        onClick: function onClick() {
+          var v = prompt("Preço estimado/ideal (R$):", suggested);
+          if (v !== null && !isNaN(+v)) setRecs(recs.map(function (r) {
+            return r.id === rec.id ? _objectSpread(_objectSpread({}, r), {}, {
+              priceSuggested: +v
+            }) : r;
+          }));
+        }
+      }, "\u270F\uFE0F")), /*#__PURE__*/React.createElement("div", {
+        className: "pcv"
+      }, suggested ? R$(suggested) : /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 12,
+          fontStyle: "italic"
+        }
+      }, "\u2014")))), suggested > 0 && current > 0 && /*#__PURE__*/React.createElement("div", {
+        className: "pcgap"
+      }, gap > 0 ? /*#__PURE__*/React.createElement(React.Fragment, null, "\u2B06\uFE0F Cobrando ", /*#__PURE__*/React.createElement("strong", null, R$(gap), "/pedra abaixo"), " \u2014 lote: ", /*#__PURE__*/React.createElement("strong", null, R$(gapPerLote)), " na mesa") : /*#__PURE__*/React.createElement(React.Fragment, null, "\u2705 J\xE1 chegou ou superou o pre\xE7o estimado!")));
+    }());
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCE6 Custos de Embalagem"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--mut)",
+      marginBottom: 12
+    }
+  }, "Informe o que compra e quantas pedras rende. O custo/pedra \xE9 somado automaticamente \xE0 receita."), pack.map(function (p) {
+    var cpu = p.qty > 0 ? p.totalCost / p.qty : 0;
+    return /*#__PURE__*/React.createElement("div", {
+      className: "packrow",
+      key: p.id
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minWidth: 0
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      className: "inp",
+      value: p.name,
+      style: {
+        fontWeight: 700,
+        marginBottom: 4
+      },
+      onChange: function onChange(e) {
+        return setPack(pack.map(function (x) {
+          return x.id === p.id ? _objectSpread(_objectSpread({}, x), {}, {
+            name: e.target.value
+          }) : x;
+        }));
+      }
+    }), /*#__PURE__*/React.createElement("input", {
+      className: "inp",
+      value: p.note,
+      style: {
+        fontSize: 12
+      },
+      placeholder: "Observa\xE7\xE3o",
+      onChange: function onChange(e) {
+        return setPack(pack.map(function (x) {
+          return x.id === p.id ? _objectSpread(_objectSpread({}, x), {}, {
+            note: e.target.value
+          }) : x;
+        }));
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minWidth: 100
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flbl"
+    }, "Custo (R$)"), /*#__PURE__*/React.createElement("input", {
+      className: "inp",
+      type: "number",
+      step: "0.50",
+      value: p.totalCost,
+      style: {
+        textAlign: "right"
+      },
+      onChange: function onChange(e) {
+        return setPack(pack.map(function (x) {
+          return x.id === p.id ? _objectSpread(_objectSpread({}, x), {}, {
+            totalCost: +e.target.value
+          }) : x;
+        }));
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        minWidth: 80
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "flbl"
+    }, "Rende (un)"), /*#__PURE__*/React.createElement("input", {
+      className: "inp",
+      type: "number",
+      min: "1",
+      value: p.qty,
+      style: {
+        textAlign: "right"
+      },
+      onChange: function onChange(e) {
+        return setPack(pack.map(function (x) {
+          return x.id === p.id ? _objectSpread(_objectSpread({}, x), {}, {
+            qty: +e.target.value
+          }) : x;
+        }));
+      }
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "center",
+        minWidth: 65
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 9,
+        color: "var(--mut)",
+        fontWeight: 700,
+        textTransform: "uppercase",
+        marginBottom: 2
+      }
+    }, "por pedra"), /*#__PURE__*/React.createElement("span", {
+      className: "packcpu"
+    }, R$(cpu))), /*#__PURE__*/React.createElement("button", {
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        color: "var(--mut)",
+        fontSize: 15
+      },
+      onClick: function onClick() {
+        return delPack(p.id);
+      }
+    }, "\uD83D\uDDD1\uFE0F"));
+  }), pack.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "flex-end",
+      alignItems: "center",
+      gap: 10,
+      padding: "10px 14px",
+      background: "var(--pcurr-bg)",
+      borderRadius: 10,
+      marginBottom: 8
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "var(--pcurr-txt)"
+    }
+  }, "Total embalagem/pedra:"), /*#__PURE__*/React.createElement("strong", {
+    style: {
+      fontSize: 16,
+      color: "var(--pcurr-txt)",
+      fontFamily: "'Merriweather',serif"
+    }
+  }, R$(pack.reduce(function (s, p) {
+    return s + (p.qty > 0 ? p.totalCost / p.qty : 0);
+  }, 0)))), /*#__PURE__*/React.createElement("button", {
+    className: "btn bg bsm",
+    onClick: function onClick() {
+      return setPack([].concat(_toConsumableArray(pack), [{
+        id: uid(),
+        name: "Novo item",
+        totalCost: 0,
+        qty: 1,
+        note: ""
+      }]));
+    }
+  }, "+ Adicionar Item")), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDF81 Kits de Venda"), kits.map(function (k) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "kitrow",
+      key: k.id
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 14
+      }
+    }, k.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 12,
+        color: "var(--mut)",
+        marginTop: 2
+      }
+    }, k.desc)), /*#__PURE__*/React.createElement("span", {
+      className: "kitbars"
+    }, k.bars, " pedras"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("input", {
+      className: "inp",
+      type: "number",
+      step: "0.50",
+      value: k.price,
+      style: {
+        width: 90,
+        textAlign: "right"
+      },
+      onChange: function onChange(e) {
+        return setKits(kits.map(function (x) {
+          return x.id === k.id ? _objectSpread(_objectSpread({}, x), {}, {
+            price: +e.target.value
+          }) : x;
+        }));
+      }
+    }), /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 12,
+        color: "var(--mut)"
+      }
+    }, "R$/kit")), /*#__PURE__*/React.createElement("div", {
+      style: {
+        textAlign: "right",
+        minWidth: 90
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "var(--mut)"
+      }
+    }, "por pedra"), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        color: "var(--sage)"
+      }
+    }, R$(k.price / k.bars))), /*#__PURE__*/React.createElement("button", {
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        color: "var(--mut)",
+        fontSize: 15
+      },
+      onClick: function onClick() {
+        return delKit(k.id);
+      }
+    }, "\uD83D\uDDD1\uFE0F"));
+  }), /*#__PURE__*/React.createElement("button", {
+    className: "btn bg bsm",
+    style: {
+      marginTop: 4
+    },
+    onClick: function onClick() {
+      return setKits([].concat(_toConsumableArray(kits), [{
+        id: uid(),
+        name: "Kit ".concat(kits.length + 1),
+        bars: 3,
+        price: 15,
+        desc: "Descrição do kit"
+      }]));
+    }
+  }, "+ Novo Kit")));
+}
+
+/* ══════════════════════════════════════
+   VENDAS
+══════════════════════════════════════ */
+function SalesTab(_ref0) {
+  var sales = _ref0.sales,
+    setSales = _ref0.setSales,
+    stock = _ref0.stock,
+    kits = _ref0.kits,
+    settings = _ref0.settings,
+    confirm = _ref0.confirm;
+  var _useState13 = useState("all"),
+    _useState14 = _slicedToArray(_useState13, 2),
+    filter = _useState14[0],
+    setFilter = _useState14[1];
+  var _useState15 = useState("avulso"),
+    _useState16 = _slicedToArray(_useState15, 2),
+    mode = _useState16[0],
+    setMode = _useState16[1];
+  var _useState17 = useState({
+      date: today(),
+      customer: "",
+      phone: "",
+      qty: "",
+      kitId: "",
+      kitQty: "1",
+      price: String(settings.defaultPrice || 6),
+      method: "Pix"
+    }),
+    _useState18 = _slicedToArray(_useState17, 2),
+    form = _useState18[0],
+    setFm = _useState18[1];
+  var _useState19 = useState(""),
+    _useState20 = _slicedToArray(_useState19, 2),
+    err = _useState20[0],
+    setErr = _useState20[1];
+  var selKit = kits.find(function (k) {
+    return k.id === form.kitId;
+  });
+  var barsWillUse = mode === "kit" && selKit ? (+form.kitQty || 0) * selKit.bars : +form.qty || 0;
+  var totalVal = mode === "kit" ? (+form.kitQty || 0) * (+form.price || 0) : (+form.qty || 0) * (+form.price || 0);
+  var overStock = barsWillUse > 0 && barsWillUse > stock;
+  var switchMode = function switchMode(m, kitId) {
+    setMode(m);
+    setErr("");
+    if (m === "kit" && kitId) {
+      var k = kits.find(function (x) {
+        return x.id === kitId;
+      });
+      setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          kitId: kitId,
+          kitQty: "1",
+          price: String((k === null || k === void 0 ? void 0 : k.price) || "")
+        });
+      });
+    }
+  };
+  var addSale = function addSale() {
+    if (!form.customer.trim()) {
+      setErr("Informe o nome do cliente.");
+      return;
+    }
+    if (overStock) {
+      setErr("Estoque insuficiente! Dispon\xEDvel: ".concat(stock, " pedras."));
+      return;
+    }
+    if (mode === "avulso") {
+      if (!form.qty || +form.qty <= 0) {
+        setErr("Informe a quantidade.");
+        return;
+      }
+      if (!form.price || +form.price <= 0) {
+        setErr("Informe o preço.");
+        return;
+      }
+    } else {
+      if (!form.kitId) {
+        setErr("Selecione um kit.");
+        return;
+      }
+      if (!form.kitQty || +form.kitQty <= 0) {
+        setErr("Informe a quantidade de kits.");
+        return;
+      }
+    }
+    setErr("");
+    var paid = form.method !== "Em haver";
+    if (mode === "avulso") setSales(function (p) {
+      return [].concat(_toConsumableArray(p), [{
+        id: uid(),
+        date: form.date,
+        customer: form.customer,
+        phone: form.phone,
+        method: form.method,
+        paid: paid,
+        qty: +form.qty,
+        price: +form.price,
+        kitId: null
+      }]);
+    });else setSales(function (p) {
+      return [].concat(_toConsumableArray(p), [{
+        id: uid(),
+        date: form.date,
+        customer: form.customer,
+        phone: form.phone,
+        method: form.method,
+        paid: paid,
+        qty: barsWillUse,
+        price: +form.price,
+        kitId: selKit.id,
+        kitQty: +form.kitQty,
+        kitName: selKit.name
+      }]);
+    });
+    setFm(function (f) {
+      return _objectSpread(_objectSpread({}, f), {}, {
+        customer: "",
+        phone: "",
+        qty: "",
+        kitQty: "1"
+      });
+    });
+  };
+  var togglePaid = function togglePaid(id) {
+    return setSales(function (s) {
+      return s.map(function (v) {
+        return v.id === id ? _objectSpread(_objectSpread({}, v), {}, {
+          paid: !v.paid
+        }) : v;
+      });
+    });
+  };
+  var delSale = /*#__PURE__*/function () {
+    var _ref1 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee5(id) {
+      return _regenerator().w(function (_context5) {
+        while (1) switch (_context5.n) {
+          case 0:
+            _context5.n = 1;
+            return confirm("Excluir esta venda?");
+          case 1:
+            if (!_context5.v) {
+              _context5.n = 2;
+              break;
+            }
+            setSales(function (s) {
+              return s.filter(function (v) {
+                return v.id !== id;
+              });
+            });
+          case 2:
+            return _context5.a(2);
+        }
+      }, _callee5);
+    }));
+    return function delSale(_x5) {
+      return _ref1.apply(this, arguments);
+    };
+  }();
+  var filtered = _toConsumableArray(sales).filter(function (s) {
+    return filter === "all" ? true : filter === "paid" ? s.paid : !s.paid;
+  }).sort(function (a, b) {
+    return b.date.localeCompare(a.date);
+  });
+  var totalRec = sales.filter(function (s) {
+    return s.paid;
+  }).reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0);
+  var totalPend = sales.filter(function (s) {
+    return !s.paid;
+  }).reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0);
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "page-title"
+  }, "\uD83D\uDCB0 Vendas"), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDED2 Registrar Venda"), /*#__PURE__*/React.createElement("div", {
+    className: "modetabs"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "mtab".concat(mode === "avulso" ? " on" : ""),
+    onClick: function onClick() {
+      return switchMode("avulso");
+    }
+  }, "\uD83E\uDDFC Avulsa"), kits.map(function (k) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: k.id,
+      className: "mtab".concat(mode === "kit" && form.kitId === k.id ? " on" : ""),
+      onClick: function onClick() {
+        return switchMode("kit", k.id);
+      }
+    }, "\uD83C\uDF81 ", k.name);
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 1fr",
+      gap: 10,
+      marginBottom: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Data"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "date",
+    value: form.date,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          date: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Cliente"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    placeholder: "Nome do cliente",
+    value: form.customer,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          customer: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "WhatsApp (opcional)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    placeholder: "11 99999-9999",
+    value: form.phone,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          phone: e.target.value
+        });
+      });
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 1fr auto",
+      gap: 10,
+      alignItems: "end"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, mode === "kit" ? "Qtd. Kits" : "Qtd. Pedras"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    min: "1",
+    value: mode === "kit" ? form.kitQty : form.qty,
+    style: {
+      borderColor: overStock ? "var(--ter)" : ""
+    },
+    onChange: function onChange(e) {
+      setFm(function (f) {
+        return mode === "kit" ? _objectSpread(_objectSpread({}, f), {}, {
+          kitQty: e.target.value
+        }) : _objectSpread(_objectSpread({}, f), {}, {
+          qty: e.target.value
+        });
+      });
+      setErr("");
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, mode === "kit" ? "R$/Kit" : "R$/Pedra"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.50",
+    value: form.price,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          price: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Pagamento"), /*#__PURE__*/React.createElement("select", {
+    className: "inp",
+    value: form.method,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          method: e.target.value
+        });
+      });
+    }
+  }, ["Pix", "Dinheiro", "Em haver"].map(function (m) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: m
+    }, m);
+  }))), /*#__PURE__*/React.createElement("button", {
+    className: "btn bt",
+    onClick: addSale,
+    disabled: overStock,
+    style: {
+      height: 44,
+      opacity: overStock ? .5 : 1
+    }
+  }, "+ Vender")), err && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 8,
+      fontSize: 13,
+      color: "var(--ter)",
+      fontWeight: 700
+    }
+  }, "\u26A0\uFE0F ", err), !err && barsWillUse > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 8,
+      fontSize: 12,
+      color: "var(--mut)"
+    }
+  }, "Total: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "var(--ter)"
+    }
+  }, R$(totalVal)), mode === "kit" && /*#__PURE__*/React.createElement("span", null, " \xB7 ", barsWillUse, " pedras"), " · ", "Ap\xF3s: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: stock - barsWillUse <= 5 ? "var(--ter)" : "var(--sage)"
+    }
+  }, stock - barsWillUse, " pedras"), " · ", form.method === "Em haver" ? /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "var(--amb)",
+      fontWeight: 600
+    }
+  }, "\u23F3 pendente") : /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: "var(--sage)",
+      fontWeight: 600
+    }
+  }, "\u2705 pago"))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle",
+    style: {
+      marginBottom: 0
+    }
+  }, "\uD83D\uDCCB Hist\xF3rico de Vendas"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      color: "var(--mut)"
+    }
+  }, sales.length, " venda", sales.length !== 1 ? "s" : "")), /*#__PURE__*/React.createElement("div", {
+    className: "tabs"
+  }, [["all", "Todas"], ["pending", "⏳ Em aberto"], ["paid", "✅ Pagas"]].map(function (_ref10) {
+    var _ref11 = _slicedToArray(_ref10, 2),
+      v = _ref11[0],
+      l = _ref11[1];
+    return /*#__PURE__*/React.createElement("button", {
+      key: v,
+      className: "tbtn".concat(filter === v ? " on" : ""),
+      onClick: function onClick() {
+        return setFilter(v);
+      }
+    }, l);
+  })), filtered.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 18
+    }
+  }, "Nenhuma venda aqui.") : /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Data"), /*#__PURE__*/React.createElement("th", null, "Cliente"), /*#__PURE__*/React.createElement("th", null, "Produto"), /*#__PURE__*/React.createElement("th", null, "Total"), /*#__PURE__*/React.createElement("th", null, "Forma"), /*#__PURE__*/React.createElement("th", null, "Status"), /*#__PURE__*/React.createElement("th", null))), /*#__PURE__*/React.createElement("tbody", null, filtered.map(function (s) {
+    var tot = saleTotal(s, kits),
+      label = s.kitId ? "".concat(s.kitQty, "\xD7 ").concat(s.kitName || "Kit", " (").concat(s.qty, " pedras)") : "".concat(s.qty, " pedra").concat(s.qty !== 1 ? "s" : "");
+    return /*#__PURE__*/React.createElement("tr", {
+      key: s.id
+    }, /*#__PURE__*/React.createElement("td", null, ptDate(s.date)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700
+      }
+    }, s.customer), s.phone && /*#__PURE__*/React.createElement("a", {
+      href: "https://wa.me/55".concat(s.phone.replace(/\D/g, "")),
+      target: "_blank",
+      rel: "noreferrer",
+      style: {
+        fontSize: 10,
+        color: "#25D366",
+        textDecoration: "none",
+        fontWeight: 600
+      }
+    }, "\uD83D\uDCAC ", s.phone)), /*#__PURE__*/React.createElement("td", null, s.kitId ? /*#__PURE__*/React.createElement("span", {
+      className: "badge bgs"
+    }, "\uD83C\uDF81 ", label) : label), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700,
+        color: "var(--ter)"
+      }
+    }, R$(tot)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge ".concat(s.method === "Pix" ? "bgb" : s.method === "Dinheiro" ? "bgg" : "bga")
+    }, s.method)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("button", {
+      className: "badge ".concat(s.paid ? "bgg" : "bgr"),
+      style: {
+        border: "none",
+        cursor: "pointer",
+        fontWeight: 700
+      },
+      onClick: function onClick() {
+        return togglePaid(s.id);
+      }
+    }, s.paid ? "✓ Pago" : "⏳ Pendente")), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("button", {
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        color: "var(--mut)",
+        fontSize: 15
+      },
+      onClick: function onClick() {
+        return delSale(s.id);
+      }
+    }, "\uD83D\uDDD1\uFE0F")));
+  })))), sales.length > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 16,
+      justifyContent: "flex-end",
+      marginTop: 11,
+      paddingTop: 11,
+      borderTop: "1px solid var(--bdr)",
+      fontSize: 13,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "Recebido: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "var(--sage)"
+    }
+  }, R$(totalRec))), /*#__PURE__*/React.createElement("span", null, "A receber: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "var(--amb)"
+    }
+  }, R$(totalPend))), /*#__PURE__*/React.createElement("span", null, "Total: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "var(--ter)"
+    }
+  }, R$(totalRec + totalPend))))));
+}
+
+/* ══════════════════════════════════════
+   ESTOQUE
+══════════════════════════════════════ */
+function StockTab(_ref12) {
+  var prods = _ref12.prods,
+    setProds = _ref12.setProds,
+    recs = _ref12.recs,
+    thresh = _ref12.thresh,
+    setThresh = _ref12.setThresh,
+    stock = _ref12.stock,
+    lowStock = _ref12.lowStock,
+    confirm = _ref12.confirm;
+  var _useState21 = useState({
+      date: today(),
+      recipeId: "",
+      batches: "1",
+      note: ""
+    }),
+    _useState22 = _slicedToArray(_useState21, 2),
+    form = _useState22[0],
+    setFm = _useState22[1];
+  var selRec = recs.find(function (r) {
+    return r.id === form.recipeId;
+  });
+  var barsPerBatch = selRec ? Math.floor(selRec.yieldKg * 1000 / selRec.moldG) : 0;
+  var totalBars = +form.batches * barsPerBatch;
+  var maxBar = Math.max(thresh * 3, stock + 5, 30);
+  var pct = Math.min(100, Math.max(0, stock / maxBar * 100));
+  var addProd = function addProd() {
+    if (!form.recipeId || !form.batches || totalBars <= 0) return;
+    setProds(function (prev) {
+      return [].concat(_toConsumableArray(prev), [_objectSpread(_objectSpread({}, form), {}, {
+        id: uid(),
+        batches: +form.batches,
+        bars: totalBars
+      })]);
+    });
+    setFm(function (f) {
+      return _objectSpread(_objectSpread({}, f), {}, {
+        batches: "1",
+        note: ""
+      });
+    });
+  };
+  var delProd = /*#__PURE__*/function () {
+    var _ref13 = _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee6(id) {
+      return _regenerator().w(function (_context6) {
+        while (1) switch (_context6.n) {
+          case 0:
+            _context6.n = 1;
+            return confirm("Excluir este registro de produção?");
+          case 1:
+            if (!_context6.v) {
+              _context6.n = 2;
+              break;
+            }
+            setProds(prods.filter(function (x) {
+              return x.id !== id;
+            }));
+          case 2:
+            return _context6.a(2);
+        }
+      }, _callee6);
+    }));
+    return function delProd(_x6) {
+      return _ref13.apply(this, arguments);
+    };
+  }();
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "page-title"
+  }, "\uD83D\uDCE6 Estoque"), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCE6 Estoque Atual"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      textAlign: "center",
+      padding: "6px 0 18px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 68,
+      fontWeight: 700,
+      lineHeight: 1,
+      color: lowStock ? "var(--ter)" : "var(--sage)"
+    }
+  }, stock), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      color: "var(--mut)",
+      marginTop: 4
+    }
+  }, "pedras em estoque")), lowStock && /*#__PURE__*/React.createElement("div", {
+    className: "alrt"
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 18
+    }
+  }, "\u26A0\uFE0F"), /*#__PURE__*/React.createElement("span", null, "Estoque abaixo do m\xEDnimo (", thresh, " pedras). Hora de produzir mais!")), /*#__PURE__*/React.createElement("div", {
+    className: "sbar"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sfill",
+    style: {
+      width: "".concat(pct, "%"),
+      background: lowStock ? "var(--ter)" : "var(--sage)"
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      fontSize: 11,
+      color: "var(--mut)",
+      marginTop: 5
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "0"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: lowStock ? "var(--ter)" : "var(--mut)",
+      fontWeight: lowStock ? 700 : 400
+    }
+  }, "\u2691 m\xEDnimo: ", thresh), /*#__PURE__*/React.createElement("span", null, maxBar)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      marginTop: 14,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)",
+      fontWeight: 600
+    }
+  }, "Alertar abaixo de:"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    min: "1",
+    value: thresh,
+    onChange: function onChange(e) {
+      return setThresh(Math.max(1, +e.target.value));
+    },
+    style: {
+      width: 76
+    }
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      color: "var(--mut)"
+    }
+  }, "pedras"))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\u2795 Registrar Produ\xE7\xE3o"), recs.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 10
+    }
+  }, "Cadastre uma receita primeiro.") : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr 2fr 1fr auto",
+      gap: 8,
+      alignItems: "end"
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Data"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "date",
+    value: form.date,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          date: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Lotes"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    min: "1",
+    value: form.batches,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          batches: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Receita"), /*#__PURE__*/React.createElement("select", {
+    className: "inp",
+    value: form.recipeId,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          recipeId: e.target.value
+        });
+      });
+    }
+  }, /*#__PURE__*/React.createElement("option", {
+    value: ""
+  }, "Selecionar..."), recs.map(function (r) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: r.id,
+      value: r.id
+    }, r.name, " (", Math.floor(r.yieldKg * 1000 / r.moldG), " pedras/lote)");
+  }))), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Obs."), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    placeholder: "Opcional",
+    value: form.note,
+    onChange: function onChange(e) {
+      return setFm(function (f) {
+        return _objectSpread(_objectSpread({}, f), {}, {
+          note: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("button", {
+    className: "btn bs",
+    onClick: addProd,
+    style: {
+      height: 44
+    }
+  }, "+ Produzir")), selRec && form.batches && totalBars > 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 9,
+      fontSize: 12,
+      color: "var(--mut)"
+    }
+  }, "Previs\xE3o: ", /*#__PURE__*/React.createElement("strong", {
+    style: {
+      color: "var(--sage)",
+      fontSize: 14
+    }
+  }, "+", totalBars, " pedras"), " (", form.batches, " lote", +form.batches > 1 ? "s" : "", " \xD7 ", barsPerBatch, " pedras/lote)"))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCC5 Hist\xF3rico de Produ\xE7\xF5es"), prods.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 18
+    }
+  }, "Nenhuma produ\xE7\xE3o registrada.") : /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Data"), /*#__PURE__*/React.createElement("th", null, "Receita"), /*#__PURE__*/React.createElement("th", null, "Lotes"), /*#__PURE__*/React.createElement("th", null, "Pedras"), /*#__PURE__*/React.createElement("th", null, "Obs."), /*#__PURE__*/React.createElement("th", null))), /*#__PURE__*/React.createElement("tbody", null, _toConsumableArray(prods).sort(function (a, b) {
+    return b.date.localeCompare(a.date);
+  }).map(function (p) {
+    var rec = recs.find(function (r) {
+      return r.id === p.recipeId;
+    });
+    return /*#__PURE__*/React.createElement("tr", {
+      key: p.id
+    }, /*#__PURE__*/React.createElement("td", null, ptDate(p.date)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700
+      }
+    }, (rec === null || rec === void 0 ? void 0 : rec.name) || /*#__PURE__*/React.createElement("span", {
+      style: {
+        color: "var(--mut)",
+        fontStyle: "italic"
+      }
+    }, "Receita removida")), /*#__PURE__*/React.createElement("td", null, p.batches), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge bgs"
+    }, "+", p.bars, " pedras")), /*#__PURE__*/React.createElement("td", {
+      style: {
+        color: "var(--mut)",
+        fontSize: 12
+      }
+    }, p.note || "—"), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("button", {
+      style: {
+        background: "none",
+        border: "none",
+        cursor: "pointer",
+        color: "var(--mut)",
+        fontSize: 15
+      },
+      onClick: function onClick() {
+        return delProd(p.id);
+      }
+    }, "\uD83D\uDDD1\uFE0F")));
+  }))))));
+}
+
+/* ══════════════════════════════════════
+   RELATÓRIO
+══════════════════════════════════════ */
+function ReportTab(_ref14) {
+  var sales = _ref14.sales,
+    prods = _ref14.prods,
+    recs = _ref14.recs,
+    kits = _ref14.kits,
+    settings = _ref14.settings,
+    recipeCost = _ref14.recipeCost,
+    pack = _ref14.pack;
+  var months = useMemo(function () {
+    var s = new Set([].concat(_toConsumableArray(sales.map(function (s) {
+      return s.date.slice(0, 7);
+    })), _toConsumableArray(prods.map(function (p) {
+      return p.date.slice(0, 7);
+    }))));
+    return _toConsumableArray(s).sort().reverse();
+  }, [sales, prods]);
+  var _useState23 = useState(curMonth()),
+    _useState24 = _slicedToArray(_useState23, 2),
+    selMonth = _useState24[0],
+    setSelMonth = _useState24[1];
+  var mSales = sales.filter(function (s) {
+    return s.date.startsWith(selMonth);
+  });
+  var mProds = prods.filter(function (p) {
+    return p.date.startsWith(selMonth);
+  });
+  var mPaidRev = mSales.filter(function (s) {
+    return s.paid;
+  }).reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0);
+  var mPendRev = mSales.filter(function (s) {
+    return !s.paid;
+  }).reduce(function (a, s) {
+    return a + saleTotal(s, kits);
+  }, 0);
+  var mBars = mSales.reduce(function (a, s) {
+    return a + s.qty;
+  }, 0);
+  var mProd = mProds.reduce(function (a, p) {
+    return a + p.bars;
+  }, 0);
+
+  // custo de produção do mês
+  var mCost = useMemo(function () {
+    return mProds.reduce(function (total, p) {
+      var rec = recs.find(function (r) {
+        return r.id === p.recipeId;
+      });
+      if (!rec) return total;
+      var c = recipeCost(rec);
+      return total + c.fullPerBar * p.bars;
+    }, 0);
+  }, [mProds, recs, recipeCost]);
+
+  // custo extra
+  var extraCostVal = parseFloat((settings.extraCosts || "0").replace(",", ".")) || 0;
+  var totalCost = mCost + extraCostVal;
+  var lucro = mPaidRev - totalCost;
+  var goal = settings.monthGoal || 0;
+  var goalPct = goal > 0 ? Math.min(100, mPaidRev / goal * 100) : 0;
+  var printReport = function printReport() {
+    return window.print();
+  };
+  var exportCSV = function exportCSV() {
+    var rows = [["Data", "Cliente", "Produto", "Quantidade", "Preço", "Total", "Forma", "Status"]];
+    mSales.forEach(function (s) {
+      var label = s.kitId ? "".concat(s.kitQty, "x ").concat(s.kitName || "Kit") : s.qty + " pedras";
+      rows.push([s.date, s.customer, label, s.qty, s.price.toFixed(2), saleTotal(s, kits).toFixed(2), s.method, s.paid ? "Pago" : "Pendente"]);
+    });
+    var csv = rows.map(function (r) {
+      return r.map(function (c) {
+        return "\"".concat(String(c).replace(/"/g, '""'), "\"");
+      }).join(",");
+    }).join("\n");
+    var blob = new Blob(["\uFEFF" + csv], {
+      type: "text/csv;charset=utf-8"
+    });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "comgraca-".concat(selMonth, ".csv");
+    a.click();
+  };
+
+  // clientes do mês
+  var clientMap = {};
+  mSales.forEach(function (s) {
+    if (!clientMap[s.customer]) clientMap[s.customer] = {
+      total: 0,
+      qty: 0
+    };
+    clientMap[s.customer].total += saleTotal(s, kits);
+    clientMap[s.customer].qty += s.qty;
+  });
+  var topClients = Object.entries(clientMap).sort(function (a, b) {
+    return b[1].total - a[1].total;
+  }).slice(0, 5);
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "page-title"
+  }, "\uD83D\uDCC8 Relat\xF3rio Mensal"), /*#__PURE__*/React.createElement("div", {
+    className: "card no-print",
+    style: {
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      alignItems: "center",
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minWidth: 160
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flbl",
+    style: {
+      marginBottom: 4
+    }
+  }, "M\xEAs"), /*#__PURE__*/React.createElement("select", {
+    className: "inp",
+    value: selMonth,
+    onChange: function onChange(e) {
+      return setSelMonth(e.target.value);
+    }
+  }, months.length === 0 && /*#__PURE__*/React.createElement("option", {
+    value: curMonth()
+  }, monthLabel(curMonth())), months.map(function (m) {
+    return /*#__PURE__*/React.createElement("option", {
+      key: m,
+      value: m
+    }, monthLabel(m));
+  }))), /*#__PURE__*/React.createElement("button", {
+    className: "btn bg bsm",
+    style: {
+      marginTop: 18
+    },
+    onClick: printReport
+  }, "\uD83D\uDDA8\uFE0F Imprimir"), /*#__PURE__*/React.createElement("button", {
+    className: "btn bs bsm",
+    style: {
+      marginTop: 18
+    },
+    onClick: exportCSV
+  }, "\u2B07\uFE0F Exportar CSV"))), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      textAlign: "center",
+      padding: "18px 20px 14px",
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 28,
+      marginBottom: 4
+    }
+  }, "\uD83E\uDDFC"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 18,
+      fontWeight: 700,
+      color: "var(--brn)"
+    }
+  }, settings.shopName), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--mut)",
+      marginTop: 2
+    }
+  }, settings.tagline, " \xB7 ", settings.city), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 14,
+      fontWeight: 700,
+      color: "var(--ter)",
+      marginTop: 8
+    }
+  }, "Relat\xF3rio \u2014 ", monthLabel(selMonth))), /*#__PURE__*/React.createElement("div", {
+    className: "g4",
+    style: {
+      marginBottom: 14
+    }
+  }, [{
+    l: "💰 Recebido",
+    v: R$(mPaidRev),
+    s: "confirmado no mês",
+    c: "var(--sage)"
+  }, {
+    l: "⏳ A Receber",
+    v: R$(mPendRev),
+    s: "pendente no mês",
+    c: "var(--amb)"
+  }, {
+    l: "🧼 Pedras Vendidas",
+    v: mBars,
+    s: "unidades",
+    c: "var(--ter)"
+  }, {
+    l: "🏭 Pedras Produzidas",
+    v: mProd,
+    s: "unidades",
+    c: "var(--brn)"
+  }].map(function (s, i) {
+    return /*#__PURE__*/React.createElement("div", {
+      className: "sc",
+      key: i
+    }, /*#__PURE__*/React.createElement("div", {
+      className: "slbl"
+    }, s.l), /*#__PURE__*/React.createElement("div", {
+      className: "sval",
+      style: {
+        color: s.c
+      }
+    }, s.v), /*#__PURE__*/React.createElement("div", {
+      className: "ssub"
+    }, s.s));
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCB5 Resultado do M\xEAs"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3,1fr)",
+      gap: 10
+    }
+  }, [{
+    l: "Receita Confirmada",
+    v: R$(mPaidRev),
+    c: "var(--sage)",
+    bg: "var(--badge-g-bg)"
+  }, {
+    l: "Custo Estimado",
+    v: R$(totalCost),
+    c: "var(--badge-r-txt)",
+    bg: "var(--badge-r-bg)"
+  }, {
+    l: "Lucro Estimado",
+    v: R$(lucro),
+    c: lucro >= 0 ? "var(--sage)" : "var(--badge-r-txt)",
+    bg: lucro >= 0 ? "var(--badge-g-bg)" : "var(--badge-r-bg)"
+  }].map(function (_ref15) {
+    var l = _ref15.l,
+      v = _ref15.v,
+      c = _ref15.c,
+      bg = _ref15.bg;
+    return /*#__PURE__*/React.createElement("div", {
+      key: l,
+      style: {
+        background: bg,
+        borderRadius: 12,
+        padding: "14px",
+        textAlign: "center"
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        textTransform: "uppercase",
+        letterSpacing: .5,
+        color: c,
+        marginBottom: 6
+      }
+    }, l), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontFamily: "'Merriweather',serif",
+        fontSize: 20,
+        fontWeight: 700,
+        color: c
+      }
+    }, v));
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      fontSize: 12,
+      color: "var(--mut)",
+      lineHeight: 1.7
+    }
+  }, /*#__PURE__*/React.createElement("div", null, "Custo produ\xE7\xE3o: ", /*#__PURE__*/React.createElement("strong", null, R$(mCost)), mProd > 0 ? " (".concat(mProd, " pedras a ").concat(R$(mCost / mProd), "/un)") : ""), extraCostVal > 0 && /*#__PURE__*/React.createElement("div", null, "Custo extra (energia, g\xE1s etc.): ", /*#__PURE__*/React.createElement("strong", null, R$(extraCostVal))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      fontStyle: "italic",
+      marginTop: 4
+    }
+  }, "* Lucro calculado sobre receita confirmada menos custos estimados de produ\xE7\xE3o."))), goal > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDFAF Meta do M\xEAs"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "flex-end",
+      marginBottom: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 20,
+      fontWeight: 700,
+      color: goalPct >= 100 ? "var(--sage)" : "var(--ter)"
+    }
+  }, R$(mPaidRev)), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)"
+    }
+  }, "de ", R$(goal), " \u2014 ", goalPct.toFixed(0), "%", goalPct >= 100 ? " 🎉" : "")), /*#__PURE__*/React.createElement("div", {
+    className: "goal-bar-wrap"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "goal-bar-fill".concat(goalPct >= 100 ? " over" : ""),
+    style: {
+      width: "".concat(goalPct, "%")
+    }
+  }))), topClients.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDFC6 Melhores Clientes do M\xEAs"), /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "#"), /*#__PURE__*/React.createElement("th", null, "Cliente"), /*#__PURE__*/React.createElement("th", null, "Pedras"), /*#__PURE__*/React.createElement("th", null, "Total"))), /*#__PURE__*/React.createElement("tbody", null, topClients.map(function (_ref16, i) {
+    var _ref17 = _slicedToArray(_ref16, 2),
+      name = _ref17[0],
+      d = _ref17[1];
+    return /*#__PURE__*/React.createElement("tr", {
+      key: name
+    }, /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700,
+        color: "var(--ter)"
+      }
+    }, i + 1, "\xBA"), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700
+      }
+    }, name), /*#__PURE__*/React.createElement("td", null, d.qty), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700,
+        color: "var(--sage)"
+      }
+    }, R$(d.total)));
+  }))))), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      marginBottom: 14
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCCB Vendas de ", monthLabel(selMonth)), mSales.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      color: "var(--mut)",
+      textAlign: "center",
+      padding: 18
+    }
+  }, "Nenhuma venda neste m\xEAs.") : /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Data"), /*#__PURE__*/React.createElement("th", null, "Cliente"), /*#__PURE__*/React.createElement("th", null, "Qtd"), /*#__PURE__*/React.createElement("th", null, "Total"), /*#__PURE__*/React.createElement("th", null, "Forma"), /*#__PURE__*/React.createElement("th", null, "Status"))), /*#__PURE__*/React.createElement("tbody", null, _toConsumableArray(mSales).sort(function (a, b) {
+    return b.date.localeCompare(a.date);
+  }).map(function (s) {
+    return /*#__PURE__*/React.createElement("tr", {
+      key: s.id
+    }, /*#__PURE__*/React.createElement("td", null, ptDate(s.date)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700
+      }
+    }, s.customer), /*#__PURE__*/React.createElement("td", null, s.qty), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700,
+        color: "var(--ter)"
+      }
+    }, R$(saleTotal(s, kits))), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge ".concat(s.method === "Pix" ? "bgb" : s.method === "Dinheiro" ? "bgg" : "bga")
+    }, s.method)), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge ".concat(s.paid ? "bgg" : "bgr")
+    }, s.paid ? "✓ Pago" : "⏳ Pendente")));
+  }))))), mProds.length > 0 && /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDFED Produ\xE7\xF5es de ", monthLabel(selMonth)), /*#__PURE__*/React.createElement("div", {
+    className: "tbl-scroll"
+  }, /*#__PURE__*/React.createElement("table", {
+    className: "tbl"
+  }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "Data"), /*#__PURE__*/React.createElement("th", null, "Receita"), /*#__PURE__*/React.createElement("th", null, "Lotes"), /*#__PURE__*/React.createElement("th", null, "Pedras"), /*#__PURE__*/React.createElement("th", null, "Obs."))), /*#__PURE__*/React.createElement("tbody", null, _toConsumableArray(mProds).sort(function (a, b) {
+    return b.date.localeCompare(a.date);
+  }).map(function (p) {
+    var rec = recs.find(function (r) {
+      return r.id === p.recipeId;
+    });
+    return /*#__PURE__*/React.createElement("tr", {
+      key: p.id
+    }, /*#__PURE__*/React.createElement("td", null, ptDate(p.date)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        fontWeight: 700
+      }
+    }, (rec === null || rec === void 0 ? void 0 : rec.name) || "—"), /*#__PURE__*/React.createElement("td", null, p.batches), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+      className: "badge bgs"
+    }, "+", p.bars)), /*#__PURE__*/React.createElement("td", {
+      style: {
+        color: "var(--mut)",
+        fontSize: 12
+      }
+    }, p.note || "—"));
+  }))))));
+}
+
+/* ══════════════════════════════════════
+   CONFIG
+══════════════════════════════════════ */
+function ConfigTab(_ref18) {
+  var theme = _ref18.theme,
+    setTheme = _ref18.setTheme,
+    settings = _ref18.settings,
+    setSettings = _ref18.setSettings,
+    onInstall = _ref18.onInstall,
+    canInstall = _ref18.canInstall,
+    allData = _ref18.allData,
+    setAllData = _ref18.setAllData;
+  var exportBackup = function exportBackup() {
+    var json = JSON.stringify(allData, null, 2);
+    var blob = new Blob([json], {
+      type: "application/json"
+    });
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "comgraca-backup-".concat(today(), ".json");
+    a.click();
+  };
+  var importBackup = function importBackup(e) {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function (ev) {
+      try {
+        var data = JSON.parse(ev.target.result);
+        if (data.sales || data.prods || data.recs) {
+          setAllData(data);
+          alert("✅ Dados restaurados com sucesso!");
+        } else {
+          alert("❌ Arquivo inválido.");
+        }
+      } catch (_unused3) {
+        alert("❌ Erro ao ler o arquivo.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "page-title"
+  }, "\u2699\uFE0F Configura\xE7\xF5es"), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDFA8 Apar\xEAncia"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(4,1fr)",
+      gap: 10
+    }
+  }, Object.entries(THEMES).map(function (_ref19) {
+    var _ref20 = _slicedToArray(_ref19, 2),
+      key = _ref20[0],
+      t = _ref20[1];
+    return /*#__PURE__*/React.createElement("div", {
+      key: key,
+      className: "theme-card".concat(theme === key ? " sel" : ""),
+      onClick: function onClick() {
+        return setTheme(key);
+      }
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 20,
+        marginBottom: 5
+      }
+    }, t.icon), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontWeight: 700,
+        fontSize: 13,
+        color: "var(--txt)"
+      }
+    }, t.name), /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        color: "var(--mut)",
+        marginBottom: 2
+      }
+    }, t.desc), /*#__PURE__*/React.createElement("div", {
+      className: "swatch-row"
+    }, t.sw.map(function (c, i) {
+      return /*#__PURE__*/React.createElement("div", {
+        key: i,
+        className: "swatch",
+        style: {
+          background: c
+        }
+      });
+    })), theme === key && /*#__PURE__*/React.createElement("div", {
+      style: {
+        fontSize: 10,
+        fontWeight: 700,
+        color: "var(--ter)"
+      }
+    }, "\u2713 Ativo"));
+  }))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83C\uDFEA Dados da Loja"), /*#__PURE__*/React.createElement("div", {
+    className: "g2"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Nome da Loja"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    value: settings.shopName,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          shopName: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Slogan"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    value: settings.tagline,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          tagline: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Artes\xE3"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    value: settings.artisan,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          artisan: e.target.value
+        });
+      });
+    }
+  })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Cidade"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    value: settings.city,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          city: e.target.value
+        });
+      });
+    }
+  })))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\u2699\uFE0F Prefer\xEAncias e Metas"), /*#__PURE__*/React.createElement("div", {
+    className: "g2"
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Pre\xE7o padr\xE3o (R$/pedra)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "0.50",
+    value: settings.defaultPrice,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          defaultPrice: +e.target.value
+        });
+      });
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--mut)",
+      marginTop: 4
+    }
+  }, "Sugerido ao registrar venda")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "Alerta estoque baixo (pedras)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    min: "1",
+    value: settings.lowStockThresh,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          lowStockThresh: Math.max(1, +e.target.value)
+        });
+      });
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--mut)",
+      marginTop: 4
+    }
+  }, "Notifica\xE7\xE3o abaixo deste n\xFAmero")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "\uD83C\uDFAF Meta de receita mensal (R$)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "50",
+    value: settings.monthGoal || "",
+    placeholder: "Ex: 500",
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          monthGoal: +e.target.value
+        });
+      });
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--mut)",
+      marginTop: 4
+    }
+  }, "Barra de progresso no In\xEDcio e Relat\xF3rio")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "\u26A1 Custos extras mensais (R$)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "5",
+    value: settings.extraCosts || "",
+    placeholder: "Ex: 30",
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          extraCosts: e.target.value
+        });
+      });
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--mut)",
+      marginTop: 4
+    }
+  }, "Energia, g\xE1s, transporte \u2014 usado no relat\xF3rio")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "flbl"
+  }, "\uD83D\uDCC8 Margem para pre\xE7o sugerido (%)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "10",
+    min: "10",
+    max: "1000",
+    value: settings.markupPct || 150,
+    onChange: function onChange(e) {
+      return setSettings(function (s) {
+        return _objectSpread(_objectSpread({}, s), {}, {
+          markupPct: Math.max(10, +e.target.value)
+        });
+      });
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: "var(--mut)",
+      marginTop: 4
+    }
+  }, "Ex: 150% \u2192 custo \xD7 2,5. Atualiza o pre\xE7o estimado das receitas automaticamente.")))), /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCBE Backup dos Dados"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)",
+      marginBottom: 14,
+      lineHeight: 1.7
+    }
+  }, "Seus dados ficam salvos neste navegador. Para n\xE3o perder nada ao trocar de celular ou limpar o cache, fa\xE7a backup regularmente."), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 10,
+      flexWrap: "wrap"
+    }
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "btn bt",
+    onClick: exportBackup
+  }, "\u2B07\uFE0F Baixar Backup (.json)"), /*#__PURE__*/React.createElement("label", {
+    className: "btn bg",
+    style: {
+      cursor: "pointer",
+      display: "inline-flex",
+      alignItems: "center"
+    }
+  }, "\u2B06\uFE0F Restaurar Backup", /*#__PURE__*/React.createElement("input", {
+    type: "file",
+    accept: ".json",
+    style: {
+      display: "none"
+    },
+    onChange: importBackup
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      fontSize: 11,
+      color: "var(--mut)",
+      fontStyle: "italic"
+    }
+  }, "Dica: salve o arquivo no Google Drive ou WhatsApp para ter sempre \xE0 m\xE3o. \uD83D\uDC9C")), canInstall && /*#__PURE__*/React.createElement("div", {
+    className: "card"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "stitle"
+  }, "\uD83D\uDCF2 Instalar no Celular / PC"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--mut)",
+      marginBottom: 12
+    }
+  }, "Instale o app na tela inicial para acesso r\xE1pido, mesmo sem internet."), /*#__PURE__*/React.createElement("button", {
+    className: "install-btn",
+    onClick: onInstall
+  }, "\uD83D\uDCF2 Instalar App \"Com Gra\xE7a\"")), /*#__PURE__*/React.createElement("div", {
+    className: "card",
+    style: {
+      textAlign: "center",
+      padding: "24px 20px"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 32,
+      marginBottom: 8
+    }
+  }, "\uD83D\uDC9C"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "'Merriweather',serif",
+      fontSize: 15,
+      fontWeight: 700,
+      color: "var(--brn)",
+      marginBottom: 6
+    }
+  }, "Com Gra\xE7a \xB7 Sab\xE3o Artesanal"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12,
+      color: "var(--mut)",
+      lineHeight: 1.8
+    }
+  }, "Feito com amor, \xF3leo reciclado e muito carinho.", /*#__PURE__*/React.createElement("br", null), "Que cada pedra leve um pouco de gra\xE7a pra quem usa. \uD83E\uDDFC", /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("em", null, "Dados salvos automaticamente no seu dispositivo."))));
+}
+
+/* ══════════════════════════════════════
+   APP ROOT
+══════════════════════════════════════ */
+function SabaoApp() {
+  var _THEMES$theme;
+  var saved = useRef(loadLS());
+  var s = saved.current;
+  var _useState25 = useState("dash"),
+    _useState26 = _slicedToArray(_useState25, 2),
+    tab = _useState26[0],
+    setTab = _useState26[1];
+  var _useState27 = useState((s === null || s === void 0 ? void 0 : s.theme) || "lilas"),
+    _useState28 = _slicedToArray(_useState27, 2),
+    theme = _useState28[0],
+    setTheme = _useState28[1];
+  var _useState29 = useState((s === null || s === void 0 ? void 0 : s.settings) || SETT0),
+    _useState30 = _slicedToArray(_useState29, 2),
+    settings = _useState30[0],
+    setSettings = _useState30[1];
+  var _useState31 = useState((s === null || s === void 0 ? void 0 : s.ingrs) || INGR0),
+    _useState32 = _slicedToArray(_useState31, 2),
+    ingrs = _useState32[0],
+    setIngrs = _useState32[1];
+  var _useState33 = useState((s === null || s === void 0 ? void 0 : s.recs) || REC0),
+    _useState34 = _slicedToArray(_useState33, 2),
+    recs = _useState34[0],
+    setRecs = _useState34[1];
+  var _useState35 = useState((s === null || s === void 0 ? void 0 : s.prods) || PROD0),
+    _useState36 = _slicedToArray(_useState35, 2),
+    prods = _useState36[0],
+    setProds = _useState36[1];
+  var _useState37 = useState((s === null || s === void 0 ? void 0 : s.sales) || SALE0),
+    _useState38 = _slicedToArray(_useState37, 2),
+    sales = _useState38[0],
+    setSales = _useState38[1];
+  var _useState39 = useState((s === null || s === void 0 ? void 0 : s.kits) || KITS0),
+    _useState40 = _slicedToArray(_useState39, 2),
+    kits = _useState40[0],
+    setKits = _useState40[1];
+  var _useState41 = useState((s === null || s === void 0 ? void 0 : s.pack) || PACK0),
+    _useState42 = _slicedToArray(_useState41, 2),
+    pack = _useState42[0],
+    setPack = _useState42[1];
+  var _useState43 = useState(false),
+    _useState44 = _slicedToArray(_useState43, 2),
+    canInstall = _useState44[0],
+    setCanInstall = _useState44[1];
+  var _useState45 = useState(false),
+    _useState46 = _slicedToArray(_useState45, 2),
+    savedFlash = _useState46[0],
+    setSavedFlash = _useState46[1];
+  var _useState47 = useState(false),
+    _useState48 = _slicedToArray(_useState47, 2),
+    drawerOpen = _useState48[0],
+    setDrawerOpen = _useState48[1];
+  var installRef = useRef(null);
+  var _useConfirm = useConfirm(),
+    _useConfirm2 = _slicedToArray(_useConfirm, 2),
+    confirm = _useConfirm2[0],
+    confirmDialog = _useConfirm2[1];
+  var thresh = settings.lowStockThresh;
+  var setThresh = function setThresh(v) {
+    return setSettings(function (s) {
+      return _objectSpread(_objectSpread({}, s), {}, {
+        lowStockThresh: v
+      });
+    });
+  };
+  var totalProd = useMemo(function () {
+    return prods.reduce(function (s, p) {
+      return s + p.bars;
+    }, 0);
+  }, [prods]);
+  var totalSold = useMemo(function () {
+    return sales.reduce(function (s, v) {
+      return s + v.qty;
+    }, 0);
+  }, [sales]);
+  var stock = totalProd - totalSold;
+  var lowStock = stock <= thresh;
+  var paidRev = useMemo(function () {
+    return sales.filter(function (s) {
+      return s.paid;
+    }).reduce(function (a, s) {
+      return a + saleTotal(s, kits);
+    }, 0);
+  }, [sales, kits]);
+  var pendRev = useMemo(function () {
+    return sales.filter(function (s) {
+      return !s.paid;
+    }).reduce(function (a, s) {
+      return a + saleTotal(s, kits);
+    }, 0);
+  }, [sales, kits]);
+  var packCostPerBar = useMemo(function () {
+    return pack.reduce(function (s, p) {
+      return s + (p.qty > 0 ? p.totalCost / p.qty : 0);
+    }, 0);
+  }, [pack]);
+  var recipeCost = useCallback(function (rec) {
+    var map = Object.fromEntries(ingrs.map(function (i) {
+      return [i.id, i];
+    }));
+    var matTotal = rec.items.reduce(function (s, it) {
+      var _map$it$ingredientId;
+      return s + (((_map$it$ingredientId = map[it.ingredientId]) === null || _map$it$ingredientId === void 0 ? void 0 : _map$it$ingredientId.price) || 0) * it.amount;
+    }, 0);
+    var bars = Math.floor(rec.yieldKg * 1000 / rec.moldG);
+    var matPerBar = bars ? matTotal / bars : 0;
+    return {
+      total: matTotal,
+      bars: bars,
+      perBar: matPerBar,
+      packPerBar: packCostPerBar,
+      fullPerBar: matPerBar + packCostPerBar
+    };
+  }, [ingrs, packCostPerBar]);
+
+  // Auto-recalcula priceSuggested sempre que ingredientes ou embalagem mudam
+  useEffect(function () {
+    var markup = 1 + (settings.markupPct || 150) / 100;
+    setRecs(function (prev) {
+      return prev.map(function (rec) {
+        var c = recipeCost(rec);
+        if (c.fullPerBar <= 0) return rec;
+        var newSuggested = Math.ceil(c.fullPerBar * markup * 2) / 2; // arredonda para R$0,50
+        return _objectSpread(_objectSpread({}, rec), {}, {
+          priceSuggested: newSuggested
+        });
+      });
+    });
+  }, [ingrs, pack, settings.markupPct]);
+  var allData = {
+    theme: theme,
+    settings: settings,
+    ingrs: ingrs,
+    recs: recs,
+    prods: prods,
+    sales: sales,
+    kits: kits,
+    pack: pack
+  };
+  var setAllData = function setAllData(d) {
+    if (d.theme) setTheme(d.theme);
+    if (d.settings) setSettings(d.settings);
+    if (d.ingrs) setIngrs(d.ingrs);
+    if (d.recs) setRecs(d.recs);
+    if (d.prods) setProds(d.prods);
+    if (d.sales) setSales(d.sales);
+    if (d.kits) setKits(d.kits);
+    if (d.pack) setPack(d.pack);
+  };
+  useEffect(function () {
+    saveLS(allData);
+    setSavedFlash(true);
+    var t = setTimeout(function () {
+      return setSavedFlash(false);
+    }, 1500);
+    return function () {
+      return clearTimeout(t);
+    };
+  }, [theme, settings, ingrs, recs, prods, sales, kits, pack]);
+  useEffect(function () {
+    var handler = function handler(e) {
+      installRef.current = e;
+      setCanInstall(true);
+    };
+    document.addEventListener("pwa-installable", handler);
+    return function () {
+      return document.removeEventListener("pwa-installable", handler);
+    };
+  }, []);
+  var handleInstall = function handleInstall() {
+    if (installRef.current) {
+      installRef.current.prompt();
+      installRef.current.userChoice.then(function () {
+        installRef.current = null;
+        setCanInstall(false);
+      });
+    }
+  };
+  var navigate = useCallback(function (t) {
+    setTab(t);
+    setDrawerOpen(false);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }, []);
+  var TABS = [{
+    id: "dash",
+    label: "Início",
+    ico: "📊"
+  }, {
+    id: "rec",
+    label: "Receitas",
+    ico: "🧼"
+  }, {
+    id: "sales",
+    label: "Vendas",
+    ico: "💰"
+  }, {
+    id: "stock",
+    label: "Estoque",
+    ico: "📦"
+  }, {
+    id: "report",
+    label: "Relatório",
+    ico: "📈"
+  }, {
+    id: "config",
+    label: "Config",
+    ico: "⚙️"
+  }];
+  var themeVars = ":root{".concat(((_THEMES$theme = THEMES[theme]) === null || _THEMES$theme === void 0 ? void 0 : _THEMES$theme.v) || THEMES.lilas.v, "}");
+  var p = {
+    ingrs: ingrs,
+    setIngrs: setIngrs,
+    recs: recs,
+    setRecs: setRecs,
+    prods: prods,
+    setProds: setProds,
+    sales: sales,
+    setSales: setSales,
+    kits: kits,
+    setKits: setKits,
+    pack: pack,
+    setPack: setPack,
+    stock: stock,
+    thresh: thresh,
+    setThresh: setThresh,
+    recipeCost: recipeCost,
+    lowStock: lowStock,
+    paidRev: paidRev,
+    pendRev: pendRev,
+    settings: settings,
+    confirm: confirm
+  };
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("style", null, CSS), /*#__PURE__*/React.createElement("style", null, themeVars), confirmDialog, /*#__PURE__*/React.createElement("div", {
+    className: "topbar"
+  }, /*#__PURE__*/React.createElement("button", {
+    className: "hamburger",
+    onClick: function onClick() {
+      return setDrawerOpen(function (o) {
+        return !o;
+      });
+    },
+    "aria-label": "Menu"
+  }, /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("span", null)), /*#__PURE__*/React.createElement("span", {
+    className: "shop-name"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "22",
+    height: "22",
+    viewBox: "0 0 80 80",
+    xmlns: "http://www.w3.org/2000/svg",
+    style: {
+      display: "inline-block",
+      verticalAlign: "middle",
+      marginRight: 6
+    }
+  }, /*#__PURE__*/React.createElement("rect", {
+    width: "80",
+    height: "80",
+    rx: "18",
+    fill: "rgba(255,255,255,.2)"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "14",
+    y: "42",
+    width: "52",
+    height: "22",
+    rx: "8",
+    fill: "#fff",
+    opacity: ".95"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "28",
+    cy: "38",
+    r: "10",
+    fill: "#fff",
+    opacity: ".9"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "40",
+    cy: "34",
+    r: "12",
+    fill: "#fff",
+    opacity: ".95"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "38",
+    r: "10",
+    fill: "#fff",
+    opacity: ".9"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "22",
+    cy: "44",
+    r: "7",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "58",
+    cy: "44",
+    r: "7",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "34",
+    cy: "50",
+    r: "3",
+    fill: "#D4B0E8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "40",
+    cy: "47",
+    r: "3",
+    fill: "#D4B0E8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "46",
+    cy: "50",
+    r: "3",
+    fill: "#D4B0E8"
+  })), settings.shopName), /*#__PURE__*/React.createElement("span", {
+    className: "stk-badge".concat(lowStock ? " low" : "")
+  }, lowStock ? "⚠️ " : "", stock, " pedras")), /*#__PURE__*/React.createElement("div", {
+    className: "drawer-overlay".concat(drawerOpen ? " open" : ""),
+    onClick: function onClick() {
+      return setDrawerOpen(false);
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    className: "shell"
+  }, /*#__PURE__*/React.createElement("aside", {
+    className: "sidebar".concat(drawerOpen ? " drawer-open" : "")
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "sidebar-logo"
+  }, /*#__PURE__*/React.createElement("svg", {
+    width: "38",
+    height: "38",
+    viewBox: "0 0 80 80",
+    xmlns: "http://www.w3.org/2000/svg",
+    style: {
+      flexShrink: 0
+    }
+  }, /*#__PURE__*/React.createElement("rect", {
+    width: "80",
+    height: "80",
+    rx: "18",
+    fill: "rgba(255,255,255,.15)"
+  }), /*#__PURE__*/React.createElement("rect", {
+    x: "14",
+    y: "42",
+    width: "52",
+    height: "22",
+    rx: "8",
+    fill: "#fff",
+    opacity: ".95"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "28",
+    cy: "38",
+    r: "10",
+    fill: "#fff",
+    opacity: ".9"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "40",
+    cy: "34",
+    r: "12",
+    fill: "#fff",
+    opacity: ".95"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "52",
+    cy: "38",
+    r: "10",
+    fill: "#fff",
+    opacity: ".9"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "22",
+    cy: "44",
+    r: "7",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "58",
+    cy: "44",
+    r: "7",
+    fill: "#fff"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "34",
+    cy: "50",
+    r: "3",
+    fill: "#D4B0E8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "40",
+    cy: "47",
+    r: "3",
+    fill: "#D4B0E8"
+  }), /*#__PURE__*/React.createElement("circle", {
+    cx: "46",
+    cy: "50",
+    r: "3",
+    fill: "#D4B0E8"
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sidebar-logo-text"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "shop"
+  }, settings.shopName), /*#__PURE__*/React.createElement("div", {
+    className: "tag"
+  }, settings.tagline))), /*#__PURE__*/React.createElement("div", {
+    className: "sidebar-stock".concat(lowStock ? " low" : "")
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    className: "stk-num"
+  }, stock), /*#__PURE__*/React.createElement("div", {
+    className: "stk-lbl"
+  }, lowStock ? "⚠️ estoque baixo" : "pedras em estoque")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginLeft: "auto",
+      textAlign: "right"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: "rgba(255,255,255,.5)"
+    }
+  }, "recebido"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      fontWeight: 700,
+      color: "#fff"
+    }
+  }, R$(paidRev)))), /*#__PURE__*/React.createElement("nav", {
+    className: "sidebar-nav"
+  }, TABS.map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.id,
+      className: "snav-btn".concat(tab === t.id ? " on" : ""),
+      onClick: function onClick() {
+        return navigate(t.id);
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "ico"
+    }, t.ico), /*#__PURE__*/React.createElement("span", null, t.label), t.id === "sales" && pendRev > 0 && /*#__PURE__*/React.createElement("span", {
+      className: "badge-dot"
+    }), t.id === "stock" && lowStock && /*#__PURE__*/React.createElement("span", {
+      className: "badge-dot"
+    }));
+  })), /*#__PURE__*/React.createElement("div", {
+    className: "sidebar-footer"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "saved-pill".concat(savedFlash ? " show" : "")
+  }, "\u2713 salvo"), /*#__PURE__*/React.createElement("div", null, settings.shopName), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 2
+    }
+  }, settings.city))), /*#__PURE__*/React.createElement("main", {
+    className: "main"
+  }, tab === "dash" && /*#__PURE__*/React.createElement(DashTab, _extends({}, p, {
+    prods: prods
+  })), tab === "rec" && /*#__PURE__*/React.createElement(RecTab, p), tab === "sales" && /*#__PURE__*/React.createElement(SalesTab, p), tab === "stock" && /*#__PURE__*/React.createElement(StockTab, p), tab === "report" && /*#__PURE__*/React.createElement(ReportTab, {
+    sales: sales,
+    prods: prods,
+    recs: recs,
+    kits: kits,
+    settings: settings,
+    recipeCost: recipeCost,
+    pack: pack
+  }), tab === "config" && /*#__PURE__*/React.createElement(ConfigTab, {
+    theme: theme,
+    setTheme: setTheme,
+    settings: settings,
+    setSettings: setSettings,
+    onInstall: handleInstall,
+    canInstall: canInstall,
+    allData: allData,
+    setAllData: setAllData
+  }))), /*#__PURE__*/React.createElement("nav", {
+    className: "bottom-nav"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "bottom-nav-inner"
+  }, TABS.map(function (t) {
+    return /*#__PURE__*/React.createElement("button", {
+      key: t.id,
+      className: "bnav-btn".concat(tab === t.id ? " on" : ""),
+      onClick: function onClick() {
+        return navigate(t.id);
+      }
+    }, t.id === "sales" && pendRev > 0 || t.id === "stock" && lowStock ? /*#__PURE__*/React.createElement("span", {
+      className: "dot"
+    }) : null, /*#__PURE__*/React.createElement("span", {
+      className: "b-ico"
+    }, t.ico), /*#__PURE__*/React.createElement("span", null, t.label));
+  }))));
+}
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(SabaoApp));
+document.getElementById("splash").style.opacity = "0";
+setTimeout(function () {
+  return document.getElementById("splash").style.display = "none";
+}, 500);
+
+</script>
+
+<script>
+(function(){
+  window.addEventListener("beforeinstallprompt", e => {
+    e.preventDefault();
+    window._pwaPrompt = e;
+    document.dispatchEvent(new CustomEvent("pwa-installable"));
+  });
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js", {scope: "./"})
+      .then(reg => console.log("SW registrado:", reg.scope))
+      .catch(err => console.warn("SW falhou:", err));
+  }
+})();
+</script>
+</body>
+</html>
