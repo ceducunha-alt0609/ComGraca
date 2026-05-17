@@ -3712,9 +3712,11 @@ function SabaoApp() {
 
   useEffect(function () {
     if (fbReady) return;
+    var mounted = true;
     // Aguarda a Promise criada antes do módulo ES carregar
     if (window._fbReadyPromise) {
-      window._fbReadyPromise.then(function () { setFbReady(true); });
+      window._fbReadyPromise.then(function () { if (mounted) setFbReady(true); });
+      return function () { mounted = false; };
     } else {
       // Fallback: polling caso a Promise não exista
       var tries = 0;
@@ -3902,17 +3904,27 @@ function SabaoApp() {
   useEffect(function () {
     if (!fbReady) {
       // Ainda aguardando Firebase — re-dispara quando fbReady mudar para true
-      return;
+      // Safety timeout: se o Firebase demorar demais, desbloqueia o authLoading
+      var safetyTimer = setTimeout(function () { setAL(false); }, 5000);
+      return function () { clearTimeout(safetyTimer); };
     }
     var unsub;
+    var authSettled = false;
+    // Timeout de segurança: garante que authLoading nunca fique preso indefinidamente
+    var fallback = setTimeout(function () {
+      if (!authSettled) { setAL(false); }
+    }, 4000);
     // Aguarda getRedirectResult (mobile) antes de registrar onAuthStateChanged
     fb.getRedirect().catch(function () {}).finally(function () {
       unsub = fb.onAuth(function (u) {
+        authSettled = true;
+        clearTimeout(fallback);
         setUser(u);
         setAL(false);
       });
     });
     return function () {
+      clearTimeout(fallback);
       if (unsub) unsub();
     };
   }, [fbReady]);
