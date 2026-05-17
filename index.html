@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Com Graça">
-<link rel="manifest" href="./manifest.json">
-<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="manifest" href="/ComGraca/manifest.json">
+<link rel="apple-touch-icon" href="/ComGraca/icon-192.png">
 <title>Com Graça · Sabão Artesanal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap">
@@ -67,43 +67,54 @@ import { getFirestore, doc, setDoc, onSnapshot, initializeFirestore, persistentL
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-setPersistence(auth, browserLocalPersistence).catch(() => {});
 
 const db = initializeFirestore(app, {
   cache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 });
 
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: "" });
 
-// Detecta mobile
+// Detecta mobile apenas para diagnóstico visual; o login agora tenta POPUP primeiro em todos os dispositivos.
 const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
-const AUTH_REDIRECT_FLAG = "comgraca_auth_redirecting";
-const clearRedirectFlag = () => sessionStorage.removeItem(AUTH_REDIRECT_FLAG);
+
+// Persistência local: evita o problema de entrar, abrir por instantes e voltar para a tela de e-mail.
+await setPersistence(auth, browserLocalPersistence);
+
+let redirectChecked = false;
 
 window._fb = {
   auth, db, provider, isMobile,
   signIn: async () => {
-    if (isMobile) {
-      if (sessionStorage.getItem(AUTH_REDIRECT_FLAG) === "1") return;
-      sessionStorage.setItem(AUTH_REDIRECT_FLAG, "1");
-      await signInWithRedirect(auth, provider);
-      return;
-    }
-    return signInWithPopup(auth, provider);
-  },
-  signOut: () => {
-    clearRedirectFlag();
-    return signOut(auth);
-  },
-  onAuth:  (cb) => onAuthStateChanged(auth, cb),
-  getRedirect: async () => {
+    sessionStorage.setItem("comgraca_login_pending", "1");
     try {
-      return await getRedirectResult(auth);
-    } finally {
-      clearRedirectFlag();
+      // No GitHub Pages/mobile, popup é mais estável que redirect do Firebase Auth.
+      return await signInWithPopup(auth, provider);
+    } catch (err) {
+      const code = err && err.code ? err.code : "";
+      if (["auth/popup-blocked", "auth/popup-closed-by-user", "auth/cancelled-popup-request"].includes(code)) {
+        return signInWithRedirect(auth, provider);
+      }
+      throw err;
     }
   },
-  clearRedirectFlag,
+  signOut: () => signOut(auth),
+  onAuth:  (cb) => onAuthStateChanged(auth, user => {
+    if (user) sessionStorage.removeItem("comgraca_login_pending");
+    cb(user);
+  }),
+  getRedirect: async () => {
+    if (redirectChecked) return null;
+    redirectChecked = true;
+    try {
+      const res = await getRedirectResult(auth);
+      if (res && res.user) sessionStorage.removeItem("comgraca_login_pending");
+      return res;
+    } catch (err) {
+      console.warn("Firebase redirect result ignorado:", err);
+      return null;
+    }
+  },
   save: (uid, data) =>
     setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
   listen: (uid, cb) =>
@@ -112,7 +123,7 @@ window._fb = {
     }),
 };
 
-console.log("🔥 Firebase pronto", isMobile ? "(mobile→redirect protegido)" : "(desktop→popup)");
+console.log("🔥 Firebase pronto", isMobile ? "(mobile→popup-first)" : "(desktop→popup)");
 </script>
 
 <script>
@@ -3896,23 +3907,15 @@ function SabaoApp() {
       setAL(false);
       return;
     }
-    var unsub = fb.onAuth(function (u) {
-      setUser(u);
-      setAL(false);
-      if (fb.clearRedirectFlag) fb.clearRedirectFlag();
-    });
-    var authTimer = setTimeout(function () {
-      setAL(false);
-      if (fb.clearRedirectFlag) fb.clearRedirectFlag();
-    }, 8000);
-    fb.getRedirect().catch(function () {
-      setAL(false);
-      if (fb.clearRedirectFlag) fb.clearRedirectFlag();
-    }).finally(function () {
-      clearTimeout(authTimer);
+    var unsub;
+    // Aguarda getRedirectResult (mobile) antes de registrar onAuthStateChanged
+    fb.getRedirect().catch(function () {}).finally(function () {
+      unsub = fb.onAuth(function (u) {
+        setUser(u);
+        setAL(false);
+      });
     });
     return function () {
-      clearTimeout(authTimer);
       if (unsub) unsub();
     };
   }, [fbReady]);
@@ -3981,7 +3984,8 @@ function SabaoApp() {
           case 3:
             _context7.p = 3;
             _t = _context7.v;
-            setLE("Não foi possível iniciar o login. Tente novamente.");
+            var msg = (_t && _t.code) ? _t.code.replace("auth/", "") : "erro desconhecido";
+            setLE("Não foi possível concluir o login: " + msg + ". Se estiver instalado como app, teste também pelo Chrome.");
             setLL(false);
           case 4:
             return _context7.a(2);
