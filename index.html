@@ -68,14 +68,15 @@ const firebaseConfig = {
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, doc, setDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager }
+import { getFirestore, doc, setDoc, onSnapshot, initializeFirestore, persistentLocalCache }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// persistentMultipleTabManager causa conflito com getRedirectResult em PWA — usar cache simples
 const db = initializeFirestore(app, {
-  cache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+  cache: persistentLocalCache()
 });
 
 const provider = new GoogleAuthProvider();
@@ -114,22 +115,24 @@ window._fb = {
     }
   },
   signOut: () => signOut(auth),
-  onAuth:  (cb) => onAuthStateChanged(auth, user => {
-    if (user) sessionStorage.removeItem("comgraca_login_pending");
-    cb(user);
-  }),
-  getRedirect: async () => {
-    if (redirectChecked) return null;
-    redirectChecked = true;
-    try {
-      const res = await getRedirectResult(auth);
-      if (res && res.user) sessionStorage.removeItem("comgraca_login_pending");
-      return res;
-    } catch (err) {
-      console.warn("Firebase redirect result ignorado:", err);
-      return null;
-    }
+  onAuth: (cb) => {
+    // SEMPRE aguarda getRedirectResult antes de ouvir onAuthStateChanged.
+    // Sem isso, no PWA o onAuthStateChanged dispara null antes do redirect resolver.
+    getRedirectResult(auth)
+      .then(res => {
+        if (res && res.user) sessionStorage.removeItem("comgraca_login_pending");
+      })
+      .catch(() => {})
+      .finally(() => {
+        onAuthStateChanged(auth, user => {
+          if (user) sessionStorage.removeItem("comgraca_login_pending");
+          cb(user);
+        });
+      });
+    // retorna dummy unsub (o unsub real não é acessível aqui, mas o efeito é único)
+    return () => {};
   },
+  getRedirect: async () => null, // já tratado dentro do onAuth acima
   save: (uid, data) =>
     setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
   listen: (uid, cb) =>
