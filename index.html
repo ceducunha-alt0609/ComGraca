@@ -44,6 +44,12 @@ html,body{height:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 
 <!-- Firebase -->
+<!-- Promise criada antes do módulo Firebase para sinalizar quando estiver pronto -->
+<script>
+window._fbReadyResolve = null;
+window._fbReadyPromise = new Promise(function(r) { window._fbReadyResolve = r; });
+</script>
+
 <script type="module">
 // ─────────────────────────────────────────────
 // COLE SUA CONFIG DO FIREBASE ABAIXO:
@@ -73,13 +79,18 @@ const db = initializeFirestore(app, {
 });
 
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "" });
+// NÃO setar prompt vazio — causa conflito com signInWithRedirect no Firebase moderno
 
-// Detecta mobile apenas para diagnóstico visual; o login agora tenta POPUP primeiro em todos os dispositivos.
+// PWA standalone no Android bloqueia popup; detecta para usar redirect direto
 const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+const isStandalone = window.matchMedia("(display-mode: standalone)").matches
+  || window.navigator.standalone === true;
 
 // Persistência local: evita o problema de entrar, abrir por instantes e voltar para a tela de e-mail.
 await setPersistence(auth, browserLocalPersistence);
+
+// Sinaliza que o Firebase está pronto (resolve a Promise que o React aguarda)
+if (window._fbReadyResolve) window._fbReadyResolve();
 
 let redirectChecked = false;
 
@@ -87,8 +98,12 @@ window._fb = {
   auth, db, provider, isMobile,
   signIn: async () => {
     sessionStorage.setItem("comgraca_login_pending", "1");
+    // PWA standalone ou mobile → redirect sempre (popup bloqueado pelo Android em modo standalone)
+    if (isStandalone || isMobile) {
+      return signInWithRedirect(auth, provider);
+    }
+    // Desktop/browser normal → popup com fallback para redirect
     try {
-      // No GitHub Pages/mobile, popup é mais estável que redirect do Firebase Auth.
       return await signInWithPopup(auth, provider);
     } catch (err) {
       const code = err && err.code ? err.code : "";
@@ -3735,7 +3750,7 @@ function SyncBadge(_ref22) {
 function SabaoApp() {
   var _THEMES$theme;
 
-  // ── Aguarda Firebase estar pronto (módulo ES é assíncrono no mobile/PWA) ──
+  // ── Aguarda Firebase estar pronto via Promise (módulo ES é assíncrono no mobile/PWA) ──
   var _useState_fbr = useState(!!(window._fb && window._fb.auth)),
     _useState_fbr2 = _slicedToArray(_useState_fbr, 2),
     fbReady = _useState_fbr2[0],
@@ -3743,28 +3758,34 @@ function SabaoApp() {
 
   useEffect(function () {
     if (fbReady) return;
-    var tries = 0;
-    var iv = setInterval(function () {
-      tries++;
-      if (window._fb && window._fb.auth) {
-        setFbReady(true);
-        clearInterval(iv);
-      } else if (tries > 50) { // ~5s sem Firebase → libera tela de erro
-        clearInterval(iv);
-        setAL(false);
-      }
-    }, 100);
-    return function () { clearInterval(iv); };
+    // Aguarda a Promise criada antes do módulo ES carregar
+    if (window._fbReadyPromise) {
+      window._fbReadyPromise.then(function () { setFbReady(true); });
+    } else {
+      // Fallback: polling caso a Promise não exista
+      var tries = 0;
+      var iv = setInterval(function () {
+        tries++;
+        if (window._fb && window._fb.auth) {
+          setFbReady(true);
+          clearInterval(iv);
+        } else if (tries > 50) {
+          clearInterval(iv);
+          setAL(false);
+        }
+      }, 100);
+      return function () { clearInterval(iv); };
+    }
   }, [fbReady]);
 
-  var fb = window._fb; // Firebase API exposta pelo módulo ES
+  var fb = window._fb;
 
   // ── Auth state ──
   var _useState25 = useState(null),
     _useState26 = _slicedToArray(_useState25, 2),
     user = _useState26[0],
     setUser = _useState26[1]; // null = não logado
-  var _useState27 = useState(true), // sempre começa carregando, independente do fbReady
+  var _useState27 = useState(true), // sempre começa carregando
     _useState28 = _slicedToArray(_useState27, 2),
     authLoading = _useState28[0],
     setAL = _useState28[1]; // aguardando onAuthStateChanged
@@ -3926,7 +3947,7 @@ function SabaoApp() {
   // ── Auth listener + captura resultado do redirect ──
   useEffect(function () {
     if (!fbReady) {
-      // Ainda aguardando Firebase — o polling acima vai acionar um re-render quando estiver pronto
+      // Ainda aguardando Firebase — re-dispara quando fbReady mudar para true
       return;
     }
     var unsub;
