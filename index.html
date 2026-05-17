@@ -66,7 +66,7 @@ const firebaseConfig = {
 // ─────────────────────────────────────────────
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, onSnapshot, initializeFirestore, persistentLocalCache }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -80,59 +80,42 @@ const db = initializeFirestore(app, {
 });
 
 const provider = new GoogleAuthProvider();
-// NÃO setar prompt vazio — causa conflito com signInWithRedirect no Firebase moderno
 
-// PWA standalone no Android bloqueia popup; detecta para usar redirect direto
 const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
-const isStandalone = window.matchMedia("(display-mode: standalone)").matches
-  || window.navigator.standalone === true;
 
-// Persistência local: evita o problema de entrar, abrir por instantes e voltar para a tela de e-mail.
+// Persistência local
 await setPersistence(auth, browserLocalPersistence);
 
-// Sinaliza que o Firebase está pronto (resolve a Promise que o React aguarda)
+// Sinaliza que o Firebase está pronto
 if (window._fbReadyResolve) window._fbReadyResolve();
-
-let redirectChecked = false;
 
 window._fb = {
   auth, db, provider, isMobile,
   signIn: async () => {
-    sessionStorage.setItem("comgraca_login_pending", "1");
-    // PWA standalone ou mobile → redirect sempre (popup bloqueado pelo Android em modo standalone)
-    if (isStandalone || isMobile) {
-      return signInWithRedirect(auth, provider);
-    }
-    // Desktop/browser normal → popup com fallback para redirect
+    // Popup funciona em todos os casos — redirect tem bug com GitHub Pages + Firebase Auth moderno
+    // (o iframe do authDomain é bloqueado pelo X-Frame-Options do GitHub Pages)
     try {
-      return await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      return result;
     } catch (err) {
-      const code = err && err.code ? err.code : "";
-      if (["auth/popup-blocked", "auth/popup-closed-by-user", "auth/cancelled-popup-request"].includes(code)) {
-        return signInWithRedirect(auth, provider);
+      const code = err?.code || "";
+      // Popup bloqueado pelo browser → informa o usuário
+      if (code === "auth/popup-blocked") {
+        throw new Error("popup-blocked");
+      }
+      // Usuário fechou o popup → silencioso
+      if (["auth/popup-closed-by-user", "auth/cancelled-popup-request"].includes(code)) {
+        return null;
       }
       throw err;
     }
   },
   signOut: () => signOut(auth),
   onAuth: (cb) => {
-    // SEMPRE aguarda getRedirectResult antes de ouvir onAuthStateChanged.
-    // Sem isso, no PWA o onAuthStateChanged dispara null antes do redirect resolver.
-    getRedirectResult(auth)
-      .then(res => {
-        if (res && res.user) sessionStorage.removeItem("comgraca_login_pending");
-      })
-      .catch(() => {})
-      .finally(() => {
-        onAuthStateChanged(auth, user => {
-          if (user) sessionStorage.removeItem("comgraca_login_pending");
-          cb(user);
-        });
-      });
-    // retorna dummy unsub (o unsub real não é acessível aqui, mas o efeito é único)
-    return () => {};
+    const unsub = onAuthStateChanged(auth, cb);
+    return unsub;
   },
-  getRedirect: async () => null, // já tratado dentro do onAuth acima
+  getRedirect: async () => null,
   save: (uid, data) =>
     setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
   listen: (uid, cb) =>
@@ -4030,8 +4013,11 @@ function SabaoApp() {
           case 3:
             _context7.p = 3;
             _t = _context7.v;
-            var msg = (_t && _t.code) ? _t.code.replace("auth/", "") : "erro desconhecido";
-            setLE("Não foi possível concluir o login: " + msg + ". Se estiver instalado como app, teste também pelo Chrome.");
+            var msg = (_t && _t.message) || ((_t && _t.code) ? _t.code.replace("auth/", "") : "erro desconhecido");
+            var errMsg = msg === "popup-blocked"
+              ? "Popup bloqueado. Abra o app pelo Chrome e tente novamente, ou permita popups nas configurações do navegador."
+              : "Não foi possível concluir o login: " + msg + ".";
+            setLE(errMsg);
             setLL(false);
           case 4:
             return _context7.a(2);
