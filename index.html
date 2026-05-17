@@ -8,8 +8,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Com Graça">
-<link rel="manifest" href="/ComGraca/manifest.json">
-<link rel="apple-touch-icon" href="/ComGraca/icon-192.png">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
 <title>Com Graça · Sabão Artesanal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap">
@@ -43,11 +43,6 @@ html,body{height:100%;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 
-// Firebase sinaliza quando estiver pronto
-window._fbReadyResolve = null;
-window._fbReadyPromise = new Promise(r => window._fbReadyResolve = r);
-</script>
-
 <!-- Firebase -->
 <script type="module">
 // ─────────────────────────────────────────────
@@ -65,32 +60,50 @@ const firebaseConfig = {
 // ─────────────────────────────────────────────
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged }
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, doc, setDoc, onSnapshot, initializeFirestore, persistentLocalCache, persistentMultipleTabManager }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+setPersistence(auth, browserLocalPersistence).catch(() => {});
 
 const db = initializeFirestore(app, {
   cache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
 });
 
 const provider = new GoogleAuthProvider();
-provider.setCustomParameters({ prompt: "select_account" });
 
 // Detecta mobile
 const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768;
+const AUTH_REDIRECT_FLAG = "comgraca_auth_redirecting";
+const clearRedirectFlag = () => sessionStorage.removeItem(AUTH_REDIRECT_FLAG);
 
 window._fb = {
   auth, db, provider, isMobile,
-  signIn: () => isMobile
-    ? signInWithRedirect(auth, provider)
-    : signInWithPopup(auth, provider),
-  signOut: () => signOut(auth),
+  signIn: async () => {
+    if (isMobile) {
+      if (sessionStorage.getItem(AUTH_REDIRECT_FLAG) === "1") return;
+      sessionStorage.setItem(AUTH_REDIRECT_FLAG, "1");
+      await signInWithRedirect(auth, provider);
+      return;
+    }
+    return signInWithPopup(auth, provider);
+  },
+  signOut: () => {
+    clearRedirectFlag();
+    return signOut(auth);
+  },
   onAuth:  (cb) => onAuthStateChanged(auth, cb),
-  getRedirect: () => getRedirectResult(auth),
+  getRedirect: async () => {
+    try {
+      return await getRedirectResult(auth);
+    } finally {
+      clearRedirectFlag();
+    }
+  },
+  clearRedirectFlag,
   save: (uid, data) =>
     setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
   listen: (uid, cb) =>
@@ -99,14 +112,7 @@ window._fb = {
     }),
 };
 
-// No mobile, captura o resultado do redirect imediatamente
-if (isMobile) {
-  getRedirectResult(auth).catch(() => {});
-}
-
-console.log("🔥 Firebase pronto", isMobile ? "(mobile→redirect)" : "(desktop→popup)");
-// Sinaliza para o React que pode montar
-window._fbReadyResolve();
+console.log("🔥 Firebase pronto", isMobile ? "(mobile→redirect protegido)" : "(desktop→popup)");
 </script>
 
 <script>
@@ -3890,15 +3896,23 @@ function SabaoApp() {
       setAL(false);
       return;
     }
-    var unsub;
-    // Aguarda getRedirectResult (mobile) antes de registrar onAuthStateChanged
-    fb.getRedirect().catch(function () {}).finally(function () {
-      unsub = fb.onAuth(function (u) {
-        setUser(u);
-        setAL(false);
-      });
+    var unsub = fb.onAuth(function (u) {
+      setUser(u);
+      setAL(false);
+      if (fb.clearRedirectFlag) fb.clearRedirectFlag();
+    });
+    var authTimer = setTimeout(function () {
+      setAL(false);
+      if (fb.clearRedirectFlag) fb.clearRedirectFlag();
+    }, 8000);
+    fb.getRedirect().catch(function () {
+      setAL(false);
+      if (fb.clearRedirectFlag) fb.clearRedirectFlag();
+    }).finally(function () {
+      clearTimeout(authTimer);
     });
     return function () {
+      clearTimeout(authTimer);
       if (unsub) unsub();
     };
   }, [fbReady]);
@@ -4384,14 +4398,13 @@ function SabaoApp() {
     }, t.ico), /*#__PURE__*/React.createElement("span", null, t.label));
   }))));
 }
-// Aguarda Firebase inicializar antes de montar o React
-(window._fbReadyPromise || Promise.resolve()).then(function() {
-  ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(SabaoApp));
-  document.getElementById("splash").style.opacity = "0";
-  setTimeout(function () {
-    return document.getElementById("splash").style.display = "none";
-  }, 500);
-});</script>
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(SabaoApp));
+document.getElementById("splash").style.opacity = "0";
+setTimeout(function () {
+  return document.getElementById("splash").style.display = "none";
+}, 500);
+
+</script>
 
 <script>
 (function(){
