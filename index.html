@@ -3734,15 +3734,37 @@ function SyncBadge(_ref22) {
 ══════════════════════════════════════ */
 function SabaoApp() {
   var _THEMES$theme;
+
+  // ── Aguarda Firebase estar pronto (módulo ES é assíncrono no mobile/PWA) ──
+  var _useState_fbr = useState(!!(window._fb && window._fb.auth)),
+    _useState_fbr2 = _slicedToArray(_useState_fbr, 2),
+    fbReady = _useState_fbr2[0],
+    setFbReady = _useState_fbr2[1];
+
+  useEffect(function () {
+    if (fbReady) return;
+    var tries = 0;
+    var iv = setInterval(function () {
+      tries++;
+      if (window._fb && window._fb.auth) {
+        setFbReady(true);
+        clearInterval(iv);
+      } else if (tries > 50) { // ~5s sem Firebase → libera tela de erro
+        clearInterval(iv);
+        setAL(false);
+      }
+    }, 100);
+    return function () { clearInterval(iv); };
+  }, [fbReady]);
+
   var fb = window._fb; // Firebase API exposta pelo módulo ES
-  var fbReady = !!(fb !== null && fb !== void 0 && fb.auth);
 
   // ── Auth state ──
   var _useState25 = useState(null),
     _useState26 = _slicedToArray(_useState25, 2),
     user = _useState26[0],
     setUser = _useState26[1]; // null = não logado
-  var _useState27 = useState(fbReady),
+  var _useState27 = useState(true), // sempre começa carregando, independente do fbReady
     _useState28 = _slicedToArray(_useState27, 2),
     authLoading = _useState28[0],
     setAL = _useState28[1]; // aguardando onAuthStateChanged
@@ -3904,7 +3926,7 @@ function SabaoApp() {
   // ── Auth listener + captura resultado do redirect ──
   useEffect(function () {
     if (!fbReady) {
-      setAL(false);
+      // Ainda aguardando Firebase — o polling acima vai acionar um re-render quando estiver pronto
       return;
     }
     var unsub;
