@@ -1,62 +1,96 @@
-name: Temporary ComGraca financial audit
+name: Temporary ComGraca backup patch
 on:
   push:
     paths:
       - '.github/workflows/comgraca-audit2.yml'
-  workflow_dispatch:
 permissions:
   contents: write
 jobs:
-  audit:
+  patch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Extract critical flows
+      - name: Patch backup validation
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
-          s=Path('index.html').read_text(encoding='utf-8')
-          out=[]
-          def grab(title, pat, radius=2600):
-              out.append('\n===== '+title+' =====')
-              m=re.search(pat,s,re.S|re.I)
-              if not m:
-                  out.append('NOT FOUND'); return
-              a=max(0,m.start()-radius); b=min(len(s),m.end()+radius)
-              out.append(s[a:b])
-          for title,pat in [
-              ('IMPORT_BACKUP', r'var importBackup\s*='),
-              ('EXPORT_BACKUP', r'var exportBackup\s*='),
-              ('SET_ALL_DATA', r'var setAllData\s*='),
-              ('PAID_REVENUE', r'var paidRev\s*='),
-              ('PENDING_REVENUE', r'var pendRev\s*='),
-              ('REPORT_TAB', r'function ReportTab'),
-              ('MONTH_SALES', r'monthSales'),
-              ('PROFIT', r'profit|lucro'),
-              ('TOGGLE_PAID', r'var togglePaid\s*='),
-              ('SALE_TOTAL', r'var saleTotal\s*='),
-              ('EXTRA_COSTS', r'extraCosts'),
-              ('CSV', r'csv|CSV'),
-          ]: grab(title,pat)
-          out.append('\n===== COUNTS =====')
-          for name,pat in {
-              'paidDate':r'paidDate|paymentDate|receivedDate|receivedAt',
-              'togglePaid':r'togglePaid',
-              'saleTotal':r'saleTotal\(',
-              'settingsExtraCosts':r'settings\.extraCosts',
-              'monthDatePrefix':r'\.date\.startsWith\(',
-              'backupValidation':r'Array\.isArray|typeof data|version|schema',
-          }.items(): out.append(f'{name}={len(re.findall(pat,s,re.I))}')
-          Path('comgraca_financial_audit.txt').write_text('\n'.join(out),encoding='utf-8')
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+
+          old='''  var exportBackup = function exportBackup() {
+    var json = JSON.stringify(allData, null, 2);
+    var blob = new Blob([json], {
+      type: "application/json"
+    });'''
+          new='''  var exportBackup = function exportBackup() {
+    var backupData = _objectSpread({
+      _backupMeta: {
+        app: "ComGraca",
+        version: 4,
+        exportedAt: new Date().toISOString()
+      }
+    }, allData);
+    var json = JSON.stringify(backupData, null, 2);
+    var blob = new Blob([json], {
+      type: "application/json"
+    });'''
+          assert old in s, 'export anchor not found'
+          s=s.replace(old,new,1)
+
+          old2='''        var data = JSON.parse(ev.target.result);
+        if (data.sales || data.prods || data.recs) {
+          setAllData(data);
+          alert("✅ Dados restaurados com sucesso!");
+        } else {
+          alert("❌ Arquivo inválido.");
+        }'''
+          new2='''        var data = JSON.parse(ev.target.result);
+        var isObj = data && typeof data === "object" && !Array.isArray(data);
+        var arrayFields = ["ingrs", "recs", "prods", "sales", "kits", "pack"];
+        var arraysOk = isObj && arrayFields.every(function (key) {
+          return data[key] === undefined || Array.isArray(data[key]);
+        });
+        var hasCoreData = arraysOk && ["sales", "prods", "recs"].some(function (key) {
+          return Array.isArray(data[key]);
+        });
+        var metaOk = !data._backupMeta || data._backupMeta.app === "ComGraca";
+        if (hasCoreData && metaOk) {
+          setAllData(data);
+          alert("✅ Dados restaurados com sucesso!");
+        } else {
+          alert("❌ Arquivo inválido ou incompatível com o Com Graça.");
+        }'''
+          assert old2 in s, 'import anchor not found'
+          s=s.replace(old2,new2,1)
+          p.write_text(s,encoding='utf-8')
+
+          sw=Path('sw.js')
+          w=sw.read_text(encoding='utf-8')
+          oldcache='const CACHE = "comgraca-v5-isolated-cache";'
+          assert oldcache in w, 'cache anchor not found'
+          w=w.replace(oldcache,'const CACHE = "comgraca-v6-backup-safe";',1)
+          sw.write_text(w,encoding='utf-8')
           PY
-      - name: Commit report
+      - name: Verify
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          s=Path('index.html').read_text(encoding='utf-8')
+          assert '_backupMeta' in s
+          assert 'arrayFields.every' in s
+          assert 'incompatível com o Com Graça' in s
+          w=Path('sw.js').read_text(encoding='utf-8')
+          assert 'comgraca-v6-backup-safe' in w
+          assert 'k.startsWith(CACHE_PREFIX)' in w
+          print('OK')
+          PY
+      - name: Commit app changes
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add comgraca_financial_audit.txt
-          git commit -m 'Temporary ComGraca financial audit report' || exit 0
+          git add index.html sw.js
+          git commit -m 'Harden ComGraca backup restore validation'
           git push
