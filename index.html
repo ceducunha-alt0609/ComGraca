@@ -2398,6 +2398,7 @@ function StockTab(_ref12) {
     setThresh = _ref12.setThresh,
     stock = _ref12.stock,
     lowStock = _ref12.lowStock,
+    recipeCost = _ref12.recipeCost,
     confirm = _ref12.confirm;
   var _useState21 = useState({
       date: today(),
@@ -2417,11 +2418,15 @@ function StockTab(_ref12) {
   var pct = Math.min(100, Math.max(0, stock / maxBar * 100));
   var addProd = function addProd() {
     if (!form.recipeId || !form.batches || totalBars <= 0) return;
+    var prodCost = recipeCost(selRec);
     setProds(function (prev) {
       return [].concat(_toConsumableArray(prev), [_objectSpread(_objectSpread({}, form), {}, {
         id: uid(),
         batches: +form.batches,
-        bars: totalBars
+        bars: totalBars,
+        recipeName: selRec.name,
+        costPerBar: prodCost.fullPerBar,
+        costTotal: prodCost.fullPerBar * totalBars
       })]);
     });
     setFm(function (f) {
@@ -2656,7 +2661,7 @@ function StockTab(_ref12) {
       style: {
         fontWeight: 700
       }
-    }, (rec === null || rec === void 0 ? void 0 : rec.name) || /*#__PURE__*/React.createElement("span", {
+    }, p.recipeName || (rec === null || rec === void 0 ? void 0 : rec.name) || /*#__PURE__*/React.createElement("span", {
       style: {
         color: "var(--mut)",
         fontStyle: "italic"
@@ -2735,6 +2740,8 @@ function ReportTab(_ref14) {
   // custo de produção do mês
   var mCost = useMemo(function () {
     return mProds.reduce(function (total, p) {
+      if (Number.isFinite(+p.costTotal)) return total + +p.costTotal;
+      if (Number.isFinite(+p.costPerBar)) return total + +p.costPerBar * p.bars;
       var rec = recs.find(function (r) {
         return r.id === p.recipeId;
       });
@@ -3108,7 +3115,7 @@ function ReportTab(_ref14) {
       style: {
         fontWeight: 700
       }
-    }, (rec === null || rec === void 0 ? void 0 : rec.name) || "—"), /*#__PURE__*/React.createElement("td", null, p.batches), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
+    }, p.recipeName || (rec === null || rec === void 0 ? void 0 : rec.name) || "—"), /*#__PURE__*/React.createElement("td", null, p.batches), /*#__PURE__*/React.createElement("td", null, /*#__PURE__*/React.createElement("span", {
       className: "badge bgs"
     }, "+", p.bars)), /*#__PURE__*/React.createElement("td", {
       style: {

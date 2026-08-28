@@ -1,5 +1,5 @@
 const CACHE_PREFIX = "comgraca-";
-const CACHE = "comgraca-v6-receipts-safe";
+const CACHE = "comgraca-v7-cost-history";
 const ASSETS = [
   "/ComGraca/",
   "/ComGraca/index.html",
