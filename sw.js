@@ -1,4 +1,4 @@
-const CACHE = "comgraca-v3";
+const CACHE = "comgraca-v4-audit-safety";
 const ASSETS = [
   "/ComGraca/",
   "/ComGraca/index.html",

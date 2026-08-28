@@ -143,7 +143,7 @@ window._fb = {
     setDoc(doc(db, "lojas", uid, "dados", "principal"), data),
   listen: (uid, cb) =>
     onSnapshot(doc(db, "lojas", uid, "dados", "principal"), snap => {
-      if (snap.exists()) cb(snap.data());
+      cb(snap.exists() ? snap.data() : null);
     }),
 };
 
@@ -189,11 +189,16 @@ var R$ = function R$(n) {
 var ptDate = function ptDate(d) {
   return d ? new Date(d + "T12:00:00").toLocaleDateString("pt-BR") : "–";
 };
+var localDateKey = function localDateKey(d) {
+  d = d || new Date();
+  var y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, "0"), day = String(d.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + day;
+};
 var today = function today() {
-  return new Date().toISOString().slice(0, 10);
+  return localDateKey(new Date());
 };
 var curMonth = function curMonth() {
-  return new Date().toISOString().slice(0, 7);
+  return localDateKey(new Date()).slice(0, 7);
 };
 var saleTotal = function saleTotal(s, kits) {
   return s.kitId ? (s.kitQty || 1) * s.price : s.qty * s.price;
@@ -254,62 +259,8 @@ var REC0 = [{
   }],
   notes: "6L óleo usado · 1kg soda diluída em ~0,6L água · 40 pedras de 250g."
 }];
-var PROD0 = [{
-  id: "p1",
-  date: "2026-05-01",
-  recipeId: R1,
-  batches: 2,
-  bars: 12,
-  note: ""
-}, {
-  id: "p2",
-  date: "2026-05-08",
-  recipeId: R1,
-  batches: 3,
-  bars: 18,
-  note: "Lote lavanda"
-}];
-var SALE0 = [{
-  id: "s1",
-  date: "2026-05-03",
-  customer: "Maria Silva",
-  phone: "",
-  qty: 4,
-  price: 8,
-  method: "Pix",
-  paid: true,
-  kitId: null
-}, {
-  id: "s2",
-  date: "2026-05-06",
-  customer: "João Santos",
-  phone: "",
-  qty: 2,
-  price: 8,
-  method: "Em haver",
-  paid: false,
-  kitId: null
-}, {
-  id: "s3",
-  date: "2026-05-10",
-  customer: "Ana Lima",
-  phone: "",
-  qty: 6,
-  price: 7.5,
-  method: "Dinheiro",
-  paid: true,
-  kitId: null
-}, {
-  id: "s4",
-  date: "2026-05-12",
-  customer: "Rosa Pereira",
-  phone: "",
-  qty: 3,
-  price: 8,
-  method: "Em haver",
-  paid: false,
-  kitId: null
-}];
+var PROD0 = [];
+var SALE0 = [];
 var KITS0 = [{
   id: "k1",
   name: "Kit Trio",
@@ -3812,6 +3763,7 @@ function SabaoApp() {
   var installRef = useRef(null);
   var syncTimer = useRef(null);
   var ignoreNext = useRef(false); // evita loop ao receber update do Firestore
+  var cloudHydrated = useRef(false); // impede upload antes da primeira leitura da nuvem
   var _useConfirm = useConfirm(),
     _useConfirm2 = _slicedToArray(_useConfirm, 2),
     confirm = _useConfirm2[0],
@@ -3932,7 +3884,15 @@ function SabaoApp() {
   // ── Firestore: escutar mudanças em tempo real ──
   useEffect(function () {
     if (!fbReady || !user) return;
+    cloudHydrated.current = false;
     var unsub = fb.listen(user.uid, function (data) {
+      cloudHydrated.current = true;
+      if (!data) {
+        setSyncSt("syncing");
+        ignoreNext.current = true;
+        fb.save(user.uid, allData).then(function () { return setSyncSt("synced"); }).catch(function () { return setSyncSt("error"); });
+        return;
+      }
       if (ignoreNext.current) {
         ignoreNext.current = false;
         return;
@@ -3958,7 +3918,7 @@ function SabaoApp() {
     var t = setTimeout(function () {
       return setSavedFlash(false);
     }, 1500);
-    if (fbReady && user) {
+    if (fbReady && user && cloudHydrated.current) {
       setSyncSt("syncing");
       clearTimeout(syncTimer.current);
       syncTimer.current = setTimeout(function () {
