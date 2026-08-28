@@ -1,0 +1,21 @@
+from pathlib import Path
+
+p=Path('index.html')
+s=p.read_text(encoding='utf-8')
+old='''        var data = JSON.parse(ev.target.result);\n        var isObj = data && typeof data === "object" && !Array.isArray(data);\n        var requiredArrays = ["ingrs", "recs", "prods", "sales", "kits", "pack"];\n        var arraysOk = isObj && requiredArrays.every(function (key) { return Array.isArray(data[key]); });\n        var settingsOk = isObj && data.settings && typeof data.settings === "object" && !Array.isArray(data.settings);\n        var metaOk = !data._backupMeta || data._backupMeta.app === "ComGraca";\n        if (arraysOk && settingsOk && metaOk) {\n          setAllData(data);\n          alert("✅ Dados restaurados com sucesso!");\n        } else {\n          alert("❌ Arquivo inválido ou incompatível com o Com Graça.");\n        }'''
+new='''        var data = JSON.parse(ev.target.result);\n        var isObj = data && typeof data === "object" && !Array.isArray(data);\n        var requiredArrays = ["ingrs", "recs", "prods", "sales", "kits", "pack"];\n        var arraysOk = isObj && requiredArrays.every(function (key) { return Array.isArray(data[key]); });\n        var settingsOk = isObj && data.settings && typeof data.settings === "object" && !Array.isArray(data.settings);\n        var metaOk = !data._backupMeta || data._backupMeta.app === "ComGraca";\n        var finiteNonNeg = function finiteNonNeg(v) { return Number.isFinite(+v) && +v >= 0; };\n        var finitePos = function finitePos(v) { return Number.isFinite(+v) && +v > 0; };\n        var idsUnique = function idsUnique(list) {\n          var ids = list.map(function (x) { return x && x.id; });\n          return ids.every(function (id) { return typeof id === "string" && id.length > 0; }) && new Set(ids).size === ids.length;\n        };\n        var idsOk = arraysOk && requiredArrays.every(function (key) { return idsUnique(data[key]); });\n        var ingrIds = arraysOk ? new Set(data.ingrs.map(function (x) { return x.id; })) : new Set();\n        var recIds = arraysOk ? new Set(data.recs.map(function (x) { return x.id; })) : new Set();\n        var recordsOk = arraysOk &&\n          data.ingrs.every(function (x) { return x && typeof x.name === "string" && finiteNonNeg(x.price); }) &&\n          data.recs.every(function (r) {\n            return r && typeof r.name === "string" && finitePos(r.yieldKg) && finitePos(r.moldG) && Array.isArray(r.items) && r.items.every(function (it) {\n              return it && ingrIds.has(it.ingredientId) && finiteNonNeg(it.amount);\n            });\n          }) &&\n          data.prods.every(function (pr) {\n            var refOk = recIds.has(pr.recipeId) || (typeof pr.recipeName === "string" && finiteNonNeg(pr.costPerBar) && finiteNonNeg(pr.costTotal));\n            return pr && finitePos(pr.batches) && finitePos(pr.bars) && refOk;\n          }) &&\n          data.sales.every(function (sl) {\n            return sl && typeof sl.customer === "string" && finitePos(sl.qty) && finiteNonNeg(sl.price) && typeof sl.paid === "boolean";\n          }) &&\n          data.kits.every(function (k) { return k && typeof k.name === "string" && finitePos(k.bars) && finiteNonNeg(k.price); }) &&\n          data.pack.every(function (pk) { return pk && typeof pk.name === "string" && finiteNonNeg(pk.totalCost) && finitePos(pk.qty); });\n        if (arraysOk && settingsOk && metaOk && idsOk && recordsOk) {\n          setAllData(data);\n          alert("✅ Dados restaurados com sucesso!");\n        } else {\n          alert("❌ Arquivo inválido, incompatível ou com dados inconsistentes. Nada foi alterado.");\n        }'''
+assert old in s, 'restore anchor not found'
+s=s.replace(old,new,1)
+p.write_text(s,encoding='utf-8')
+
+sw=Path('sw.js')
+w=sw.read_text(encoding='utf-8')
+assert 'const CACHE = "comgraca-v9-dependency-guards";' in w
+w=w.replace('const CACHE = "comgraca-v9-dependency-guards";','const CACHE = "comgraca-v10-restore-integrity";',1)
+sw.write_text(w,encoding='utf-8')
+
+s2=p.read_text(encoding='utf-8')
+for needle in ['idsUnique','recordsOk','ingrIds.has(it.ingredientId)','recIds.has(pr.recipeId)','dados inconsistentes. Nada foi alterado']:
+    assert needle in s2, needle
+assert 'comgraca-v10-restore-integrity' in sw.read_text(encoding='utf-8')
+print('restore integrity patch OK')
