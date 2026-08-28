@@ -3222,11 +3222,36 @@ function ConfigTab(_ref18) {
         var arraysOk = isObj && requiredArrays.every(function (key) { return Array.isArray(data[key]); });
         var settingsOk = isObj && data.settings && typeof data.settings === "object" && !Array.isArray(data.settings);
         var metaOk = !data._backupMeta || data._backupMeta.app === "ComGraca";
-        if (arraysOk && settingsOk && metaOk) {
+        var finiteNonNeg = function finiteNonNeg(v) { return Number.isFinite(+v) && +v >= 0; };
+        var finitePos = function finitePos(v) { return Number.isFinite(+v) && +v > 0; };
+        var idsUnique = function idsUnique(list) {
+          var ids = list.map(function (x) { return x && x.id; });
+          return ids.every(function (id) { return typeof id === "string" && id.length > 0; }) && new Set(ids).size === ids.length;
+        };
+        var idsOk = arraysOk && requiredArrays.every(function (key) { return idsUnique(data[key]); });
+        var ingrIds = arraysOk ? new Set(data.ingrs.map(function (x) { return x.id; })) : new Set();
+        var recIds = arraysOk ? new Set(data.recs.map(function (x) { return x.id; })) : new Set();
+        var recordsOk = arraysOk &&
+          data.ingrs.every(function (x) { return x && typeof x.name === "string" && finiteNonNeg(x.price); }) &&
+          data.recs.every(function (r) {
+            return r && typeof r.name === "string" && finitePos(r.yieldKg) && finitePos(r.moldG) && Array.isArray(r.items) && r.items.every(function (it) {
+              return it && ingrIds.has(it.ingredientId) && finiteNonNeg(it.amount);
+            });
+          }) &&
+          data.prods.every(function (pr) {
+            var refOk = recIds.has(pr.recipeId) || (typeof pr.recipeName === "string" && finiteNonNeg(pr.costPerBar) && finiteNonNeg(pr.costTotal));
+            return pr && finitePos(pr.batches) && finitePos(pr.bars) && refOk;
+          }) &&
+          data.sales.every(function (sl) {
+            return sl && typeof sl.customer === "string" && finitePos(sl.qty) && finiteNonNeg(sl.price) && typeof sl.paid === "boolean";
+          }) &&
+          data.kits.every(function (k) { return k && typeof k.name === "string" && finitePos(k.bars) && finiteNonNeg(k.price); }) &&
+          data.pack.every(function (pk) { return pk && typeof pk.name === "string" && finiteNonNeg(pk.totalCost) && finitePos(pk.qty); });
+        if (arraysOk && settingsOk && metaOk && idsOk && recordsOk) {
           setAllData(data);
           alert("✅ Dados restaurados com sucesso!");
         } else {
-          alert("❌ Arquivo inválido ou incompatível com o Com Graça.");
+          alert("❌ Arquivo inválido, incompatível ou com dados inconsistentes. Nada foi alterado.");
         }
       } catch (_unused3) {
         alert("❌ Erro ao ler o arquivo.");
