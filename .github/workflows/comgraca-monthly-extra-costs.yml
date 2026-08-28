@@ -20,3 +20,4 @@ jobs:
           git add -A
           git commit -m 'Track ComGraca extra costs by month'
           git push
+# retry after cache anchor correction
