@@ -1,0 +1,22 @@
+name: Run ComGraca reporting label patch
+on:
+  push:
+    paths:
+      - '.github/workflows/comgraca-run-labels.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply patch
+        run: python comgraca_patch_labels.py
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f comgraca_patch_labels.py .github/workflows/comgraca-run-labels.yml
+          git add -A
+          git commit -m 'Clarify ComGraca cash result and receipt details'
+          git push
