@@ -1,0 +1,62 @@
+name: Temporary ComGraca financial audit
+on:
+  push:
+    paths:
+      - '.github/workflows/comgraca-audit2.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract critical flows
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          s=Path('index.html').read_text(encoding='utf-8')
+          out=[]
+          def grab(title, pat, radius=2600):
+              out.append('\n===== '+title+' =====')
+              m=re.search(pat,s,re.S|re.I)
+              if not m:
+                  out.append('NOT FOUND'); return
+              a=max(0,m.start()-radius); b=min(len(s),m.end()+radius)
+              out.append(s[a:b])
+          for title,pat in [
+              ('IMPORT_BACKUP', r'var importBackup\s*='),
+              ('EXPORT_BACKUP', r'var exportBackup\s*='),
+              ('SET_ALL_DATA', r'var setAllData\s*='),
+              ('PAID_REVENUE', r'var paidRev\s*='),
+              ('PENDING_REVENUE', r'var pendRev\s*='),
+              ('REPORT_TAB', r'function ReportTab'),
+              ('MONTH_SALES', r'monthSales'),
+              ('PROFIT', r'profit|lucro'),
+              ('TOGGLE_PAID', r'var togglePaid\s*='),
+              ('SALE_TOTAL', r'var saleTotal\s*='),
+              ('EXTRA_COSTS', r'extraCosts'),
+              ('CSV', r'csv|CSV'),
+          ]: grab(title,pat)
+          out.append('\n===== COUNTS =====')
+          for name,pat in {
+              'paidDate':r'paidDate|paymentDate|receivedDate|receivedAt',
+              'togglePaid':r'togglePaid',
+              'saleTotal':r'saleTotal\(',
+              'settingsExtraCosts':r'settings\.extraCosts',
+              'monthDatePrefix':r'\.date\.startsWith\(',
+              'backupValidation':r'Array\.isArray|typeof data|version|schema',
+          }.items(): out.append(f'{name}={len(re.findall(pat,s,re.I))}')
+          Path('comgraca_financial_audit.txt').write_text('\n'.join(out),encoding='utf-8')
+          PY
+      - name: Commit report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add comgraca_financial_audit.txt
+          git commit -m 'Temporary ComGraca financial audit report' || exit 0
+          git push
