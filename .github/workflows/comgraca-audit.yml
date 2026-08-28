@@ -1,0 +1,67 @@
+name: Temporary ComGraca audit
+on:
+  push:
+    paths:
+      - '.github/workflows/comgraca-audit.yml'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit app structure
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          out=[]
+          def section(title, pattern, radius=1200, flags=re.S):
+              out.append('\n===== '+title+' =====')
+              m=re.search(pattern,s,flags)
+              if not m:
+                  out.append('NOT FOUND')
+                  return
+              a=max(0,m.start()-radius); b=min(len(s),m.end()+radius)
+              out.append(s[a:b])
+          out += [f'INDEX_BYTES={len(s.encode())}', f'INDEX_CHARS={len(s)}']
+          for name,pat in [
+            ('SALE0',r'var SALE0\s*='),('PROD0',r'var PROD0\s*='),('RECS0',r'var REC'),('LSKEY',r'var LSKEY\s*='),
+            ('loadLS init',r'var saved\s*=\s*useRef\(loadLS\(\)\)'),
+            ('stock calc',r'var totalSold\s*=\s*useMemo'),('sales submit',r'var submit\s*=|var saveSale\s*=|setErr\("Informe o nome do cliente'),
+            ('delete sale',r'setSales\(function \(s\) \{\s*return s\.filter'),
+            ('firebase listener',r'Firestore: escutar mudanças em tempo real'),
+            ('firebase save',r'Salvar: localStorage sempre \+ Firestore'),
+            ('backup import',r'var importBackup\s*='),('setAllData',r'var setAllData\s*='),
+            ('today',r'var today\s*=|function today'),('report profit',r'lucro|profit'),('extra costs',r'extraCosts'),
+            ('service worker registration',r'serviceWorker'),
+          ]:
+              section(name,pat)
+          # counts/pattern diagnostics
+          out.append('\n===== COUNTS =====')
+          checks={
+            'toISOString_slice': r'toISOString\(\)\.slice\(',
+            'localStorage_clear': r'localStorage\.clear\(',
+            'removeItem': r'localStorage\.removeItem\(',
+            'setDoc': r'setDoc\(',
+            'onSnapshot': r'onSnapshot\(',
+            'demo_names': r'Maria Silva|João Santos|Ana Lima|Rosa Pereira|Lote lavanda',
+            'window_confirm': r'confirm\(',
+            'JSON_parse': r'JSON\.parse\(',
+          }
+          for k,v in checks.items(): out.append(f'{k}={len(re.findall(v,s,re.S))}')
+          Path('comgraca_audit_report.txt').write_text('\n'.join(out),encoding='utf-8')
+          PY
+      - name: Commit audit report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add comgraca_audit_report.txt
+          git commit -m 'Temporary ComGraca audit report' || exit 0
+          git push
