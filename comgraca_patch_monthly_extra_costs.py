@@ -37,8 +37,8 @@ p.write_text(s, encoding='utf-8')
 # Fresh cache so installed PWA sees the change.
 sw = Path('sw.js')
 w = sw.read_text(encoding='utf-8')
-assert 'const CACHE = "comgraca-v8-cost-history";' in w, 'expected v8 cache anchor'
-w = w.replace('const CACHE = "comgraca-v8-cost-history";', 'const CACHE = "comgraca-v9-monthly-extra-costs";', 1)
+assert 'const CACHE = "comgraca-v7-cost-history";' in w, 'expected v7 cache anchor'
+w = w.replace('const CACHE = "comgraca-v7-cost-history";', 'const CACHE = "comgraca-v8-monthly-extra-costs";', 1)
 sw.write_text(w, encoding='utf-8')
 
 # Structural invariants.
@@ -54,5 +54,5 @@ for needle in [
 ]:
     assert needle in s2, needle
 assert 'var extraCostVal = parseFloat((settings.extraCosts || "0")' not in s2
-assert 'comgraca-v9-monthly-extra-costs' in sw.read_text(encoding='utf-8')
+assert 'comgraca-v8-monthly-extra-costs' in sw.read_text(encoding='utf-8')
 print('ComGraca monthly extra cost patch OK')
