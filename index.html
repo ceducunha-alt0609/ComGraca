@@ -1951,6 +1951,7 @@ function SaleCard(_ref_sc) {
       React.createElement("div",{style:{flex:1,minWidth:0}},
         React.createElement("div",{style:{fontWeight:700,fontSize:14,marginBottom:2}},s.customer),
         React.createElement("div",{style:{fontSize:11,color:"var(--mut)"}},ptDate(s.date)," \xB7 ",label," \xB7 ",s.method),
+        s.paid&&s.paidDate&&React.createElement("div",{style:{fontSize:10,color:"var(--sage)",marginTop:2,fontWeight:600}},"Recebido em ",ptDate(s.paidDate)," via ",s.paidMethod||s.method),
         s.phone&&React.createElement("a",{
           href:"https://wa.me/55".concat(s.phone.replace(/\D/g,""),"?text=").concat(encodeURIComponent(waMsg)),
           target:"_blank",rel:"noreferrer",className:"wa-btn",style:{marginTop:5}
@@ -2939,7 +2940,7 @@ function ReportTab(_ref14) {
     c: "var(--badge-r-txt)",
     bg: "var(--badge-r-bg)"
   }, {
-    l: "Lucro Estimado",
+    l: "Resultado de Caixa Estimado",
     v: R$(lucro),
     c: lucro >= 0 ? "var(--sage)" : "var(--badge-r-txt)",
     bg: lucro >= 0 ? "var(--badge-g-bg)" : "var(--badge-r-bg)"
@@ -2986,7 +2987,7 @@ function ReportTab(_ref14) {
       fontStyle: "italic",
       marginTop: 4
     }
-  }, "* Lucro calculado sobre receita confirmada menos custos estimados de produ\xE7\xE3o."))), goal > 0 && /*#__PURE__*/React.createElement("div", {
+  }, "* Resultado de caixa estimado: valores recebidos no mês menos custos estimados de produção do mês."))), goal > 0 && /*#__PURE__*/React.createElement("div", {
     className: "card",
     style: {
       marginBottom: 14
