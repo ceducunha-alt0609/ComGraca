@@ -1,0 +1,22 @@
+name: Run ComGraca monthly extra costs patch
+on:
+  push:
+    paths:
+      - '.github/workflows/comgraca-monthly-extra-costs.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply patch
+        run: python comgraca_patch_monthly_extra_costs.py
+      - name: Commit
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f comgraca_patch_monthly_extra_costs.py .github/workflows/comgraca-monthly-extra-costs.yml
+          git add -A
+          git commit -m 'Track ComGraca extra costs by month'
+          git push
