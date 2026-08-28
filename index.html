@@ -296,6 +296,7 @@ var SETT0 = {
   lowStockThresh: 8,
   monthGoal: 500,
   extraCosts: "",
+  extraCostsByMonth: {},
   markupPct: 150
 };
 
@@ -2697,6 +2698,7 @@ function ReportTab(_ref14) {
     recs = _ref14.recs,
     kits = _ref14.kits,
     settings = _ref14.settings,
+    setSettings = _ref14.setSettings,
     recipeCost = _ref14.recipeCost,
     pack = _ref14.pack;
   var months = useMemo(function () {
@@ -2751,8 +2753,21 @@ function ReportTab(_ref14) {
     }, 0);
   }, [mProds, recs, recipeCost]);
 
-  // custo extra
-  var extraCostVal = parseFloat((settings.extraCosts || "0").replace(",", ".")) || 0;
+  // custo extra por mês; o campo antigo só serve de compatibilidade para o mês atual
+  var extraCostsByMonth = settings.extraCostsByMonth || {};
+  var hasMonthlyExtra = Object.prototype.hasOwnProperty.call(extraCostsByMonth, selMonth);
+  var extraCostRaw = hasMonthlyExtra ? extraCostsByMonth[selMonth] : selMonth === curMonth() ? settings.extraCosts || "" : "";
+  var extraCostVal = parseFloat(String(extraCostRaw || "0").replace(",", ".")) || 0;
+  var setMonthExtraCost = function setMonthExtraCost(value) {
+    setSettings(function (current) {
+      var byMonth = _objectSpread({}, current.extraCostsByMonth || {});
+      if (value === "") delete byMonth[selMonth];else byMonth[selMonth] = value;
+      return _objectSpread(_objectSpread({}, current), {}, {
+        extraCostsByMonth: byMonth,
+        extraCosts: selMonth === curMonth() ? value : current.extraCosts
+      });
+    });
+  };
   var totalCost = mCost + extraCostVal;
   var lucro = mPaidRev - totalCost;
   var goal = settings.monthGoal || 0;
@@ -2830,7 +2845,26 @@ function ReportTab(_ref14) {
       key: m,
       value: m
     }, monthLabel(m));
-  }))), /*#__PURE__*/React.createElement("button", {
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      minWidth: 170
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "flbl",
+    style: {
+      marginBottom: 4
+    }
+  }, "⚡ Custo extra do mês (R$)"), /*#__PURE__*/React.createElement("input", {
+    className: "inp",
+    type: "number",
+    step: "5",
+    min: "0",
+    value: extraCostRaw,
+    placeholder: "Ex: 30",
+    onChange: function onChange(e) {
+      return setMonthExtraCost(e.target.value);
+    }
+  })), /*#__PURE__*/React.createElement("button", {
     className: "btn bg bsm",
     style: {
       marginTop: 18
@@ -3359,16 +3393,21 @@ function ConfigTab(_ref18) {
     }
   }, "Barra de progresso no In\xEDcio e Relat\xF3rio")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
     className: "flbl"
-  }, "\u26A1 Custos extras mensais (R$)"), /*#__PURE__*/React.createElement("input", {
+  }, "\u26A1 Custo extra do mês atual (R$)"), /*#__PURE__*/React.createElement("input", {
     className: "inp",
     type: "number",
     step: "5",
-    value: settings.extraCosts || "",
+    min: "0",
+    value: settings.extraCostsByMonth && Object.prototype.hasOwnProperty.call(settings.extraCostsByMonth, curMonth()) ? settings.extraCostsByMonth[curMonth()] : settings.extraCosts || "",
     placeholder: "Ex: 30",
     onChange: function onChange(e) {
-      return setSettings(function (s) {
-        return _objectSpread(_objectSpread({}, s), {}, {
-          extraCosts: e.target.value
+      var value = e.target.value;
+      return setSettings(function (current) {
+        var byMonth = _objectSpread({}, current.extraCostsByMonth || {});
+        if (value === "") delete byMonth[curMonth()];else byMonth[curMonth()] = value;
+        return _objectSpread(_objectSpread({}, current), {}, {
+          extraCosts: value,
+          extraCostsByMonth: byMonth
         });
       });
     }
@@ -4389,6 +4428,7 @@ function SabaoApp() {
     recs: recs,
     kits: kits,
     settings: settings,
+    setSettings: setSettings,
     recipeCost: recipeCost,
     pack: pack
   }), tab === "config" && /*#__PURE__*/React.createElement(ConfigTab, {
