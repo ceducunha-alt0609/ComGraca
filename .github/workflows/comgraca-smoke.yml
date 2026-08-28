@@ -1,0 +1,14 @@
+name: ComGraca workflow smoke
+on:
+  push:
+    paths:
+      - '.github/workflows/comgraca-smoke.yml'
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Smoke
+        run: echo OK
