@@ -459,9 +459,11 @@ function MonthChart(_ref2) {
     setHover = _useState4[1];
   var BAR_H = 110;
   var months = useMemo(function () {
-    var set = new Set(sales.map(function (s) {
-      return s.date.slice(0, 7);
-    }));
+    var set = new Set();
+    sales.forEach(function (s) {
+      if (s.date) set.add(s.date.slice(0, 7));
+      if (s.paid && (s.paidDate || s.date)) set.add((s.paidDate || s.date).slice(0, 7));
+    });
     var sorted = _toConsumableArray(set).sort();
     var last = sorted[sorted.length - 1] || curMonth();
     var _last$split$map = last.split("-").map(Number),
@@ -485,8 +487,8 @@ function MonthChart(_ref2) {
       var ms = sales.filter(function (s) {
         return s.date.startsWith(mo);
       });
-      var paid = ms.filter(function (s) {
-        return s.paid;
+      var paid = sales.filter(function (s) {
+        return s.paid && (s.paidDate || s.date).startsWith(mo);
       }).reduce(function (a, s) {
         return a + saleTotal(s, kits);
       }, 0);
@@ -680,8 +682,8 @@ function DashTab(_ref3) {
   var mSales = sales.filter(function (s) {
     return s.date.startsWith(cm);
   });
-  var mRev = mSales.filter(function (s) {
-    return s.paid;
+  var mRev = sales.filter(function (s) {
+    return s.paid && (s.paidDate || s.date).startsWith(cm);
   }).reduce(function (a, s) {
     return a + saleTotal(s, kits);
   }, 0);
@@ -2062,6 +2064,8 @@ function SalesTab(_ref0) {
         phone: form.phone,
         method: form.method,
         paid: paid,
+        paidDate: paid ? form.date : null,
+        paidMethod: paid ? form.method : null,
         qty: +form.qty,
         price: +form.price,
         kitId: null
@@ -2074,6 +2078,8 @@ function SalesTab(_ref0) {
         phone: form.phone,
         method: form.method,
         paid: paid,
+        paidDate: paid ? form.date : null,
+        paidMethod: paid ? form.method : null,
         qty: barsWillUse,
         price: +form.price,
         kitId: selKit.id,
@@ -2091,11 +2097,26 @@ function SalesTab(_ref0) {
     });
   };
   var togglePaid = function togglePaid(id) {
-    return setSales(function (s) {
-      return s.map(function (v) {
-        return v.id === id ? _objectSpread(_objectSpread({}, v), {}, {
-          paid: !v.paid
-        }) : v;
+    var target = sales.find(function (v) { return v.id === id; });
+    if (!target) return;
+    if (target.paid) {
+      setSales(function (list) {
+        return list.map(function (v) {
+          return v.id === id ? _objectSpread(_objectSpread({}, v), {}, { paid: false, paidDate: null, paidMethod: null }) : v;
+        });
+      });
+      return;
+    }
+    var payMethod = window.prompt("Forma de recebimento (Pix ou Dinheiro):", "Pix");
+    if (payMethod === null) return;
+    payMethod = payMethod.trim() || "Pix";
+    var payDate = window.prompt("Data do recebimento (AAAA-MM-DD):", today());
+    if (payDate === null) return;
+    payDate = payDate.trim();
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(payDate)) { alert("Data inválida. Use AAAA-MM-DD."); return; }
+    setSales(function (list) {
+      return list.map(function (v) {
+        return v.id === id ? _objectSpread(_objectSpread({}, v), {}, { paid: true, paidDate: payDate, paidMethod: payMethod }) : v;
       });
     });
   };
@@ -2673,11 +2694,14 @@ function ReportTab(_ref14) {
     recipeCost = _ref14.recipeCost,
     pack = _ref14.pack;
   var months = useMemo(function () {
-    var s = new Set([].concat(_toConsumableArray(sales.map(function (s) {
-      return s.date.slice(0, 7);
+    var s = new Set([].concat(_toConsumableArray(sales.map(function (sale) {
+      return sale.date.slice(0, 7);
     })), _toConsumableArray(prods.map(function (p) {
       return p.date.slice(0, 7);
     }))));
+    sales.forEach(function (sale) {
+      if (sale.paid && (sale.paidDate || sale.date)) s.add((sale.paidDate || sale.date).slice(0, 7));
+    });
     return _toConsumableArray(s).sort().reverse();
   }, [sales, prods]);
   var _useState23 = useState(curMonth()),
@@ -2690,8 +2714,8 @@ function ReportTab(_ref14) {
   var mProds = prods.filter(function (p) {
     return p.date.startsWith(selMonth);
   });
-  var mPaidRev = mSales.filter(function (s) {
-    return s.paid;
+  var mPaidRev = sales.filter(function (s) {
+    return s.paid && (s.paidDate || s.date).startsWith(selMonth);
   }).reduce(function (a, s) {
     return a + saleTotal(s, kits);
   }, 0);
@@ -2729,10 +2753,10 @@ function ReportTab(_ref14) {
     return window.print();
   };
   var exportCSV = function exportCSV() {
-    var rows = [["Data", "Cliente", "Produto", "Quantidade", "Preço", "Total", "Forma", "Status"]];
+    var rows = [["Data da venda", "Cliente", "Produto", "Quantidade", "Preço", "Total", "Forma na venda", "Status", "Recebido em", "Recebido via"]];
     mSales.forEach(function (s) {
       var label = s.kitId ? "".concat(s.kitQty, "x ").concat(s.kitName || "Kit") : s.qty + " pedras";
-      rows.push([s.date, s.customer, label, s.qty, s.price.toFixed(2), saleTotal(s, kits).toFixed(2), s.method, s.paid ? "Pago" : "Pendente"]);
+      rows.push([s.date, s.customer, label, s.qty, s.price.toFixed(2), saleTotal(s, kits).toFixed(2), s.method, s.paid ? "Pago" : "Pendente", s.paid ? (s.paidDate || s.date) : "", s.paid ? (s.paidMethod || s.method) : ""]);
     });
     var csv = rows.map(function (r) {
       return r.map(function (c) {
@@ -3107,7 +3131,14 @@ function ConfigTab(_ref18) {
     allData = _ref18.allData,
     setAllData = _ref18.setAllData;
   var exportBackup = function exportBackup() {
-    var json = JSON.stringify(allData, null, 2);
+    var backupData = _objectSpread({
+      _backupMeta: {
+        app: "ComGraca",
+        version: 5,
+        exportedAt: new Date().toISOString()
+      }
+    }, allData);
+    var json = JSON.stringify(backupData, null, 2);
     var blob = new Blob([json], {
       type: "application/json"
     });
@@ -3123,11 +3154,16 @@ function ConfigTab(_ref18) {
     reader.onload = function (ev) {
       try {
         var data = JSON.parse(ev.target.result);
-        if (data.sales || data.prods || data.recs) {
+        var isObj = data && typeof data === "object" && !Array.isArray(data);
+        var requiredArrays = ["ingrs", "recs", "prods", "sales", "kits", "pack"];
+        var arraysOk = isObj && requiredArrays.every(function (key) { return Array.isArray(data[key]); });
+        var settingsOk = isObj && data.settings && typeof data.settings === "object" && !Array.isArray(data.settings);
+        var metaOk = !data._backupMeta || data._backupMeta.app === "ComGraca";
+        if (arraysOk && settingsOk && metaOk) {
           setAllData(data);
           alert("✅ Dados restaurados com sucesso!");
         } else {
-          alert("❌ Arquivo inválido.");
+          alert("❌ Arquivo inválido ou incompatível com o Com Graça.");
         }
       } catch (_unused3) {
         alert("❌ Erro ao ler o arquivo.");
