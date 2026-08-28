@@ -1,0 +1,84 @@
+name: ComGraca receipt core patch
+on:
+  push:
+    paths:
+      - '.github/workflows/comgraca-receipts-core.yml'
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch receipt fields
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          a='''        method: form.method,
+        paid: paid,
+        qty: +form.qty,'''
+          b='''        method: form.method,
+        paid: paid,
+        paidDate: paid ? form.date : null,
+        paidMethod: paid ? form.method : null,
+        qty: +form.qty,'''
+          assert a in s
+          s=s.replace(a,b,1)
+          a='''        method: form.method,
+        paid: paid,
+        qty: barsWillUse,'''
+          b='''        method: form.method,
+        paid: paid,
+        paidDate: paid ? form.date : null,
+        paidMethod: paid ? form.method : null,
+        qty: barsWillUse,'''
+          assert a in s
+          s=s.replace(a,b,1)
+          old='''  var togglePaid = function togglePaid(id) {
+    return setSales(function (s) {
+      return s.map(function (v) {
+        return v.id === id ? _objectSpread(_objectSpread({}, v), {}, {
+          paid: !v.paid
+        }) : v;
+      });
+    });
+  };'''
+          new='''  var togglePaid = function togglePaid(id) {
+    var target = sales.find(function (v) { return v.id === id; });
+    if (!target) return;
+    if (target.paid) {
+      setSales(function (list) {
+        return list.map(function (v) {
+          return v.id === id ? _objectSpread(_objectSpread({}, v), {}, { paid: false, paidDate: null, paidMethod: null }) : v;
+        });
+      });
+      return;
+    }
+    var payMethod = window.prompt("Forma de recebimento (Pix ou Dinheiro):", "Pix");
+    if (payMethod === null) return;
+    payMethod = payMethod.trim() || "Pix";
+    var payDate = window.prompt("Data do recebimento (AAAA-MM-DD):", today());
+    if (payDate === null) return;
+    payDate = payDate.trim();
+    if (!/^\\d{4}-\\d{2}-\\d{2}$/.test(payDate)) { alert("Data inválida. Use AAAA-MM-DD."); return; }
+    setSales(function (list) {
+      return list.map(function (v) {
+        return v.id === id ? _objectSpread(_objectSpread({}, v), {}, { paid: true, paidDate: payDate, paidMethod: payMethod }) : v;
+      });
+    });
+  };'''
+          assert old in s
+          s=s.replace(old,new,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - name: Verify and commit
+        run: |
+          grep -q 'paidDate: payDate' index.html
+          grep -q 'paidMethod: payMethod' index.html
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Track ComGraca receipt date and method'
+          git push
