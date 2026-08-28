@@ -1,4 +1,5 @@
-const CACHE = "comgraca-v4-audit-safety";
+const CACHE_PREFIX = "comgraca-";
+const CACHE = "comgraca-v5-isolated-cache";
 const ASSETS = [
   "/ComGraca/",
   "/ComGraca/index.html",
@@ -16,7 +17,11 @@ self.addEventListener("install", e => {
 self.addEventListener("activate", e => {
   e.waitUntil(
     caches.keys()
-      .then(keys => Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k))))
+      .then(keys => Promise.all(
+        keys
+          .filter(k => k.startsWith(CACHE_PREFIX) && k !== CACHE)
+          .map(k => caches.delete(k))
+      ))
       .then(() => self.clients.claim())
   );
 });
