@@ -1,4 +1,4 @@
-name: Temporary ComGraca audit
+name: Temporary ComGraca safety patch
 on:
   push:
     paths:
@@ -7,61 +7,67 @@ on:
 permissions:
   contents: write
 jobs:
-  audit:
+  patch:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Audit app structure
+      - name: Apply verified safety fixes
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
           p=Path('index.html')
           s=p.read_text(encoding='utf-8')
-          out=[]
-          def section(title, pattern, radius=1200, flags=re.S):
-              out.append('\n===== '+title+' =====')
-              m=re.search(pattern,s,flags)
-              if not m:
-                  out.append('NOT FOUND')
-                  return
-              a=max(0,m.start()-radius); b=min(len(s),m.end()+radius)
-              out.append(s[a:b])
-          out += [f'INDEX_BYTES={len(s.encode())}', f'INDEX_CHARS={len(s)}']
-          for name,pat in [
-            ('SALE0',r'var SALE0\s*='),('PROD0',r'var PROD0\s*='),('RECS0',r'var REC'),('LSKEY',r'var LSKEY\s*='),
-            ('loadLS init',r'var saved\s*=\s*useRef\(loadLS\(\)\)'),
-            ('stock calc',r'var totalSold\s*=\s*useMemo'),('sales submit',r'var submit\s*=|var saveSale\s*=|setErr\("Informe o nome do cliente'),
-            ('delete sale',r'setSales\(function \(s\) \{\s*return s\.filter'),
-            ('firebase listener',r'Firestore: escutar mudanças em tempo real'),
-            ('firebase save',r'Salvar: localStorage sempre \+ Firestore'),
-            ('backup import',r'var importBackup\s*='),('setAllData',r'var setAllData\s*='),
-            ('today',r'var today\s*=|function today'),('report profit',r'lucro|profit'),('extra costs',r'extraCosts'),
-            ('service worker registration',r'serviceWorker'),
-          ]:
-              section(name,pat)
-          # counts/pattern diagnostics
-          out.append('\n===== COUNTS =====')
-          checks={
-            'toISOString_slice': r'toISOString\(\)\.slice\(',
-            'localStorage_clear': r'localStorage\.clear\(',
-            'removeItem': r'localStorage\.removeItem\(',
-            'setDoc': r'setDoc\(',
-            'onSnapshot': r'onSnapshot\(',
-            'demo_names': r'Maria Silva|João Santos|Ana Lima|Rosa Pereira|Lote lavanda',
-            'window_confirm': r'confirm\(',
-            'JSON_parse': r'JSON\.parse\(',
-          }
-          for k,v in checks.items(): out.append(f'{k}={len(re.findall(v,s,re.S))}')
-          Path('comgraca_audit_report.txt').write_text('\n'.join(out),encoding='utf-8')
+
+          old='''var today = function today() {\n  return new Date().toISOString().slice(0, 10);\n};\nvar curMonth = function curMonth() {\n  return new Date().toISOString().slice(0, 7);\n};'''
+          new='''var localDateKey = function localDateKey(d) {\n  d = d || new Date();\n  var y = d.getFullYear(), m = String(d.getMonth() + 1).padStart(2, "0"), day = String(d.getDate()).padStart(2, "0");\n  return y + "-" + m + "-" + day;\n};\nvar today = function today() {\n  return localDateKey(new Date());\n};\nvar curMonth = function curMonth() {\n  return localDateKey(new Date()).slice(0, 7);\n};'''
+          assert old in s, 'date anchor missing'
+          s=s.replace(old,new,1)
+
+          # First-run must not invent production/sales history. Existing saved data is untouched.
+          s,n=re.subn(r'var PROD0 = \[.*?\];\nvar SALE0 = \[.*?\];\nvar KITS0 =', 'var PROD0 = [];\nvar SALE0 = [];\nvar KITS0 =', s, count=1, flags=re.S)
+          assert n==1, f'demo history anchor count={n}'
+
+          anchor='var ignoreNext = useRef(false); // evita loop ao receber update do Firestore'
+          assert anchor in s, 'sync ref anchor missing'
+          s=s.replace(anchor, anchor+'\n  var cloudHydrated = useRef(false); // impede upload antes da primeira leitura da nuvem',1)
+
+          old_listen='''listen: (uid, cb) =>\n    onSnapshot(doc(db, "lojas", uid, "dados", "principal"), snap => {\n      if (snap.exists()) cb(snap.data());\n    }),'''
+          new_listen='''listen: (uid, cb) =>\n    onSnapshot(doc(db, "lojas", uid, "dados", "principal"), snap => {\n      cb(snap.exists() ? snap.data() : null);\n    }),'''
+          assert old_listen in s, 'firebase listen anchor missing'
+          s=s.replace(old_listen,new_listen,1)
+
+          old_fx='''  // ── Firestore: escutar mudanças em tempo real ──\n  useEffect(function () {\n    if (!fbReady || !user) return;\n    var unsub = fb.listen(user.uid, function (data) {\n      if (ignoreNext.current) {'''
+          new_fx='''  // ── Firestore: escutar mudanças em tempo real ──\n  useEffect(function () {\n    if (!fbReady || !user) return;\n    cloudHydrated.current = false;\n    var unsub = fb.listen(user.uid, function (data) {\n      cloudHydrated.current = true;\n      if (!data) {\n        setSyncSt("syncing");\n        ignoreNext.current = true;\n        fb.save(user.uid, allData).then(function () { return setSyncSt("synced"); }).catch(function () { return setSyncSt("error"); });\n        return;\n      }\n      if (ignoreNext.current) {'''
+          assert old_fx in s, 'listener effect anchor missing'
+          s=s.replace(old_fx,new_fx,1)
+
+          old_cond='''    if (fbReady && user) {\n      setSyncSt("syncing");'''
+          new_cond='''    if (fbReady && user && cloudHydrated.current) {\n      setSyncSt("syncing");'''
+          assert old_cond in s, 'save gate anchor missing'
+          s=s.replace(old_cond,new_cond,1)
+
+          # sanity checks
+          assert 'new Date().toISOString().slice(0, 10)' not in s
+          assert 'new Date().toISOString().slice(0, 7)' not in s
+          assert 'var PROD0 = [];' in s and 'var SALE0 = [];' in s
+          assert 'cloudHydrated.current' in s
+          p.write_text(s,encoding='utf-8')
+
+          sw=Path('sw.js')
+          w=sw.read_text(encoding='utf-8')
+          assert 'const CACHE = "comgraca-v3";' in w
+          w=w.replace('const CACHE = "comgraca-v3";','const CACHE = "comgraca-v4-audit-safety";',1)
+          sw.write_text(w,encoding='utf-8')
           PY
-      - name: Commit audit report
+      - name: Commit patch and clean temporary audit files
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add comgraca_audit_report.txt
-          git commit -m 'Temporary ComGraca audit report' || exit 0
+          git add index.html sw.js
+          git rm -f comgraca_audit_report.txt .github/workflows/comgraca-audit.yml
+          git commit -m 'Harden ComGraca first-run dates and cloud sync'
           git push
